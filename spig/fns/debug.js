@@ -1,3 +1,4 @@
+
 module.exports = (file) => {
   console.log("-----");
   console.log("path:" + file.path);

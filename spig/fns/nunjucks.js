@@ -2,26 +2,41 @@
 
 const nunjucks = require('nunjucks');
 const Spig     = require('../spig');
+const log      = require('fancy-log');
+const chalk    = require('chalk');
 
-const site = Spig.site();
-nunjucks.configure(site.srcDir + site.dirLayouts, {
+const site = Spig.config().site();
+const nunjucksEnv = nunjucks.configure(
+  site.srcDir + site.dirLayouts,
+  {
   autoescape: true
-});
-
-module.exports = (file, options) => {
-  var string = file.contents.toString();
-
-  if (file.data.layout) {
-    string = `{% extends '${file.data.layout}' %}` + string;
   }
+);
 
-  const result = nunjucks.renderString(
-    string, {
-      site: site,
-      page: file.data
-    });
-  file.contents = Buffer.from(result);
+module.exports = {
+  configure: (options) => {
+    if (options.filters) {
+      for (const name in options.filters) {
+        let filter = options.filters[name];
+        nunjucksEnv.addFilter(name, filter);
+        log(chalk.yellow("nunjucks>") + " register filter: " + name);
+      }
+    }
+  },
+  apply: (file) => {
+    var string = file.contents.toString();
+    if (file.data.layout) {
+      string = `{% extends '${file.data.layout}' %}` + string;
+    }
 
-  const filePath = file.path;
-  file.path = filePath.substr(0, filePath.lastIndexOf(".")) + ".html";
-};
+    const result = nunjucksEnv.renderString(
+      string, {
+        site: site,
+        page: file.data
+      });
+    file.contents = Buffer.from(result);
+
+    const filePath = file.path;
+    file.path = filePath.substr(0, filePath.lastIndexOf(".")) + ".html";
+  }
+}

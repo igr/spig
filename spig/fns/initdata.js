@@ -8,11 +8,10 @@ module.exports = (file) => {
   const filePath = file.relative;
   file.data = {
     source: filePath,
-    dir: Path.dirname(filePath),
-    buildTime: new Date()
+    dir: Path.dirname(filePath)
   };
 
-  const site = Spig.site();
+  const site = Spig.config().site();
 
   // merge data
   var path = site.srcDir + site.dirSite + "/" + file.data.dir;

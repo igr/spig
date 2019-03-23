@@ -4,7 +4,7 @@ const log = require("fancy-log");
 const chalk = require("chalk");
 const fs = require("fs");
 
-var site = {
+const siteDefaults = {
   name:    'spig site',
   version: '1.0.0',
 
@@ -22,22 +22,41 @@ var site = {
   dirLayouts:   '/layouts',
 
   // images to be resized
-  resizeImageSizes:  [400, 1000]
+  resizeImageSizes:  [400, 1000],
+
+  buildTime: new Date()
 };
 
-// update site config
-if (fs.existsSync('./src/site.json')) {
-  log("Reading " + chalk.blue("site.json"));
-  const siteConfig = JSON.parse(fs.readFileSync('./src/site.json'));
-  site = {...site, ...siteConfig};
+
+class SpigConfig {
+  constructor() {
+    // update site config
+    var site = siteDefaults;
+    if (fs.existsSync('./src/site.json')) {
+      log("Reading " + chalk.blue("site.json"));
+      const siteConfig = JSON.parse(fs.readFileSync('./src/site.json'));
+      site = {...site, ...siteConfig};
+    }
+    this.siteConfig = site;
+  }
+
+  site() {
+    return this.siteConfig;
+  }
+
+  nunjucks(options) {
+    const nunjucks = require('./fns/nunjucks');
+    nunjucks.configure(options);
+  }
 }
 
 const spigs = [];
+const spigConfig = new SpigConfig();
+
 class Spig {
 
-  /* returns site defaults */
-  static site() {
-    return site;
+  static config() {
+    return spigConfig;
   }
 
   /* iterates all SPIGs definitions */
@@ -52,8 +71,11 @@ class Spig {
   }
 
   constructor(files) {
-    this.files = site.srcDir + site.dirSite + files;
-    this.out = site.outDir;
+    this.files =
+      spigConfig.site().srcDir +
+      spigConfig.site().dirSite +
+      files;
+    this.out = spigConfig.site().outDir;
     this.tasks = [];
     this.dev = process.env.NODE_ENV !== 'production';
   }
@@ -66,7 +88,7 @@ class Spig {
 
   /* defines custom out folder */
   out(folder) {
-    this.out = site.outDir + folder;
+    this.out = spigConfig.site().outDir + folder;
     return this;
   }
 
@@ -101,7 +123,7 @@ class Spig {
 
   nunjucks() {
     const nunjucks = require('./fns/nunjucks');
-    return this.use((file) => nunjucks(file));
+    return this.use((file) => nunjucks.apply(file));
   }
 
   debug() {
@@ -118,7 +140,6 @@ class Spig {
     const folderize = require('./fns/folderize');
     return this.use((file) => folderize(file));
   }
-
 }
 
 module.exports = Spig;

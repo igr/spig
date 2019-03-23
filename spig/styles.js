@@ -10,7 +10,7 @@ const browserSync  = require('browser-sync').create();
 const Spig         = require('./spig');
 
 gulp.task('sass', () => {
-  const site = Spig.site();
+  const site = Spig.config().site();
 
   return gulp.src([site.srcDir + site.dirCss + '/**/*.s?ss' ])
     .pipe(sourcemaps.init())

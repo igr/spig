@@ -7,7 +7,7 @@ const Spig    = require('./spig');
 // cleanups the build output
 
 gulp.task('clean', () => {
-  const site = Spig.site();
+  const site = Spig.config().site();
   return del([
     site.outDir + '/**/*'
   ]);

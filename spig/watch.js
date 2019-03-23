@@ -4,7 +4,7 @@ const gulp    = require('gulp');
 const Spig    = require('./spig');
 
 gulp.task("watch", function () {
-  const site = Spig.site();
+  const site = Spig.config().site();
   gulp.watch(site.srcDir + site.srcJs     + "/**/*", gulp.parallel('js'));
   gulp.watch(site.srcDir + site.srcImages + "/**/*", gulp.parallel('images'));
   gulp.watch(site.srcDir + site.srcCss    + "/**/*", gulp.parallel('sass'));
