@@ -4,14 +4,7 @@ const { DateTime } = require("luxon");
 const Spig = require('./spig/spig');
 require('require-dir')('./spig');
 
-
-Spig
-  .on('/**/*.md')
-  .initdata()
-  .frontmatter()
-  .markdown()
-  .folderize()
-  .debug();
+// CONFIG
 
 Spig
   .config()
@@ -26,6 +19,16 @@ Spig
     }
   });
 
+// WORK
+
+Spig
+  .on('/**/*.md')
+  .initdata()
+  .frontmatter()
+  .markdown()
+  .folderize()
+  .debug();
+
 Spig
   .on('/**/*.njk')
   .initdata()
@@ -33,3 +36,16 @@ Spig
   .nunjucks()
   .folderize()
   .debug();
+
+// COPY THROUGH
+
+Spig
+  .on(['/**/*.gif'])
+  .initdata()
+  .debug();
+
+Spig
+  .on('/**/*.{png,jpg}')
+  .initdata()
+  .debug();
+

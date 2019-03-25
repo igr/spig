@@ -71,10 +71,23 @@ class Spig {
   }
 
   constructor(files) {
-    this.files =
-      spigConfig.site().srcDir +
-      spigConfig.site().dirSite +
-      files;
+    if (Array.isArray(files)) {
+      this.files = files;
+      len = files.length;
+      for (var i = 0; i < len; ++i) {
+        f = files[i];
+        files[i] =
+          spigConfig.site().srcDir +
+          spigConfig.site().dirSite +
+          f;
+      }
+    } else {
+      this.files = [
+        spigConfig.site().srcDir +
+        spigConfig.site().dirSite +
+        files
+      ];
+    }
     this.out = spigConfig.site().outDir;
     this.tasks = [];
     this.dev = process.env.NODE_ENV !== 'production';
