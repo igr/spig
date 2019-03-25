@@ -19,7 +19,14 @@ module.exports = {
       for (const name in options.filters) {
         let filter = options.filters[name];
         nunjucksEnv.addFilter(name, filter);
-        log(chalk.yellow("nunjucks>") + " register filter: " + name);
+        log(chalk.magenta("nunjucks>") + " register filter: " + chalk.cyan(name));
+      }
+    }
+    if (options.globals) {
+      for (const name in options.globals) {
+        let value = options.globals[name];
+        nunjucksEnv.addGlobal(name, value);
+        log(chalk.magenta("nunjucks>") + " register global: " + chalk.cyan(name));
       }
     }
   },

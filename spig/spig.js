@@ -33,7 +33,7 @@ class SpigConfig {
     // update site config
     var site = siteDefaults;
     if (fs.existsSync('./src/site.json')) {
-      log("Reading " + chalk.blue("site.json"));
+      log("Reading " + chalk.magenta("site.json"));
       const siteConfig = JSON.parse(fs.readFileSync('./src/site.json'));
       site = {...site, ...siteConfig};
     }

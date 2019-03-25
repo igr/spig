@@ -16,6 +16,9 @@ Spig
 Spig
   .config()
   .nunjucks({
+    globals: {
+      gv: "global value"
+    },
     filters: {
       dateDisplay: (dateObj, format = "LLL d, y") => {
         return DateTime.fromJSDate(dateObj, {zone: "utc"}).toFormat(format);
