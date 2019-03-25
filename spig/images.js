@@ -9,11 +9,11 @@ const Spig        = require('./spig');
 
 // creates a set of resize tasks at defined image widths
 
+const site = Spig.config().site();
 var resizeImageTasks = [];
-Spig.config().site().resizeImageSizes.forEach(function(size) {
+site.resizeImageSizes.forEach(function(size) {
   var resizeImageTask = 'resize_' + size;
   gulp.task(resizeImageTask, function(done) {
-    const site = Spig.site();
     gulp.src(site.srcDir + site.dirImages + '/*')
     .pipe(parallel(
       imageResize({ width : size }),
@@ -30,7 +30,6 @@ Spig.config().site().resizeImageSizes.forEach(function(size) {
 // Copy core images to the dist folder and resize all preview images
 
 gulp.task('images', gulp.parallel(resizeImageTasks, function copyOriginalImages(done) {
-  const site = Spig.config().site();
   gulp.src(site.srcDir + site.dirImages + '/*')
     .pipe(gulp.dest(site.outDir + site.dirImages))
     done();
