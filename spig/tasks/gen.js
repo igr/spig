@@ -3,7 +3,7 @@
 const gulp         = require('gulp');
 const through      = require('through2');
 const merge2       = require('merge2');
-const Spig         = require('./spig');
+const Spig         = require('../spig');
 
 
 // generate using SPIG

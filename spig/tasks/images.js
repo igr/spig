@@ -5,7 +5,7 @@ const gulp        = require('gulp');
 const parallel    = require("concurrent-transform");
 const rename      = require("gulp-rename");
 const imageResize = require('gulp-image-resize');
-const Spig        = require('./spig');
+const Spig        = require('../spig');
 
 // creates a set of resize tasks at defined image widths
 

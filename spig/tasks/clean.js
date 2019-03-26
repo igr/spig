@@ -2,7 +2,7 @@
 
 const gulp    = require('gulp');
 const del     = require('del');
-const Spig    = require('./spig');
+const Spig    = require('../spig');
 
 // cleanups the build output
 

@@ -2,7 +2,7 @@
 
 const gulp    = require('gulp');
 const serve   = require('gulp-serve');
-const Spig    = require('./spig');
+const Spig    = require('../spig');
 
 gulp.task('serve', serve({
   root: [Spig.config().site().outDir],

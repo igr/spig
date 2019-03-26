@@ -1,7 +1,7 @@
 "use strict";
 
 const gulp     = require('gulp');
-const Spig     = require('./spig');
+const Spig     = require('../spig');
 require('require-dir')('.');
 
 gulp.task('build', gulp.parallel(

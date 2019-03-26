@@ -8,7 +8,7 @@ const plumber      = require('gulp-plumber');
 const webpack      = require('webpack-stream');
 const babel        = require('gulp-babel');
 const browserSync  = require('browser-sync').create();
-const Spig         = require('./spig');
+const Spig         = require('../spig');
 
 gulp.task('js', () => {
   const site = Spig.config().site();

@@ -2,7 +2,7 @@
 
 const { DateTime } = require("luxon");
 const Spig = require('./spig/spig');
-require('require-dir')('./spig');
+require('require-dir')('./spig/tasks');
 
 // CONFIG
 

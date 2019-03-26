@@ -73,9 +73,9 @@ class Spig {
   constructor(files) {
     if (Array.isArray(files)) {
       this.files = files;
-      len = files.length;
+      const len = files.length;
       for (var i = 0; i < len; ++i) {
-        f = files[i];
+        const f = files[i];
         files[i] =
           spigConfig.site().srcDir +
           spigConfig.site().dirSite +
