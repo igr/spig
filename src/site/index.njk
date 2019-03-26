@@ -3,3 +3,11 @@ title: Welcome!
 ---
 
 Index page!
+
+All pages:
+<ul>
+{{ site.pages | dump }}
+{% for page in site.pages %}
+  <li>{{ page }}</li>
+{% endfor %}
+</ul>

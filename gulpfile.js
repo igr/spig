@@ -4,9 +4,12 @@
 // EXAMPLE
 //
 
-const { DateTime } = require("luxon");
+
 const Spig = require('./spig/spig');
 require('require-dir')('./spig/tasks');
+
+const {DateTime} = require("luxon");
+
 
 // CONFIGURE
 
@@ -27,19 +30,20 @@ Spig
 
 Spig
   .on('/**/*.md')
-  .initpage()
+  .initPage()
   .frontmatter()
-  .markdown()
-  .nunjucks()
+  .renderMarkdown()
+  .template()
   .folderize()
 //  .debug()
 ;
 
 Spig
   .on('/**/*.njk')
-  .initpage()
+  .initPage()
   .frontmatter()
-  .nunjucks()
+  .render()       // .renderNunjucks()
+  .template()
   .folderize()
 //  .debug()
 ;
@@ -48,13 +52,13 @@ Spig
 
 Spig
   .on(['/**/*.gif'])
-  .initasset()
+  .initAsset()
 //.debug()
 ;
 
 Spig
   .on('/**/*.{png,jpg}')
-  .initasset()
+  .initAsset()
 //  .debug()
 ;
 

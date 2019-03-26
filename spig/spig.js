@@ -1,6 +1,8 @@
 "use strict";
 
 const SpigConfig = require('./spig-config');
+const Meta = require('./meta');
+const Path = require('path');
 
 const spigs = [];
 const spigConfig = new SpigConfig();
@@ -45,19 +47,26 @@ class Spig {
     this.dev = process.env.NODE_ENV !== 'production';
   }
 
-  /* uses a function to modify files */
+  /**
+   * Uses generic function to manipulate files.
+   */
   use(fn) {
     this.tasks.push(fn);
     return this;
   }
 
   /* defines custom out folder */
+  /**
+   * Defines custom out folder.
+   */
   out(folder) {
     this.out = spigConfig.site().outDir + folder;
     return this;
   }
 
-  /* process files */
+  /**
+   * Process files with given function.
+   */
   withFiles(fn) {
     fn(this.files);
     return this;
@@ -68,27 +77,29 @@ class Spig {
     return this;
   }
 
-  /* iterates all tasks */
+  /**
+   * Iterate all tasks.
+   */
   forEachTask(fn) {
     this.tasks.forEach(fn);
     return this;
   }
 
-  // --- plugin commands ---
+  // --- function commands ---
 
   frontmatter(attributes = {}) {
     const frontmatter = require('./fns/frontmatter');
     return this.use((file) => frontmatter(file, attributes));
   }
 
-  markdown() {
+  renderMarkdown() {
     const markdown = require('./fns/markdown');
-    return this.use((file) => markdown(file));
+    return this.use(markdown);
   }
 
-  nunjucks() {
+  renderNunjucks() {
     const nunjucks = require('./fns/nunjucks');
-    return this.use((file) => nunjucks.apply(file));
+    return this.use((file) => nunjucks.render(file));
   }
 
   debug() {
@@ -96,19 +107,52 @@ class Spig {
     return this.use(debug);
   }
 
-  initpage() {
-    const initpage = require('./fns/initpage');
-    return this.use(initpage);
+  initPage() {
+    const initPage = require('./fns/initpage');
+    return this.use(initPage);
   }
 
-  initasset() {
-    const initasset = require('./fns/initasset');
-    return this.use(initasset);
+  initAsset() {
+    const initAsset = require('./fns/initasset');
+    return this.use(initAsset);
   }
 
   folderize() {
     const folderize = require('./fns/folderize');
-    return this.use((file) => folderize(file));
+    return this.use(folderize);
+  }
+
+  render() {
+    return this.use((file) => {
+      const ext = Path.extname(file.path);
+      switch (ext) {
+        case '.njk':
+          const nunjucks = require('./fns/nunjucks');
+          nunjucks.render(file);
+          break;
+        case '.md':
+          const markdown = require('./fns/markdown');
+          markdown(file);
+          break;
+        default:
+          throw new Error("Unknown rendering engine.");
+      }
+    });
+  }
+
+  template() {
+    return this.use((file) => {
+      const layout = Meta.attrOrMeta(file, 'layout');
+      const ext = Path.extname(layout);
+      switch (ext) {
+        case '.njk':
+          const nunjucks = require('./fns/nunjucks');
+          nunjucks.apply(file, layout);
+          break;
+        default:
+          throw new Error("Unknown template engine.");
+      }
+    });
   }
 }
 

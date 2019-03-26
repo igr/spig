@@ -2,11 +2,11 @@
 
 const nunjucks = require('nunjucks');
 const Spig = require('../spig');
-const Meta = require('../meta');
 const log = require('fancy-log');
 const chalk = require('chalk');
 
 const site = Spig.config().site();
+
 const nunjucksEnv = nunjucks.configure(
   site.srcDir + site.dirLayouts, {
     autoescape: true
@@ -32,13 +32,24 @@ module.exports = {
       }
     }
   },
-  apply: (file) => {
+
+  render: (file) => {
     let string = file.contents.toString();
 
-    const layout = Meta.attrOrMeta(file, 'layout');
-    if (layout) {
-      string = `{% extends '${layout}' %}` + string;
-    }
+    const result = nunjucksEnv.renderString(
+      string, {
+        content: file.contents,
+        site: site,
+        meta: file.meta,
+        page: file.meta.attr
+      });
+    file.contents = Buffer.from(result);
+  },
+
+  apply: (file, layout) => {
+    let string = file.contents.toString();
+
+    string = `{% extends '${layout}' %}` + string;
 
     const result = nunjucksEnv.renderString(
       string, {
