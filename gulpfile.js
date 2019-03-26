@@ -1,10 +1,14 @@
 "use strict";
 
+//
+// EXAMPLE
+//
+
 const { DateTime } = require("luxon");
 const Spig = require('./spig/spig');
 require('require-dir')('./spig/tasks');
 
-// CONFIG
+// CONFIGURE
 
 Spig
   .config()
@@ -23,29 +27,34 @@ Spig
 
 Spig
   .on('/**/*.md')
-  .initdata()
+  .initpage()
   .frontmatter()
   .markdown()
+  .nunjucks()
   .folderize()
-  .debug();
+//  .debug()
+;
 
 Spig
   .on('/**/*.njk')
-  .initdata()
+  .initpage()
   .frontmatter()
   .nunjucks()
   .folderize()
-  .debug();
+//  .debug()
+;
 
 // COPY THROUGH
 
 Spig
   .on(['/**/*.gif'])
-  .initdata()
-  .debug();
+  .initasset()
+//.debug()
+;
 
 Spig
   .on('/**/*.{png,jpg}')
-  .initdata()
-  .debug();
+  .initasset()
+//  .debug()
+;
 

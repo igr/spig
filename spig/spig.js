@@ -1,54 +1,6 @@
 "use strict";
 
-const log = require("fancy-log");
-const chalk = require("chalk");
-const fs = require("fs");
-
-const siteDefaults = {
-  name:    'spig site',
-  version: '1.0.0',
-
-  // main folders
-  srcDir:       './src',
-  outDir:       './out',
-
-  // relative folders
-  dirSite:      '/site',
-  dirImages:    '/images',
-  dirJs:        '/js',
-  dirData:      '/data',
-  dirCss:       '/css',
-  dirStatic:    '/static',
-  dirLayouts:   '/layouts',
-
-  // images to be resized
-  resizeImageSizes:  [400, 1000],
-
-  buildTime: new Date()
-};
-
-
-class SpigConfig {
-  constructor() {
-    // update site config
-    var site = siteDefaults;
-    if (fs.existsSync('./src/site.json')) {
-      log("Reading " + chalk.magenta("site.json"));
-      const siteConfig = JSON.parse(fs.readFileSync('./src/site.json'));
-      site = {...site, ...siteConfig};
-    }
-    this.siteConfig = site;
-  }
-
-  site() {
-    return this.siteConfig;
-  }
-
-  nunjucks(options) {
-    const nunjucks = require('./fns/nunjucks');
-    nunjucks.configure(options);
-  }
-}
+const SpigConfig = require('./spig-config');
 
 const spigs = [];
 const spigConfig = new SpigConfig();
@@ -74,7 +26,7 @@ class Spig {
     if (Array.isArray(files)) {
       this.files = files;
       const len = files.length;
-      for (var i = 0; i < len; ++i) {
+      for (let i = 0; i < len; ++i) {
         const f = files[i];
         files[i] =
           spigConfig.site().srcDir +
@@ -144,9 +96,14 @@ class Spig {
     return this.use(debug);
   }
 
-  initdata() {
-    const initdata = require('./fns/initdata');
-    return this.use(initdata);
+  initpage() {
+    const initpage = require('./fns/initpage');
+    return this.use(initpage);
+  }
+
+  initasset() {
+    const initasset = require('./fns/initasset');
+    return this.use(initasset);
   }
 
   folderize() {

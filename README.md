@@ -21,3 +21,4 @@ Dev server
 yarn dev
 ```
 
+See [gulpfile](gulpfile.js) for an example.

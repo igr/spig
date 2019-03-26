@@ -1,18 +1,21 @@
 "use strict";
 
-const gulp         = require('gulp');
-const through      = require('through2');
-const merge2       = require('merge2');
-const Spig         = require('../spig');
+const log = require('fancy-log');
+const chalk = require('chalk');
+const gulp = require('gulp');
+const through = require('through2');
+const merge2 = require('merge2');
+const Spig = require('../spig');
 
 
 // generate using SPIG
 
-gulp.task('gen', (options = {}) => {
+gulp.task('gen', () => {
   const stream = merge2();
 
   Spig.forEach((spig) => {
-    var _gulp;
+    let _gulp;
+
     spig
       .withFiles((files) => {
         _gulp = gulp.src(files);
@@ -26,16 +29,37 @@ gulp.task('gen', (options = {}) => {
           try {
             task(file);
           } catch (error) {
-            console.error(error);
+            log.error(error);
             file.error = error;
           }
           done(null, file);
-        }))
+        }));
       })
       .withOut((out) => {
         if (!_gulp) {
           throw new Error("Files set not defined");
         }
+
+        // RENAME
+        _gulp.pipe(through.obj((file, enc, done) => {
+          if (file.meta && file.meta.out) {
+            const site = Spig.config().site();
+
+            if (file.meta && file.meta.out) {
+              // we are actually changing the source location!
+              file.path = site.root + site.srcDir + site.dirSite + file.meta.out;
+              if (file.sourceMap) {
+                file.sourceMap.file = file.relative;
+              }
+            }
+          }
+          
+          log(chalk.green(file.meta.out) + " <--- " + chalk.blue(file.meta.src));
+
+          done(null, file);
+        }));
+
+        // END
         _gulp.pipe(gulp.dest(out));
       });
   });

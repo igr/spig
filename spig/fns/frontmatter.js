@@ -1,15 +1,12 @@
 "use strict";
 
-/*
- * Reads frontmatter into `file.data`
- * Strips frontmatter from the file
- */
-
-const matter = require('front-matter');
+const matter   = require('front-matter');
+const Meta     = require('../meta');
 
 module.exports = (file, attributes = {}) => {
   const data = matter(file.contents.toString());
+
   file.contents = Buffer.from(data.body);
-  const existingData = file.data || {};
-  file.data = {...existingData, ...data.attributes, ...attributes};
+
+  file.meta.attr = {...data.attributes, ...attributes};
 };
