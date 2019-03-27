@@ -4,12 +4,22 @@ const SpigConfig = require('./spig-config');
 const Meta = require('./meta');
 const Path = require('path');
 
-const spigs = [];
-const nunjucks = require('./fns/nunjucks');
 
-// debug errors
+// system debug errors
 process.on('warning', e => console.warn(e.stack));
 require('events').EventEmitter.prototype._maxListeners = 100;
+
+// functions
+
+const nunjucks = require('./fns/nunjucks');
+const frontmatter = require('./fns/frontmatter');
+const markdown = require('./fns/markdown');
+const debug = require('./fns/debug');
+const initPage = require('./fns/initpage');
+const initAsset = require('./fns/initasset');
+const folderize = require('./fns/folderize');
+
+const spigs = [];
 
 class Spig {
 
@@ -59,7 +69,7 @@ class Spig {
    * Defines custom out folder.
    */
   out(folder) {
-    this.out = spigConfig.site().outDir + folder;
+    this.out = SpigConfig.site().outDir + folder;
     return this;
   }
 
@@ -87,12 +97,10 @@ class Spig {
   // --- function commands ---
 
   frontmatter(attributes = {}) {
-    const frontmatter = require('./fns/frontmatter');
     return this.use((file) => frontmatter(file, attributes));
   }
 
   renderMarkdown() {
-    const markdown = require('./fns/markdown');
     return this.use(markdown);
   }
 
@@ -101,22 +109,18 @@ class Spig {
   }
 
   debug() {
-    const debug = require('./fns/debug');
     return this.use(debug);
   }
 
   initPage() {
-    const initPage = require('./fns/initpage');
     return this.use(initPage);
   }
 
   initAsset() {
-    const initAsset = require('./fns/initasset');
     return this.use(initAsset);
   }
 
   folderize() {
-    const folderize = require('./fns/folderize');
     return this.use(folderize);
   }
 
@@ -128,7 +132,6 @@ class Spig {
           nunjucks.render(file);
           break;
         case '.md':
-          const markdown = require('./fns/markdown');
           markdown(file);
           break;
       }
@@ -141,7 +144,6 @@ class Spig {
       const ext = Path.extname(layout);
       switch (ext) {
         case '.njk':
-          const nunjucks = require('./fns/nunjucks');
           nunjucks.apply(file, layout);
           break;
         default:

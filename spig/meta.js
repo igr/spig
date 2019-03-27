@@ -41,7 +41,9 @@ class Meta {
       return;
     }
     for (const key in data) {
-      file.meta[key] = data[key];
+      if (data.hasOwnProperty(key)) {
+        file.meta[key] = data[key];
+      }
     }
   }
 
