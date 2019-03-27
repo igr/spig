@@ -29,20 +29,20 @@ SpigConfig
 Spig
   .on('/**/*.md')
   .initPage()
+  .folderize()
   .frontmatter()
   .renderMarkdown()
   .template()
-  .folderize()
   .debug()
 ;
 
 Spig
   .on('/**/*.njk')
   .initPage()
+  .folderize()
   .frontmatter()
   .render()       // .renderNunjucks()
   .template()
-  .folderize()
 //  .debug()
 ;
 
