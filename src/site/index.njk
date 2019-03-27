@@ -6,9 +6,9 @@ Index page!
 
 All pages:
 <ul>
-{% for f in site.pages %}
+{% for f in pages %}
   <li>
-    <a href="{{ f.meta.out }}">{{ f.attr.title }}</a>
+    <a href="{{ f.out }}">{{ f.attr.title }}</a>
   </li>
 {% endfor %}
 </ul>

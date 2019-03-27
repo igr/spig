@@ -50,7 +50,6 @@
     "markdown-it-attrs": "^2.3.2",
     "markdown-it-container": "^2.0.0",
     "markdown-it-html5-media": "^0.6.0",
-    "merge2": "^1.2.3",
     "nunjucks": "^3.2.0",
     "path": "^0.12.7",
     "require-dir": "^1.2.0",

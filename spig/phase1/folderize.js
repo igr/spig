@@ -1,7 +1,6 @@
 "use strict";
 
 const Path = require('path');
-const Meta = require('../meta');
 
 /**
  * Changes the path of the file to be always in a folder and named as `index.xxx`.
@@ -9,10 +8,6 @@ const Meta = require('../meta');
  * be renamed to "/foo/bar/index.xxx".
  */
 module.exports = (file) => {
-  if (file.ok) {
-    return;
-  }
-
   const filePath = file.out;
 
   const extension = Path.extname(filePath);

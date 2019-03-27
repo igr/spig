@@ -55,7 +55,7 @@ class SpigConfig {
    * Configures nunjucks.
    */
   nunjucks(options) {
-    const nunjucks = require('./fns/nunjucks');
+    const nunjucks = require('./phase2/nunjucks');
     nunjucks.configure(options);
   }
 }

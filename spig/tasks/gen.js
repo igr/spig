@@ -3,13 +3,12 @@
 const log = require('fancy-log');
 const chalk = require('chalk');
 const gulp = require('gulp');
-const merge2 = require('merge2');
 const Spig = require('../spig');
 const SpigConfig = require('../spig-config');
 const SpigFiles = require('../spig-files');
-const Meta = require('../meta');
 const glob = require('glob');
-
+const fs = require('fs');
+const Path = require('path');
 
 // generate using SPIG
 
@@ -20,28 +19,27 @@ gulp.task('gen', (done) => {
   log(chalk.gray("PHASE 1"));
 
   Spig.forEach((spig) => {
-    spig.withFiles((filesPatterns) => {
-      spig.files = [];
 
-      for (const pattern of filesPatterns) {
-        for (const fileName of glob.sync(pattern)) {
-          spig.files.push(fileName);
+    spig.allfiles = [];
 
-          const file = SpigFiles.createFileObject(fileName);
+    for (const pattern of spig.files) {
+      for (const fileName of glob.sync(pattern)) {
+        spig.allfiles.push(fileName);
 
-          spig.forEachTask((task) => {
-            try {
-              task(file);
-            } catch (error) {
-              log.error(error);
-              file.error = error;
-            }
-          });
+        const file = SpigFiles.createFileObject(fileName);
 
-          file.ok = true;
-        }
+        spig.forEachTask(1, (task) => {
+          try {
+            task(file);
+          } catch (error) {
+            log.error(error);
+            file.error = error;
+          }
+        });
+
+        file.ok = true;
       }
-      })
+    }
   });
 
 
@@ -51,10 +49,10 @@ gulp.task('gen', (done) => {
 
   Spig.forEach((spig) => {
 
-    for (const fileName of spig.files) {
+    for (const fileName of spig.allfiles) {
       const file = SpigFiles.findFile(fileName);
 
-      spig.forEachTask((task) => {
+      spig.forEachTask(2, (task) => {
         try {
           task(file);
         } catch (error) {
@@ -70,6 +68,8 @@ gulp.task('gen', (done) => {
     const site = SpigConfig.site();
     const dest = site.root + site.outDir.substr(2) + out;
 
+    fs.mkdirSync(Path.dirname(dest), {recursive: true});
+    fs.writeFileSync(dest, file.contents);
     log(chalk.green(out) + " <--- " + chalk.blue(file.path) + "    " + dest);
   });
 

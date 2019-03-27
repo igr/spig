@@ -1,6 +1,7 @@
 "use strict";
 
 const SpigConfig = require('./spig-config');
+const SpigFiles = require('./spig-files');
 
 class Meta {
 
@@ -49,7 +50,8 @@ class Meta {
       content: file.contents,
       site: SpigConfig.site(),
       page: file.attr,
-      url: file.out
+      url: file.out,
+      pages: SpigFiles.pages
     };
   }
 

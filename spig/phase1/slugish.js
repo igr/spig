@@ -5,10 +5,6 @@ const Mustache = require("mustache");
 const Path = require('path');
 
 module.exports = (file) => {
-  if (file.ok) {
-    return;
-  }
-
   let slug = Meta.attr(file, 'slug');
 
   if (!slug) {

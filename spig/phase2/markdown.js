@@ -49,10 +49,6 @@ const markdown = text => (text ? md.render(text) : '');
 const markdownInline = text => (text ? md.renderInline(text) : '');
 
 module.exports = (file, options) => {
-  if (!file.ok) {
-    return;
-  }
-
   if (typeof options === 'function') {
       options(md);
   }
