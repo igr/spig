@@ -31,6 +31,7 @@ Spig
   .initPage()
   .folderize()
   .frontmatter()
+  .slugish()
   .renderMarkdown()
   .template()
   .debug()

@@ -70,6 +70,16 @@ class Meta {
       page: file.attr
     };
   }
+
+  /**
+   * Sets the out.
+   */
+  out(file, newOut) {
+    if (newOut) {
+      file.meta.out = newOut;
+    }
+    return file.meta.out;
+  }
 }
 
 module.exports = new Meta();

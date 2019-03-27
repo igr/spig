@@ -1,6 +1,6 @@
 "use strict";
 
-
+const Meta = require('../meta');
 const MarkdownIt = require('markdown-it');
 const hljs = require('highlight.js');
 const attrs = require('markdown-it-attrs');
@@ -60,6 +60,7 @@ module.exports = (file, options) => {
     inline: markdownInline
   };
 
-  const filePath = file.meta.out;
-  file.meta.out = filePath.substr(0, filePath.lastIndexOf(".")) + ".html";
+  const filePath = Meta.out(file);
+
+  Meta.out(file, filePath.substr(0, filePath.lastIndexOf(".")) + ".html");
 };

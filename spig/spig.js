@@ -18,6 +18,7 @@ const debug = require('./fns/debug');
 const initPage = require('./fns/initpage');
 const initAsset = require('./fns/initasset');
 const folderize = require('./fns/folderize');
+const slugish = require('./fns/slugish');
 
 const spigs = [];
 
@@ -122,6 +123,10 @@ class Spig {
 
   folderize() {
     return this.use(folderize);
+  }
+
+  slugish() {
+    return this.use(slugish);
   }
 
   render() {
