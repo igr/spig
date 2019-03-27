@@ -105,27 +105,11 @@ class Spig {
     return this.use((file) => fn_frontmatter(file, attributes));
   }
 
-  renderMarkdown() {
-    return this.use(fn_markdown);
-  }
-
-  renderNunjucks() {
-    return this.use((file) => fn_nunjucks.render(file));
-  }
-
+  /**
+   * @see fn_debug
+   */
   debug() {
     return this.use(fn_debug);
-  }
-
-  /**
-   * Shortcut for common initialization.
-   */
-  init() {
-    return this.initPage()
-      .folderize()
-      .frontmatter()
-      .slugish()
-      .asHtml()
   }
 
   initPage() {
@@ -166,6 +150,17 @@ class Spig {
   }
 
   // --- render & template ---
+
+  /**
+   * Shortcut for common initialization.
+   */
+  init() {
+    return this.initPage()
+      .folderize()
+      .frontmatter()
+      .slugish()
+      .asHtml()
+  }
 
   /**
    * Renders a file using render engine determined by its extension.

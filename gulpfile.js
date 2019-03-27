@@ -29,7 +29,7 @@ SpigConfig
 Spig
   .on('/**/*.md')
   .init()
-  .renderMarkdown()
+  .render()
   .template()
   .debug()
 ;
@@ -41,7 +41,7 @@ Spig
   .frontmatter()
   .slugish()
   .asHtml()
-  .render()       // .renderNunjucks()
+  .render()
   .template()
   .debug()
 ;
