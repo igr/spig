@@ -53,14 +53,13 @@ module.exports = (file, options) => {
       options(md);
   }
 
+  // render
+
   file.contents = Buffer.from(md.render(file.contents.toString()));
 
-  file.meta.markdown = {
+  Meta.updateMeta(file, {
     source: markdown,
     inline: markdownInline
-  };
+  });
 
-  const filePath = Meta.out(file);
-
-  Meta.out(file, filePath.substr(0, filePath.lastIndexOf(".")) + ".html");
 };

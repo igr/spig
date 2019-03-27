@@ -28,10 +28,7 @@ SpigConfig
 
 Spig
   .on('/**/*.md')
-  .initPage()
-  .folderize()
-  .frontmatter()
-  .slugish()
+  .init()
   .renderMarkdown()
   .template()
   .debug()
@@ -42,6 +39,8 @@ Spig
   .initPage()
   .folderize()
   .frontmatter()
+  .slugish()
+  .asHtml()
   .render()       // .renderNunjucks()
   .template()
   .debug()

@@ -54,9 +54,5 @@ module.exports = {
     const result = nunjucksEnv.renderString(string, Meta.context(file));
 
     file.contents = Buffer.from(result);
-
-    const filePath = Meta.out(file);
-
-    Meta.out(file, filePath.substr(0, filePath.lastIndexOf(".")) + ".html");
   }
 };

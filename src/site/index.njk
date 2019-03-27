@@ -8,7 +8,7 @@ All pages:
 <ul>
 {% for f in site.pages %}
   <li>
-    {{ f.attr.title }}
+    <a href="{{ f.meta.out }}">{{ f.attr.title }}</a>
   </li>
 {% endfor %}
 </ul>

@@ -7,6 +7,7 @@ const through = require('through2');
 const merge2 = require('merge2');
 const Spig = require('../spig');
 const SpigConfig = require('../spig-config');
+const Meta = require('../meta');
 
 
 // generate using SPIG
@@ -43,19 +44,19 @@ gulp.task('gen', () => {
 
         // RENAME
         _gulp.pipe(through.obj((file, enc, done) => {
-          if (file.meta && file.meta.out) {
+          const out = Meta.out(file);
+          if (out) {
             const site = SpigConfig.site();
 
-            if (file.meta && file.meta.out) {
-              // we are actually changing the source location!
-              file.path = site.root + site.srcDir + site.dirSite + file.meta.out;
-              if (file.sourceMap) {
-                file.sourceMap.file = file.relative;
-              }
+            // we are actually changing the source location!
+            file.path = site.root + site.srcDir + site.dirSite + out;
+            if (file.sourceMap) {
+              file.sourceMap.file = file.relative;
             }
+
           }
 
-          log(chalk.green(file.meta.out) + " <--- " + chalk.blue(file.meta.src));
+          log(chalk.green(out) + " <--- " + chalk.blue(Meta.src(file)));
 
           done(null, file);
         }));

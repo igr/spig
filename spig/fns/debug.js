@@ -1,6 +1,12 @@
+"use strict";
+
+const log = require('fancy-log');
+const chalk = require('chalk');
+
 /**
- * Simply debug file meta-data to the output.
+ * Debugs files meta-data to the output
  */
 module.exports = (file) => {
-  console.log(JSON.stringify(file.meta));
+  log(chalk.gray('meta>') + JSON.stringify(file.meta));
+  log(chalk.gray('attr>') + JSON.stringify(file.attr));
 };

@@ -5,10 +5,12 @@ const Meta = require('../meta');
 
 /**
  * Changes the path of the file to be always in a folder and named as `index.xxx`.
+ * For example, file "/foo/index.xxx" remain unchanged. But file "/foo/bar.xxx" will
+ * be renamed to "/foo/bar/index.xxx".
  */
 module.exports = (file) => {
   const filePath = Meta.out(file);
-  
+
   const extension = Path.extname(filePath);
   const baseName = Path.basename(filePath, extension);
 

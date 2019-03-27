@@ -67,18 +67,26 @@ class Meta {
       content: file.contents,
       site: SpigConfig.site(),
       meta: file.meta,
-      page: file.attr
+      page: file.attr,
+      url: file.meta.out
     };
   }
 
   /**
-   * Sets the out.
+   * Gets or sets the out.
    */
   out(file, newOut) {
     if (newOut) {
       file.meta.out = newOut;
     }
     return file.meta.out;
+  }
+
+  /**
+   * Returns the source.
+   */
+  src(file) {
+    return file.meta.src;
   }
 }
 

@@ -11,14 +11,15 @@ require('events').EventEmitter.prototype._maxListeners = 100;
 
 // functions
 
-const nunjucks = require('./fns/nunjucks');
-const frontmatter = require('./fns/frontmatter');
-const markdown = require('./fns/markdown');
-const debug = require('./fns/debug');
-const initPage = require('./fns/initpage');
-const initAsset = require('./fns/initasset');
-const folderize = require('./fns/folderize');
-const slugish = require('./fns/slugish');
+const fn_nunjucks = require('./fns/nunjucks');
+const fn_frontmatter = require('./fns/frontmatter');
+const fn_markdown = require('./fns/markdown');
+const fn_debug = require('./fns/debug');
+const fn_initPage = require('./fns/initpage');
+const fn_initAsset = require('./fns/initasset');
+const fn_folderize = require('./fns/folderize');
+const fn_slugish = require('./fns/slugish');
+const fn_renameExt = require('./fns/renameExtension');
 
 const spigs = [];
 
@@ -97,59 +98,102 @@ class Spig {
 
   // --- function commands ---
 
+  /**
+   * @see fn_frontmatter
+   */
   frontmatter(attributes = {}) {
-    return this.use((file) => frontmatter(file, attributes));
+    return this.use((file) => fn_frontmatter(file, attributes));
   }
 
   renderMarkdown() {
-    return this.use(markdown);
+    return this.use(fn_markdown);
   }
 
   renderNunjucks() {
-    return this.use((file) => nunjucks.render(file));
+    return this.use((file) => fn_nunjucks.render(file));
   }
 
   debug() {
-    return this.use(debug);
+    return this.use(fn_debug);
+  }
+
+  /**
+   * Shortcut for common initialization.
+   */
+  init() {
+    return this.initPage()
+      .folderize()
+      .frontmatter()
+      .slugish()
+      .asHtml()
   }
 
   initPage() {
-    return this.use(initPage);
+    return this.use(fn_initPage);
   }
 
   initAsset() {
-    return this.use(initAsset);
+    return this.use(fn_initAsset);
   }
 
+  /**
+   * @see fn_folderize
+   */
   folderize() {
-    return this.use(folderize);
+    return this.use(fn_folderize);
   }
 
   slugish() {
-    return this.use(slugish);
+    return this.use(fn_slugish);
   }
 
+  // --- renames ---
+
+  /**
+   * @see fn_renameExt
+   */
+  as(extension) {
+    return this.use((file) => {
+      fn_renameExt(file, extension);
+    })
+  }
+
+  /**
+   * @see as
+   */
+  asHtml() {
+    return this.as('.html');
+  }
+
+  // --- render & template ---
+
+  /**
+   * Renders a file using render engine determined by its extension.
+   */
   render() {
     return this.use((file) => {
       const ext = Path.extname(file.path);
       switch (ext) {
         case '.njk':
-          nunjucks.render(file);
+          fn_nunjucks.render(file);
           break;
         case '.md':
-          markdown(file);
+          fn_markdown(file);
           break;
       }
     });
   }
 
+  /**
+   * Applies a template using template engine determined by layout extension.
+   */
   template() {
     return this.use((file) => {
       const layout = Meta.attrOrMeta(file, 'layout');
       const ext = Path.extname(layout);
       switch (ext) {
         case '.njk':
-          nunjucks.apply(file, layout);
+          fn_nunjucks.apply(file, layout);
           break;
         default:
           throw new Error("Unknown template engine.");
