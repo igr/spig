@@ -6,8 +6,9 @@ Index page!
 
 All pages:
 <ul>
-{{ site.pages | dump }}
-{% for page in site.pages %}
-  <li>{{ page }}</li>
+{% for p in site.pages %}
+  <li>
+    {{ p.page.title }}
+  </li>
 {% endfor %}
 </ul>

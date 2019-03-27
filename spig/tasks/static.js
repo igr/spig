@@ -2,10 +2,10 @@
 
 const gulp       = require('gulp');
 const plumber    = require('gulp-plumber');
-const Spig         = require('../spig');
+const SpigConfig = require('../spig-config');
 
 gulp.task('static', () => {
-  const site = Spig.config().site();
+  const site = SpigConfig.site();
   return gulp.src(
     [ site.srcDir + site.dirStatic + '/**/*' ],
     { base: site.srcDir + site.dirStatic + '/' })

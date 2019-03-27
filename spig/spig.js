@@ -5,13 +5,13 @@ const Meta = require('./meta');
 const Path = require('path');
 
 const spigs = [];
-const spigConfig = new SpigConfig();
+const nunjucks = require('./fns/nunjucks');
+
+// debug errors
+process.on('warning', e => console.warn(e.stack));
+require('events').EventEmitter.prototype._maxListeners = 100;
 
 class Spig {
-
-  static config() {
-    return spigConfig;
-  }
 
   /* iterates all SPIGs definitions */
   static forEach(fn) {
@@ -31,18 +31,18 @@ class Spig {
       for (let i = 0; i < len; ++i) {
         const f = files[i];
         files[i] =
-          spigConfig.site().srcDir +
-          spigConfig.site().dirSite +
+          SpigConfig.site().srcDir +
+          SpigConfig.site().dirSite +
           f;
       }
     } else {
       this.files = [
-        spigConfig.site().srcDir +
-        spigConfig.site().dirSite +
+        SpigConfig.site().srcDir +
+        SpigConfig.site().dirSite +
         files
       ];
     }
-    this.out = spigConfig.site().outDir;
+    this.out = SpigConfig.site().outDir;
     this.tasks = [];
     this.dev = process.env.NODE_ENV !== 'production';
   }
@@ -55,7 +55,6 @@ class Spig {
     return this;
   }
 
-  /* defines custom out folder */
   /**
    * Defines custom out folder.
    */
@@ -98,7 +97,6 @@ class Spig {
   }
 
   renderNunjucks() {
-    const nunjucks = require('./fns/nunjucks');
     return this.use((file) => nunjucks.render(file));
   }
 
@@ -127,15 +125,12 @@ class Spig {
       const ext = Path.extname(file.path);
       switch (ext) {
         case '.njk':
-          const nunjucks = require('./fns/nunjucks');
           nunjucks.render(file);
           break;
         case '.md':
           const markdown = require('./fns/markdown');
           markdown(file);
           break;
-        default:
-          throw new Error("Unknown rendering engine.");
       }
     });
   }

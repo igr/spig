@@ -42,23 +42,30 @@ class SpigConfig {
     site.root = process.cwd() + '/';
 
     this.siteConfig = site;
-    this.siteConfig.pages = {};
+    this.siteConfig.pages = [];
+    this.pages = {};
   }
 
   site() {
     return this.siteConfig;
   }
 
-  // registers file as a page
+  /**
+   * Registers file as a page.
+   */
   registerSitePage(file) {
-    this.siteConfig.pages[file.meta.name] = file;
+    this.pages[file.meta.name] = file;
+    this.siteConfig.pages.push(file);
     return this;
   }
 
+  /**
+   * Configures nunjucks.
+   */
   nunjucks(options) {
     const nunjucks = require('./fns/nunjucks');
     nunjucks.configure(options);
   }
 }
 
-module.exports = SpigConfig;
+module.exports = new SpigConfig();

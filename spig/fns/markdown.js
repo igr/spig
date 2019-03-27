@@ -1,9 +1,5 @@
 "use strict";
 
-/*
- * Converts MD to HTML
- * Renames file extension
-*/
 
 const MarkdownIt = require('markdown-it');
 const hljs = require('highlight.js');

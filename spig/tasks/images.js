@@ -5,14 +5,15 @@ const gulp        = require('gulp');
 const parallel    = require("concurrent-transform");
 const rename      = require("gulp-rename");
 const imageResize = require('gulp-image-resize');
-const Spig        = require('../spig');
+const SpigConfig = require('../spig-config');
 
 // creates a set of resize tasks at defined image widths
 
-const site = Spig.config().site();
-var resizeImageTasks = [];
+let resizeImageTasks = [];
+const site = SpigConfig.site();
+
 site.resizeImageSizes.forEach(function(size) {
-  var resizeImageTask = 'resize_' + size;
+  let resizeImageTask = 'resize_' + size;
   gulp.task(resizeImageTask, function(done) {
     gulp.src(site.srcDir + site.dirImages + '/*')
     .pipe(parallel(
@@ -31,6 +32,6 @@ site.resizeImageSizes.forEach(function(size) {
 
 gulp.task('images', gulp.parallel(resizeImageTasks, function copyOriginalImages(done) {
   gulp.src(site.srcDir + site.dirImages + '/*')
-    .pipe(gulp.dest(site.outDir + site.dirImages))
+    .pipe(gulp.dest(site.outDir + site.dirImages));
     done();
 }));

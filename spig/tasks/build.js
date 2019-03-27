@@ -1,7 +1,7 @@
 "use strict";
 
-const gulp     = require('gulp');
-const Spig     = require('../spig');
+const gulp = require('gulp');
+const SpigConfig = require('../spig-config');
 require('require-dir')('.');
 
 gulp.task('build', gulp.parallel(
@@ -13,8 +13,7 @@ gulp.task('build', gulp.parallel(
 ));
 
 gulp.task("watch", () => {
-  const site = Spig.config().site();
-  console.log("!");
+  const site = SpigConfig.site();
   gulp.watch(site.srcDir + site.dirJs     + "/**/*", gulp.parallel('js'));
   gulp.watch(site.srcDir + site.dirImages + "/**/*", gulp.parallel('images'));
   gulp.watch(site.srcDir + site.dirCss    + "/**/*", gulp.parallel('sass'));

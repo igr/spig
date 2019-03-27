@@ -1,12 +1,12 @@
 "use strict";
 
-const Spig     = require('../spig');
+const SpigConfig = require('../spig-config');
 const Meta     = require('../meta');
 const Path     = require('path');
 const fs       = require('fs');
 
 module.exports = (file) => {
-  const site = Spig.config().site();
+  const site = SpigConfig.site();
 
   // create meta data
 
@@ -28,5 +28,5 @@ module.exports = (file) => {
   Meta.update(file, meta);
 
   // register page
-  Spig.config().registerSitePage(file);
+  SpigConfig.registerSitePage(file);
 };

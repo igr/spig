@@ -6,23 +6,21 @@
 
 
 const Spig = require('./spig/spig');
-require('require-dir')('./spig/tasks');
+const SpigConfig = require('./spig/spig-config');
+const datetimefmt = require('./src/filters/datetimefmt');
 
-const {DateTime} = require("luxon");
+require('require-dir')('./spig/tasks');
 
 
 // CONFIGURE
 
-Spig
-  .config()
+SpigConfig
   .nunjucks({
     globals: {
       gv: "global value"
     },
     filters: {
-      dateDisplay: (dateObj, format = "LLL d, y") => {
-        return DateTime.fromJSDate(dateObj, {zone: "utc"}).toFormat(format);
-      }
+      dateDisplay: datetimefmt.dateDisplay
     }
   });
 
@@ -35,7 +33,7 @@ Spig
   .renderMarkdown()
   .template()
   .folderize()
-//  .debug()
+  .debug()
 ;
 
 Spig

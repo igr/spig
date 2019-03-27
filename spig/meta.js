@@ -1,6 +1,7 @@
 "use strict";
 
-const Path     = require('path');
+const Path = require('path');
+const SpigConfig = require('./spig-config');
 
 class Meta {
 
@@ -20,6 +21,9 @@ class Meta {
     };
   };
 
+  /**
+   * Resolves file attribute or meta value.
+   */
   attrOrMeta(file, name) {
     if (file.meta.attr) {
       const value = file.meta.attr[name];
@@ -39,6 +43,18 @@ class Meta {
     for (const key in data) {
       file.meta[key] = data[key];
     }
+  }
+
+  /**
+   * Builds a context for templates.
+   */
+  context(file) {
+    return {
+      content: file.contents,
+      site: SpigConfig.site(),
+      meta: file.meta,
+      page: file.meta.attr
+    };
   }
 }
 

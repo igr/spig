@@ -1,11 +1,12 @@
 "use strict";
 
 const nunjucks = require('nunjucks');
-const Spig = require('../spig');
+const SpigConfig = require('../spig-config');
+const Meta = require('../meta');
 const log = require('fancy-log');
 const chalk = require('chalk');
 
-const site = Spig.config().site();
+const site = SpigConfig.site();
 
 const nunjucksEnv = nunjucks.configure(
   site.srcDir + site.dirLayouts, {
@@ -36,13 +37,8 @@ module.exports = {
   render: (file) => {
     let string = file.contents.toString();
 
-    const result = nunjucksEnv.renderString(
-      string, {
-        content: file.contents,
-        site: site,
-        meta: file.meta,
-        page: file.meta.attr
-      });
+    const result = nunjucksEnv.renderString(string, Meta.context(file));
+
     file.contents = Buffer.from(result);
   },
 
