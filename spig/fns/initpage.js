@@ -25,7 +25,7 @@ module.exports = (file) => {
   }
 
   // update meta data for file
-  Meta.update(file, meta);
+  Meta.updateMeta(file, meta);
 
   // register page
   SpigConfig.registerSitePage(file);

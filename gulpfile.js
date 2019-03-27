@@ -43,7 +43,7 @@ Spig
   .frontmatter()
   .render()       // .renderNunjucks()
   .template()
-//  .debug()
+  .debug()
 ;
 
 // COPY THROUGH

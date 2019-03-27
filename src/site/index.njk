@@ -6,9 +6,9 @@ Index page!
 
 All pages:
 <ul>
-{% for p in site.pages %}
+{% for f in site.pages %}
   <li>
-    {{ p.meta.attr.title }}
+    {{ f.attr.title }}
   </li>
 {% endfor %}
 </ul>

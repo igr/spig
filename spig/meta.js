@@ -25,8 +25,8 @@ class Meta {
    * Resolves file attribute or meta value.
    */
   attrOrMeta(file, name) {
-    if (file.meta.attr) {
-      const value = file.meta.attr[name];
+    if (file.attr) {
+      const value = file.attr[name];
       if (value) {
         return value;
       }
@@ -35,7 +35,7 @@ class Meta {
   }
 
 
-  update(file, data) {
+  updateMeta(file, data) {
     if (!file.meta) {
       file.meta = data;
       return;
@@ -43,6 +43,18 @@ class Meta {
     for (const key in data) {
       if (data.hasOwnProperty(key)) {
         file.meta[key] = data[key];
+      }
+    }
+  }
+
+  updateAttr(file, data) {
+    if (!file.attr) {
+      file.attr = data;
+      return;
+    }
+    for (const key in data) {
+      if (data.hasOwnProperty(key)) {
+        file.attr[key] = data[key];
       }
     }
   }
@@ -55,7 +67,7 @@ class Meta {
       content: file.contents,
       site: SpigConfig.site(),
       meta: file.meta,
-      page: file.meta.attr
+      page: file.attr
     };
   }
 }

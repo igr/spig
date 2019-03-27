@@ -47,13 +47,8 @@ module.exports = {
 
     string = `{% extends '${layout}' %}` + string;
 
-    const result = nunjucksEnv.renderString(
-      string, {
-        content: file.contents,
-        site: site,
-        meta: file.meta,
-        page: file.meta.attr
-      });
+    const result = nunjucksEnv.renderString(string, Meta.context(file));
+
     file.contents = Buffer.from(result);
 
     const filePath = file.meta.out;
