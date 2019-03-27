@@ -58,7 +58,7 @@ module.exports = (file, options) => {
   file.meta.markdown = {
     source: markdown,
     inline: markdownInline
-  }
+  };
 
   const filePath = file.meta.out;
   file.meta.out = filePath.substr(0, filePath.lastIndexOf(".")) + ".html";

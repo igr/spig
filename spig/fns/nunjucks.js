@@ -20,16 +20,20 @@ module.exports = {
   configure: (options) => {
     if (options.filters) {
       for (const name in options.filters) {
-        let filter = options.filters[name];
-        nunjucksEnv.addFilter(name, filter);
-        log(chalk.magenta(logName) + " register filter: " + chalk.cyan(name));
+        if (options.filters.hasOwnProperty(name)) {
+          let filter = options.filters[name];
+          nunjucksEnv.addFilter(name, filter);
+          log(chalk.magenta(logName) + " register filter: " + chalk.cyan(name));
+        }
       }
     }
     if (options.globals) {
       for (const name in options.globals) {
-        let value = options.globals[name];
-        nunjucksEnv.addGlobal(name, value);
-        log(chalk.magenta(logName) + " register global: " + chalk.cyan(name));
+        if (options.globals.hasOwnProperty(name)) {
+          let value = options.globals[name];
+          nunjucksEnv.addGlobal(name, value);
+          log(chalk.magenta(logName) + " register global: " + chalk.cyan(name));
+        }
       }
     }
   },
