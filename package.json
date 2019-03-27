@@ -29,7 +29,7 @@
     "clean-css": "^4.2.1",
     "concurrent-transform": "^1.0.0",
     "del": "^4.0.0",
-    "front-matter": "^3.0.1",
+    "gray-matter": "^4.0.2",
     "gulp": "^4.0.0",
     "gulp-autoprefixer": "^6.0.0",
     "gulp-babel": "^8.0.0",

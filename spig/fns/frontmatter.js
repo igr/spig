@@ -1,12 +1,12 @@
 "use strict";
 
-const matter = require('front-matter');
+const matter = require('gray-matter');
 const Meta = require('../meta');
 
 module.exports = (file, attributes = {}) => {
-  const data = matter(file.contents.toString());
+  const fm = matter(file.contents.toString());
 
-  file.contents = Buffer.from(data.body);
+  file.contents = Buffer.from(fm.content);
 
-  Meta.updateAttr(file, {...data.attributes, ...attributes})
+  Meta.updateAttr(file, {...fm.data, ...attributes})
 };
