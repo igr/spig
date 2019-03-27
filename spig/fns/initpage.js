@@ -1,32 +1,36 @@
 "use strict";
 
 const SpigConfig = require('../spig-config');
+const SpigFiles = require('../spig-files');
 const Meta     = require('../meta');
 const Path     = require('path');
 const fs       = require('fs');
 
 module.exports = (file) => {
+  if (file.ok) {
+    return;
+  }
+
   const site = SpigConfig.site();
 
   // create meta data
+  file.page = true;
 
-  let meta = Meta.create(file);
-  meta.isPage = true;
+  let path = site.srcDir + site.dirSite + '/' + file.dir;
 
-  let path = site.srcDir + site.dirSite + '/' + meta.dir;
-
+  let attr = {};
   while(path !== '.') {
     const jsonFile = path + '/_.json';
     if (fs.existsSync(jsonFile)) {
       const config = JSON.parse(fs.readFileSync(jsonFile));
-      meta = {...config, ...meta};
+      attr = {...config, ...attr};
     }
     path = Path.dirname(path);
   }
 
   // update meta data for file
-  Meta.updateMeta(file, meta);
+  Meta.updateAttr(file, attr);
 
   // register page
-  SpigConfig.registerSitePage(file);
+  SpigFiles.registerSitePage(file);
 };

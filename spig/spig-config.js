@@ -42,21 +42,13 @@ class SpigConfig {
     site.root = process.cwd() + '/';
 
     this.siteConfig = site;
-    this.siteConfig.pages = [];
-    this.pages = {};
-  }
-
-  site() {
-    return this.siteConfig;
   }
 
   /**
-   * Registers file as a page.
+   * Returns site configuration.
    */
-  registerSitePage(file) {
-    this.pages[file.meta.name] = file;
-    this.siteConfig.pages.push(file);
-    return this;
+  site() {
+    return this.siteConfig;
   }
 
   /**

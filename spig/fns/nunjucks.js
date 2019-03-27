@@ -39,6 +39,9 @@ module.exports = {
   },
 
   render: (file) => {
+    if (!file.ok) {
+      return;
+    }
     let string = file.contents.toString();
 
     const result = nunjucksEnv.renderString(string, Meta.context(file));
@@ -47,6 +50,9 @@ module.exports = {
   },
 
   apply: (file, layout) => {
+    if (!file.ok) {
+      return;
+    }
     let string = file.contents.toString();
 
     string = `{% extends '${layout}' %}` + string;

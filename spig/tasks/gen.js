@@ -3,68 +3,76 @@
 const log = require('fancy-log');
 const chalk = require('chalk');
 const gulp = require('gulp');
-const through = require('through2');
 const merge2 = require('merge2');
 const Spig = require('../spig');
 const SpigConfig = require('../spig-config');
+const SpigFiles = require('../spig-files');
 const Meta = require('../meta');
+const glob = require('glob');
 
 
 // generate using SPIG
 
-gulp.task('gen', () => {
-  const stream = merge2();
+gulp.task('gen', (done) => {
+
+  // PHASE 1
+
+  log(chalk.gray("PHASE 1"));
 
   Spig.forEach((spig) => {
-    let _gulp;
+    spig.withFiles((filesPatterns) => {
+      spig.files = [];
 
-    spig
-      .withFiles((files) => {
-        _gulp = gulp.src(files);
-        stream.add(_gulp);
-      })
-      .forEachTask((task) => {
-        if (!_gulp) {
-          throw new Error("Files set not defined");
-        }
-        _gulp.pipe(through.obj((file, enc, done) => {
-          try {
-            task(file);
-          } catch (error) {
-            log.error(error);
-            file.error = error;
-          }
-          done(null, file);
-        }));
-      })
-      .withOut((out) => {
-        if (!_gulp) {
-          throw new Error("Files set not defined");
-        }
+      for (const pattern of filesPatterns) {
+        for (const fileName of glob.sync(pattern)) {
+          spig.files.push(fileName);
 
-        // RENAME
-        _gulp.pipe(through.obj((file, enc, done) => {
-          const out = Meta.out(file);
-          if (out) {
-            const site = SpigConfig.site();
+          const file = SpigFiles.createFileObject(fileName);
 
-            // we are actually changing the source location!
-            file.path = site.root + site.srcDir + site.dirSite + out;
-            if (file.sourceMap) {
-              file.sourceMap.file = file.relative;
+          spig.forEachTask((task) => {
+            try {
+              task(file);
+            } catch (error) {
+              log.error(error);
+              file.error = error;
             }
+          });
 
-          }
-
-          log(chalk.green(out) + " <--- " + chalk.blue(Meta.src(file)));
-
-          done(null, file);
-        }));
-
-        // END
-        _gulp.pipe(gulp.dest(out));
-      });
+          file.ok = true;
+        }
+      }
+      })
   });
 
-  return stream;
+
+  // PHASE 2
+
+  log(chalk.gray("PHASE 2"));
+
+  Spig.forEach((spig) => {
+
+    for (const fileName of spig.files) {
+      const file = SpigFiles.findFile(fileName);
+
+      spig.forEachTask((task) => {
+        try {
+          task(file);
+        } catch (error) {
+          log.error(error);
+          file.error = error;
+        }
+      })
+    }
+  });
+
+  SpigFiles.forEach(file => {
+    const out = file.out;
+    const site = SpigConfig.site();
+    const dest = site.root + site.outDir.substr(2) + out;
+
+    log(chalk.green(out) + " <--- " + chalk.blue(file.path) + "    " + dest);
+  });
+
+  // the end
+  done();
 });

@@ -9,7 +9,11 @@ const Meta = require('../meta');
  * be renamed to "/foo/bar/index.xxx".
  */
 module.exports = (file) => {
-  const filePath = Meta.out(file);
+  if (file.ok) {
+    return;
+  }
+
+  const filePath = file.out;
 
   const extension = Path.extname(filePath);
   const baseName = Path.basename(filePath, extension);
@@ -17,6 +21,6 @@ module.exports = (file) => {
   if (baseName !== 'index') {
     const ndx = filePath.lastIndexOf(baseName);
 
-    Meta.out(file, filePath.substr(0, ndx) + baseName + '/index' + extension);
+    file.out = filePath.substr(0, ndx) + baseName + '/index' + extension;
   }
 };

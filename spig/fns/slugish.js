@@ -5,7 +5,11 @@ const Mustache = require("mustache");
 const Path = require('path');
 
 module.exports = (file) => {
-  let slug = Meta.attrOrMeta(file, 'slug');
+  if (file.ok) {
+    return;
+  }
+
+  let slug = Meta.attr(file, 'slug');
 
   if (!slug) {
     return;
@@ -13,5 +17,5 @@ module.exports = (file) => {
 
   slug = Mustache.render(slug, Meta.context(file), {}, ['{', '}']);
 
-  Meta.out(file, '/' + slug + '/' + Path.basename(Meta.out(file)));
+  file.out = '/' + slug + '/' + Path.basename(file.out);
 };

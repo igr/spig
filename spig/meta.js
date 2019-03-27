@@ -1,48 +1,30 @@
 "use strict";
 
-const Path = require('path');
 const SpigConfig = require('./spig-config');
 
 class Meta {
 
   /**
-   * Creates meta data from a file.
-   */
-  create(file) {
-    const filePath = file.relative;
-    let dirName = Path.dirname(filePath);
-    dirName = (dirName === '.' ? '/' : '/' + dirName + '/' );
-
-    return {
-      name: dirName + Path.basename(filePath, Path.extname(filePath)),
-      src: '/' + filePath,
-      dir: dirName,
-      out: '/' + filePath
-    };
-  };
-
-  /**
    * Resolves file attribute or meta value.
    */
-  attrOrMeta(file, name) {
+  attr(file, name) {
     if (file.attr) {
       const value = file.attr[name];
       if (value) {
         return value;
       }
     }
-    return file.meta[name];
+    return file[name];
   }
 
-
-  updateMeta(file, data) {
-    if (!file.meta) {
-      file.meta = data;
-      return;
-    }
+  /**
+   * Updates file meta data.
+   * Use with care as important system values may be removed.
+   */
+  update(file, data) {
     for (const key in data) {
       if (data.hasOwnProperty(key)) {
-        file.meta[key] = data[key];
+        file[key] = data[key];
       }
     }
   }
@@ -66,28 +48,12 @@ class Meta {
     return {
       content: file.contents,
       site: SpigConfig.site(),
-      meta: file.meta,
       page: file.attr,
-      url: file.meta.out
+      url: file.out
     };
   }
 
-  /**
-   * Gets or sets the out.
-   */
-  out(file, newOut) {
-    if (newOut) {
-      file.meta.out = newOut;
-    }
-    return file.meta.out;
-  }
 
-  /**
-   * Returns the source.
-   */
-  src(file) {
-    return file.meta.src;
-  }
 }
 
 module.exports = new Meta();

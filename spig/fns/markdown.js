@@ -49,6 +49,10 @@ const markdown = text => (text ? md.render(text) : '');
 const markdownInline = text => (text ? md.renderInline(text) : '');
 
 module.exports = (file, options) => {
+  if (!file.ok) {
+    return;
+  }
+
   if (typeof options === 'function') {
       options(md);
   }
@@ -57,7 +61,7 @@ module.exports = (file, options) => {
 
   file.contents = Buffer.from(md.render(file.contents.toString()));
 
-  Meta.updateMeta(file, {
+  Meta.update(file, {
     source: markdown,
     inline: markdownInline
   });

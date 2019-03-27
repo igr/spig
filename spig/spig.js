@@ -66,25 +66,12 @@ class Spig {
     this.tasks.push(fn);
     return this;
   }
-
-  /**
-   * Defines custom out folder.
-   */
-  out(folder) {
-    this.out = SpigConfig.site().outDir + folder;
-    return this;
-  }
-
+  
   /**
    * Process files with given function.
    */
   withFiles(fn) {
     fn(this.files);
-    return this;
-  }
-
-  withOut(fn) {
-    fn(this.out);
     return this;
   }
 
@@ -184,7 +171,7 @@ class Spig {
    */
   template() {
     return this.use((file) => {
-      const layout = Meta.attrOrMeta(file, 'layout');
+      const layout = Meta.attr(file, 'layout');
       const ext = Path.extname(layout);
       switch (ext) {
         case '.njk':
