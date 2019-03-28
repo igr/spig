@@ -20,6 +20,7 @@ const fn_initAsset = require('./phase1/initasset');
 const fn_folderize = require('./phase1/folderize');
 const fn_slugish = require('./phase1/slugish');
 const fn_renameExt = require('./phase1/renameExtension');
+const fn_imageMinify = require('./phase1/imageMinify');
 
 const spigs = [];
 
@@ -107,6 +108,15 @@ class Spig {
   slugish() {
     return this.use(1, fn_slugish);
   }
+
+  /**
+   *
+   * @see fn_imageMinify
+   */
+  imageMinify() {
+    return this.use(1, fn_imageMinify);
+  }
+
 
   // --- renames ---
 
