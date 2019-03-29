@@ -24,7 +24,9 @@ const siteDefaults = {
   // images to be resized
   resizeImageSizes:  [400, 1000],
 
-  buildTime: new Date()
+  buildTime: new Date(),
+
+  collections: {}
 };
 
 

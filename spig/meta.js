@@ -1,7 +1,6 @@
 "use strict";
 
 const SpigConfig = require('./spig-config');
-const SpigFiles = require('./spig-files');
 
 class Meta {
 
@@ -46,15 +45,15 @@ class Meta {
    * Builds a context for templates.
    */
   context(file) {
+    const site = SpigConfig.site();
     return {
       content: file.contents,
-      site: SpigConfig.site(),
+      site: site,
+      collections: site.collections,
       page: file.attr,
-      url: file.out,
-      pages: SpigFiles.pages
+      url: file.out
     };
   }
-
 
 }
 

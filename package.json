@@ -66,6 +66,7 @@
     "imagemin-mozjpeg": "^8.0.0",
     "imagemin-optipng": "^6.0.0",
     "imagemin-pngquant": "^7.0.0"
+    "slugify": "^1.3.4"
   },
   "dependencies": {
   }

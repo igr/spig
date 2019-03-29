@@ -27,24 +27,17 @@ SpigConfig
 // WORK
 
 Spig
-  .on('/**/*.md')
-  .init()
+  .on('/**/*.{md,njk}')
+  .initPage()
+  .pageCommon()
+  .use(1, file => {
+    require('./spig/phase1/collect')(file, 'tags');
+  })
   .render()
   .template()
-  .debug()
+//  .debug()
 ;
 
-Spig
-  .on('/**/*.njk')
-  .initPage()
-  .folderize()
-  .frontmatter()
-  .slugish()
-  .asHtml()
-  .render()
-  .template()
-  .debug()
-;
 
 // COPY THROUGH
 
