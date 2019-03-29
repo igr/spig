@@ -1,11 +1,13 @@
 "use strict";
 
 const SpigConfig = require('./spig-config');
-const Meta = require('./meta');
+const SpigFiles = require('./spig-files');
+const LayoutResolver = require('./layout-resolver');
 const Path = require('path');
-
+const glob = require('glob');
 
 // system debug errors
+
 process.on('warning', e => console.warn(e.stack));
 require('events').EventEmitter.prototype._maxListeners = 100;
 
@@ -15,46 +17,66 @@ const fn_nunjucks = require('./phase2/nunjucks');
 const fn_frontmatter = require('./phase1/frontmatter');
 const fn_markdown = require('./phase2/markdown');
 const fn_debug = require('./phase2/debug');
-const fn_initPage = require('./phase1/initpage');
-const fn_initAsset = require('./phase1/initasset');
+const fn_initAttributes = require('./phase1/initAttributes');
 const fn_folderize = require('./phase1/folderize');
 const fn_slugish = require('./phase1/slugish');
 const fn_renameExt = require('./phase1/renameExtension');
 
-const spigs = [];
-
 class Spig {
 
-  /* iterates all SPIGs definitions */
-  static forEach(fn) {
-    spigs.forEach(fn);
-  }
-
+  /**
+   * Creates new instance of Spig on give file set.
+   */
   static on(files) {
-    const s = new Spig(files);
-    spigs.push(s);
-    return s;
+    return new Spig(files);
   }
 
   constructor(files) {
     const site = SpigConfig.site();
+    let filePatterns;
+
     if (Array.isArray(files)) {
-      this.files = files;
-      const len = files.length;
-      for (let i = 0; i < len; ++i) {
+      for (let i = 0; i < files.length; ++i) {
         const f = files[i];
         files[i] = site.srcDir + site.dirSite + f;
       }
+      filePatterns = files;
     } else {
-      this.files = [site.srcDir + site.dirSite + files];
+      filePatterns = [site.srcDir + site.dirSite + files];
     }
 
-    this.out = SpigConfig.site().outDir;
+    // file names
+    let allFiles = [];
+    for (const pattern of filePatterns) {
+      allFiles = allFiles.concat(glob.sync(pattern));
+    }
+
+    for (const fileName of allFiles) {
+      this.addFile(fileName);
+    }
+
     this.tasks = {
       1: [],
       2: []
     };
+    this.out = site.outDir;
     this.dev = process.env.NODE_ENV !== 'production';
+  }
+
+  /**
+   * Adds a real or virtual file.
+   */
+  addFile(fileName, value) {
+    if (value) {
+      const fo = SpigFiles.createFileObject(fileName, {virtual: true});
+      fo.spig = this;
+      fo.contents = Buffer.from(value);
+      return fo;
+    }
+    const fo = SpigFiles.createFileObject(fileName);
+    fo.spig = this;
+
+    return fo;
   }
 
   /**
@@ -90,11 +112,11 @@ class Spig {
   }
 
   initPage() {
-    return this.use(1, fn_initPage);
+    return this.use(1, (file) => fn_initAttributes(file, {page: true}));
   }
 
   initAsset() {
-    return this.use(1, fn_initAsset);
+    return this.use(1, (file) => fn_initAttributes(file, {page: false}));
   }
 
   /**
@@ -104,6 +126,9 @@ class Spig {
     return this.use(1, fn_folderize);
   }
 
+  /**
+   * @see fn_slugish
+   */
   slugish() {
     return this.use(1, fn_slugish);
   }
@@ -129,10 +154,10 @@ class Spig {
   // --- render & template ---
 
   /**
-   * Shortcut for common initialization.
+   * Shortcut for common page initialization.
    */
-  init() {
-    return this.initPage()
+  pageCommon() {
+    return this
       .folderize()
       .frontmatter()
       .slugish()
@@ -161,7 +186,8 @@ class Spig {
    */
   template() {
     return this.use(2, (file) => {
-      const layout = Meta.attr(file, 'layout');
+      const layout = LayoutResolver(file);
+
       const ext = Path.extname(layout);
       switch (ext) {
         case '.njk':

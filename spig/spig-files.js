@@ -7,27 +7,31 @@ const SpigConfig = require('./spig-config');
 class SpigFiles {
 
   constructor() {
-    this.files = {};
-    this.pages = [];
+    this.files = [];
   }
 
   /**
-   * Returns file for given file name, the same one used for registration.
+   * Creates file object.
    */
-  findFile(fileName) {
-    return this.files[fileName];
-  }
-
-  createFileObject(fileName) {
+  createFileObject(fileName, options = {virtual: false}) {
     const site = SpigConfig.site();
 
     const absolutePath = Path.resolve(fileName);
-    const path = '/' + Path.relative(site.root + site.srcDir + site.dirSite, absolutePath);
+
+    let path = fileName;
+    let content = Buffer.alloc(0);
+
+    if (fs.existsSync(absolutePath)) {
+      path = '/' + Path.relative(site.root + site.srcDir + site.dirSite, absolutePath);
+      content = fs.readFileSync(absolutePath);
+    } else {
+      if (!options.virtual) {
+        throw new Error("File not found: " + fileName);
+      }
+    }
 
     let dirName = Path.dirname(path);
     dirName = (dirName === '/' ? dirName : dirName + '/');
-
-    const content = fs.readFileSync(absolutePath);
 
     const fileObject = {
       src: absolutePath,
@@ -35,34 +39,15 @@ class SpigFiles {
       path: path,
       out: path,
       dir: dirName,
-      contents: content
+      contents: content,
+      attr: {}
     };
 
-    this.files[fileName] = fileObject;
+    this.files.push(fileObject);
 
     return fileObject;
   }
-
-  /**
-   * Iterate all files.
-   */
-  forEach(fn) {
-    for (const fileName in this.files) {
-      if (this.files.hasOwnProperty(fileName)) {
-        fn(this.files[fileName]);
-      }
-    }
-  }
-
-
-  /**
-   * Registers file as a page.
-   */
-  registerSitePage(file) {
-    this.pages.push(file);
-    return this;
-  }
-
+  
 }
 
 module.exports = new SpigFiles();

@@ -1,0 +1,18 @@
+All tags:
+
+<ul>
+  {% for tag in site.tags %}
+
+    <li>
+      {{ tag }}
+      <ul>
+        {% for tagPage in collections.tags[tag] %}
+
+          <li>{{ tagPage.out }}</li>
+
+        {% endfor %}
+      </ul>
+    </li>
+
+  {% endfor %}
+</ul>
