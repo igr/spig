@@ -44,12 +44,14 @@ Spig
 Spig
   .on(['/**/*.gif'])
   .initAsset()
+  .imageMinify()
 //.debug()
 ;
 
 Spig
   .on('/**/*.{png,jpg}')
   .initAsset()
+  .imageMinify()
 //  .debug()
 ;
 
