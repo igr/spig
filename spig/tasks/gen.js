@@ -73,5 +73,8 @@ gulp.task('gen', (done) => {
     .then(() => {
       writeAllFiles();
       done();
+    })
+    .catch(reason => {
+      log.error(reason);
     });
 });

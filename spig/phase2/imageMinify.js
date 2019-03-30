@@ -2,7 +2,7 @@
 
 const imagemin = require('imagemin');
 const imageminMozjpeg = require("imagemin-mozjpeg")
-const imageminPngquant = require('imagemin-pngquant');
+const imageminPngquant = require('imagemin-pngquant/index');
 const imageminOptipng = require('imagemin-optipng');
 const imageminGifsicle = require('imagemin-gifsicle');
 

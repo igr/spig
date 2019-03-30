@@ -13,15 +13,16 @@ require('events').EventEmitter.prototype._maxListeners = 100;
 
 // functions
 
-const fn_nunjucks = require('./phase2/nunjucks');
 const fn_frontmatter = require('./phase1/frontmatter');
-const fn_markdown = require('./phase2/markdown');
-const fn_debug = require('./phase2/debug');
 const fn_initAttributes = require('./phase1/initAttributes');
 const fn_folderize = require('./phase1/folderize');
 const fn_slugish = require('./phase1/slugish');
 const fn_renameExt = require('./phase1/renameExtension');
-const fn_imageMinify = require('./phase1/imageMinify');
+const fn_nunjucks = require('./phase2/nunjucks');
+const fn_markdown = require('./phase2/markdown');
+const fn_debug = require('./phase2/debug');
+const fn_imageMinify = require('./phase2/imageMinify');
+const fn_htmlMinify = require('./phase2/htmlMinify');
 
 class Spig {
 
@@ -124,22 +125,27 @@ class Spig {
    * @see fn_folderize
    */
   folderize() {
-    return this.use(1, fn_folderize);
+    return this.use(1, (file) => fn_folderize(file));
   }
 
   /**
    * @see fn_slugish
    */
   slugish() {
-    return this.use(1, fn_slugish);
+    return this.use(1, (file) => fn_slugish(file));
+  }
+
+  collect(attribute) {
+    // avoid circular dependencies
+    const fn_collect = require('./phase1/collect');
+    return this.use(1, (file) => fn_collect(file, attribute));
   }
 
   /**
-   *
    * @see fn_imageMinify
    */
   imageMinify(options) {
-    return this.use(2, file => fn_imageMinify(file, options));
+    return this.use(2, (file) => fn_imageMinify(file, options));
   }
 
 
@@ -149,7 +155,7 @@ class Spig {
    * @see fn_renameExt
    */
   as(extension) {
-    return this.use(1, file => fn_renameExt(file, extension));
+    return this.use(1, (file) => fn_renameExt(file, extension));
   }
 
   /**
@@ -192,7 +198,7 @@ class Spig {
   /**
    * Applies a template using template engine determined by layout extension.
    */
-  template() {
+  applyTemplate() {
     return this.use(2, (file) => {
       const layout = LayoutResolver(file);
 
@@ -206,6 +212,11 @@ class Spig {
       }
     });
   }
+
+  htmlMinify(options) {
+    return this.use(2, file => fn_htmlMinify(file, options));
+  }
+
 }
 
 module.exports = Spig;

@@ -47,5 +47,5 @@ module.exports = (file, attrName) => {
     map[v].push(file);
   }
 
-  spig.template();
+  spig.applyTemplate();
 };

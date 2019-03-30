@@ -30,11 +30,10 @@ Spig
   .on('/**/*.{md,njk}')
   .initPage()
   .pageCommon()
-  .use(1, file => {
-    require('./spig/phase1/collect')(file, 'tags');
-  })
+  .collect('tags')
   .render()
-  .template()
+  .applyTemplate()
+  .htmlMinify();
 //  .debug()
 ;
 
