@@ -8,7 +8,7 @@ const SpigConfig = require('./spig-config');
 function extractLayout(file) {
   const layout = Meta.attr(file, 'layout');
 
-  const site = SpigConfig.site();
+  const site = SpigConfig.siteConfig;
   const layoutsDir = Path.normalize(site.root + site.srcDir + site.dirLayouts);
 
   let path = file.dir;

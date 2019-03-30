@@ -6,7 +6,7 @@ const Meta = require('../meta');
 const log = require('fancy-log');
 const chalk = require('chalk');
 
-const site = SpigConfig.site();
+const site = SpigConfig.siteConfig;
 
 const nunjucksEnv = nunjucks.configure(
   site.srcDir + site.dirLayouts, {
@@ -14,7 +14,7 @@ const nunjucksEnv = nunjucks.configure(
   }
 );
 
-const logName = 'nunjucks>';
+const logName = 'nunjucks';
 
 module.exports = {
   configure: (options) => {
@@ -23,7 +23,7 @@ module.exports = {
         if (options.filters.hasOwnProperty(name)) {
           let filter = options.filters[name];
           nunjucksEnv.addFilter(name, filter);
-          log(chalk.magenta(logName) + " register filter: " + chalk.cyan(name));
+          log("Registering " + chalk.magenta(logName) + " filter: " + chalk.cyan(name));
         }
       }
     }
@@ -32,7 +32,7 @@ module.exports = {
         if (options.globals.hasOwnProperty(name)) {
           let value = options.globals[name];
           nunjucksEnv.addGlobal(name, value);
-          log(chalk.magenta(logName) + " register global: " + chalk.cyan(name));
+          log("Registering " + chalk.magenta(logName) + " global: " + chalk.cyan(name));
         }
       }
     }

@@ -10,9 +10,10 @@ const SpigConfig = require('../spig-config');
 // creates a set of resize tasks at defined image widths
 
 let resizeImageTasks = [];
-const site = SpigConfig.site();
+const site = SpigConfig.siteConfig;
+const dev = SpigConfig.devConfig;
 
-site.resizeImageSizes.forEach(function(size) {
+dev.resizeImageSizes.forEach(function (size) {
   let resizeImageTask = 'resize_' + size;
   gulp.task(resizeImageTask, function(done) {
     gulp.src(site.srcDir + site.dirImages + '/*')

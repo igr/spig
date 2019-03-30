@@ -11,7 +11,7 @@ const browserSync  = require('browser-sync').create();
 const SpigConfig = require('../spig-config');
 
 gulp.task('js', () => {
-  const site = SpigConfig.site();
+  const site = SpigConfig.siteConfig;
   return gulp.src([ site.srcDir + site.dirJs + '/**/*.js' ])
     .pipe(plumber())
     .pipe(webpack({

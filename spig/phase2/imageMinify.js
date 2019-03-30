@@ -6,29 +6,51 @@ const imageminPngquant = require('imagemin-pngquant/index');
 const imageminOptipng = require('imagemin-optipng');
 const imageminGifsicle = require('imagemin-gifsicle');
 
+const jpgOptionsDefaults = {
+  quality: 85
+};
+const pngOptionsDefaults = {
+  quality: [0.5, 0.8],
+  speed: 4
+};
+const optipngOptionsDefaults = {
+  optimizationLevel: 3
+};
+const gifOptionsDefaults = {
+  optimizationLevel: 3
+};
+
 /**
  * Minimizes images.
  */
 module.exports = (file, options = {}) => {
-  let jpegQuality = 85;
-  if (options.jpeg) {
-    jpegQuality = options.jpeg;
-  }
-  let pngQuality = 3;
-  if (options.png) {
-    pngQuality = options.png;
-  }
-  let gifQuality = 3;
-  if (options.gif) {
-    gifQuality = options.gif;
-  }
+  let jpegOptions = {
+    ...jpgOptionsDefaults,
+    ...options.jpeg
+  };
+
+  let pngOptions = {
+    ...pngOptionsDefaults,
+    ...options.png
+  };
+
+  let optipngOptions = {
+    ...optipngOptionsDefaults,
+    ...options.optipng
+  };
+
+  let gifOptions = {
+    ...gifOptionsDefaults,
+    ...options.gif
+  };
+
 
   return imagemin.buffer(file.contents, {
     use: [
-      imageminMozjpeg({quality: jpegQuality}),
-      imageminPngquant({quality: "65-80", speed: 4}),
-      imageminOptipng({optimizationLevel: pngQuality}),
-      imageminGifsicle({optimizationLevel: gifQuality})
+      imageminMozjpeg(jpegOptions),
+      imageminPngquant(pngOptions),
+      imageminOptipng(optipngOptions),
+      imageminGifsicle(gifOptions)
     ]
   }).then(buffer => {
     file.contents = buffer;

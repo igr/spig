@@ -41,7 +41,7 @@ const runPhase = (phaseNo) => {
 };
 
 const collectAllPages = () => {
-  const site = SpigConfig.site();
+  const site = SpigConfig.siteConfig;
   site.pages = [];
   for (const file of SpigFiles.files) {
     if (file.page) {
@@ -52,7 +52,7 @@ const collectAllPages = () => {
 
 const writeAllFiles = () => {
   for (const file of SpigFiles.files) {
-    const site = SpigConfig.site();
+    const site = SpigConfig.siteConfig;
     const out = file.out;
     const dest = Path.normalize(site.root + site.outDir + out);
 
@@ -65,7 +65,7 @@ const writeAllFiles = () => {
   }
 };
 
-gulp.task('gen', (done) => {
+gulp.task('site', (done) => {
   start()
     .then(() => runPhase(1))
     .then(() => collectAllPages())

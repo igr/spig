@@ -5,6 +5,6 @@ const serve   = require('gulp-serve');
 const SpigConfig = require('../spig-config');
 
 gulp.task('serve', serve({
-  root: [SpigConfig.site().outDir],
-  port: 9000,
+  root: [SpigConfig.siteConfig.outDir],
+  port: 3000,
 }));

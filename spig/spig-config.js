@@ -21,12 +21,16 @@ const siteDefaults = {
   dirStatic:    '/static',
   dirLayouts:   '/layouts',
 
-  // images to be resized
-  resizeImageSizes:  [400, 1000],
-
   buildTime: new Date(),
 
   collections: {}
+};
+
+const developmentDefaults = {
+
+  // images to be resized
+  resizeImageSizes: [400, 1000],
+
 };
 
 
@@ -44,15 +48,19 @@ class SpigConfig {
     site.root = process.cwd() + '/';
 
     this.siteConfig = site;
-  }
 
-  /**
-   * Returns site configuration.
-   */
-  site() {
-    return this.siteConfig;
-  }
+    // update development configuration
 
+    let dev = developmentDefaults;
+
+    if (fs.existsSync('./src/dev.json')) {
+      log("Reading " + chalk.magenta("dev.json"));
+      const devJson = JSON.parse(fs.readFileSync('./src/dev.json'));
+      dev = {...dev, ...devJson};
+    }
+
+    this.devConfig = dev;
+  }
   /**
    * Configures nunjucks.
    */

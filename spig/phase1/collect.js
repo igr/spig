@@ -15,7 +15,7 @@ module.exports = (file, attrName) => {
     values = [values];
   }
 
-  const site = SpigConfig.site();
+  const site = SpigConfig.siteConfig;
   let map = site.collections[attrName];
 
   if (!map) {

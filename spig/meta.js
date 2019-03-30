@@ -45,7 +45,7 @@ class Meta {
    * Builds a context for templates.
    */
   context(file) {
-    const site = SpigConfig.site();
+    const site = SpigConfig.siteConfig;
     return {
       content: file.contents,
       site: site,

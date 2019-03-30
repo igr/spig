@@ -1,10 +1,11 @@
 {
   "name": "spig",
   "version": "1.0.0",
-  "description": "SPIG static generator framework",
+  "description": "Spig - static generator framework",
   "scripts": {
     "clean": "gulp clean",
-    "dev": "gulp dev & gulp serve",
+    "dev": "gulp dev",
+    "serve": "gulp build && gulp serve",
     "build": "gulp build"
   },
   "repository": {

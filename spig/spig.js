@@ -34,7 +34,7 @@ class Spig {
   }
 
   constructor(files) {
-    const site = SpigConfig.site();
+    const site = SpigConfig.siteConfig;
     let filePatterns;
 
     if (Array.isArray(files)) {

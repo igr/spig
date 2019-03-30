@@ -33,7 +33,7 @@ Spig
   .collect('tags')
   .render()
   .applyTemplate()
-  .htmlMinify();
+  .htmlMinify()
 //  .debug()
 ;
 

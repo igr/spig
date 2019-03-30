@@ -1,18 +1,18 @@
-All tags:
+---
+title: "All Tags"
+---
+
+All Tags:
 
 <ul>
   {% for tag in site.tags %}
-
     <li>
-      {{ tag }}
+      <h2>{{ tag }}</h2>
       <ul>
         {% for tagPage in collections.tags[tag] %}
-
           <li>{{ tagPage.out }}</li>
-
         {% endfor %}
       </ul>
     </li>
-
   {% endfor %}
 </ul>

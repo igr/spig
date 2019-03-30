@@ -6,7 +6,7 @@ const Path     = require('path');
 const fs       = require('fs');
 
 module.exports = (file, options = {page: true}) => {
-  const site = SpigConfig.site();
+  const site = SpigConfig.siteConfig;
   
   Meta.update(file, options);
 

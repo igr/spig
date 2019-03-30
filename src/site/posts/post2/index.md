@@ -5,6 +5,6 @@ tags:
   - tag2
 ---
 
-# About happy pig
+# About the Happy Pig!
 
 ![](pig-happy-jumping.gif)

@@ -14,7 +14,7 @@ class SpigFiles {
    * Creates file object.
    */
   createFileObject(fileName, options = {virtual: false}) {
-    const site = SpigConfig.site();
+    const site = SpigConfig.siteConfig;
 
     const absolutePath = Path.resolve(fileName);
 
