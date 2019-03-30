@@ -50,6 +50,18 @@ const collectAllPages = () => {
   }
 };
 
+const readAllFiles = () => {
+  for (const file of SpigFiles.files) {
+    if (file.src) {
+      if (fs.existsSync(file.src)) {
+        file.contents = fs.readFileSync(file.src);
+      } else {
+        throw new Error("File not found: " + fileName);
+      }
+    }
+  }
+};
+
 const writeAllFiles = () => {
   for (const file of SpigFiles.files) {
     const site = SpigConfig.siteConfig;
@@ -67,6 +79,7 @@ const writeAllFiles = () => {
 
 gulp.task('site', (done) => {
   start()
+    .then(() => readAllFiles())
     .then(() => runPhase(1))
     .then(() => collectAllPages())
     .then(() => runPhase(2))

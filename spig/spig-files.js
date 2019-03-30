@@ -1,6 +1,5 @@
 "use strict";
 
-const fs = require("fs");
 const Path = require("path");
 const SpigConfig = require('./spig-config');
 
@@ -13,21 +12,20 @@ class SpigFiles {
   /**
    * Creates file object.
    */
-  createFileObject(fileName, options = {virtual: false}) {
+  createFileObject(fileName, virtual = false) {
     const site = SpigConfig.siteConfig;
 
-    const absolutePath = Path.resolve(fileName);
+    let absolutePath = Path.resolve(fileName);
 
-    let path = fileName;
-    let content = Buffer.alloc(0);
+    let path;
 
-    if (fs.existsSync(absolutePath)) {
-      path = '/' + Path.relative(site.root + site.srcDir + site.dirSite, absolutePath);
-      content = fs.readFileSync(absolutePath);
+    if (virtual) {
+      // virtual files do not have the absolute path
+      absolutePath = undefined;
+      path = fileName;
     } else {
-      if (!options.virtual) {
-        throw new Error("File not found: " + fileName);
-      }
+      // real files
+      path = '/' + Path.relative(site.root + site.srcDir + site.dirSite, absolutePath);
     }
 
     let dirName = Path.dirname(path);
@@ -39,7 +37,7 @@ class SpigFiles {
       path: path,
       out: path,
       dir: dirName,
-      contents: content,
+      contents: undefined,
       attr: {}
     };
 
