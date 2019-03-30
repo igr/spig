@@ -138,8 +138,8 @@ class Spig {
    *
    * @see fn_imageMinify
    */
-  imageMinify() {
-    return this.use(1, fn_imageMinify);
+  imageMinify(options) {
+    return this.use(2, file => fn_imageMinify(file, options));
   }
 
 
@@ -149,9 +149,7 @@ class Spig {
    * @see fn_renameExt
    */
   as(extension) {
-    return this.use(1, (file) => {
-      fn_renameExt(file, extension);
-    })
+    return this.use(1, file => fn_renameExt(file, extension));
   }
 
   /**

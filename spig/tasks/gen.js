@@ -8,65 +8,70 @@ const gulp = require('gulp');
 const fs = require('fs');
 const Path = require('path');
 
-// generate using SPIG
+/**
+ * Runs SPIG tasks on files.
+ */
 
-gulp.task('gen', (done) => {
+const start = () => {
+  return new Promise(resolve => resolve());
+};
 
-  const site = SpigConfig.site();
+const runTask = (task, file) => {
+  const result = task(file);
+  if (result) {
+    return result;
+  }
+  return new Promise(resolve => resolve());
+};
 
-  // PHASE 1
+const runPhase = (phaseNo) => {
+  const phaseFiles = [];
 
-  log(chalk.gray("PHASE 1"));
+  log(chalk.gray(`PHASE ${phaseNo}`));
 
   for (const file of SpigFiles.files) {
-    file.spig.forEachTask(1, (task) => {
-      try {
-        task(file);
-      } catch (error) {
-        log.error(error);
-        file.error = error;
-      }
+    const p = [];
+    file.spig.forEachTask(phaseNo, (task) => {
+      p.push(runTask(task, file));
     });
+    phaseFiles.push(Promise.all(p));
   }
 
-  // END PHASE 1
+  return Promise.all(phaseFiles);
+};
 
-  // collect pages
+const collectAllPages = () => {
+  const site = SpigConfig.site();
   site.pages = [];
   for (const file of SpigFiles.files) {
     if (file.page) {
       site.pages.push(file);
     }
   }
+};
 
-
-  // PHASE 2
-
-  log(chalk.gray("PHASE 2"));
-
+const writeAllFiles = () => {
   for (const file of SpigFiles.files) {
-    file.spig.forEachTask(2, (task) => {
-      try {
-        task(file);
-      } catch (error) {
-        log.error(error);
-        file.error = error;
-      }
-    })
-  }
-
-  // END PHASE 2
-
-  for (const file of SpigFiles.files) {
+    const site = SpigConfig.site();
     const out = file.out;
     const dest = Path.normalize(site.root + site.outDir + out);
 
     fs.mkdirSync(Path.dirname(dest), {recursive: true});
     fs.writeFileSync(dest, file.contents);
 
-    log(chalk.green(out) + " <--- " + chalk.blue(file.path));
+    if (file.page) {
+      log(chalk.green(out) + " <--- " + chalk.blue(file.path));
+    }
   }
+};
 
-  // the end
-  done();
+gulp.task('gen', (done) => {
+  start()
+    .then(() => runPhase(1))
+    .then(() => collectAllPages())
+    .then(() => runPhase(2))
+    .then(() => {
+      writeAllFiles();
+      done();
+    });
 });

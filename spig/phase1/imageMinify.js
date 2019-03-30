@@ -5,22 +5,32 @@ const imageminMozjpeg = require("imagemin-mozjpeg")
 const imageminPngquant = require('imagemin-pngquant');
 const imageminOptipng = require('imagemin-optipng');
 const imageminGifsicle = require('imagemin-gifsicle');
-const SpigConfig = require('../spig-config');
 
 /**
- * Minimize images.
+ * Minimizes images.
  */
-module.exports = async (file) => {
-  const site = SpigConfig.site();
-  const outDir = site.outDir + file.dir;
+module.exports = (file, options = {}) => {
+  let jpegQuality = 85;
+  if (options.jpeg) {
+    jpegQuality = options.jpeg;
+  }
+  let pngQuality = 3;
+  if (options.png) {
+    pngQuality = options.png;
+  }
+  let gifQuality = 3;
+  if (options.gif) {
+    gifQuality = options.gif;
+  }
 
-  await imagemin([file.src], outDir, {
+  return imagemin.buffer(file.contents, {
     use: [
-      imageminMozjpeg({quality: 2}),
+      imageminMozjpeg({quality: jpegQuality}),
       imageminPngquant({quality: "65-80", speed: 4}),
-      imageminOptipng({optimizationLevel: 3}),
-      imageminGifsicle({optimizationLevel: 3})
+      imageminOptipng({optimizationLevel: pngQuality}),
+      imageminGifsicle({optimizationLevel: gifQuality})
     ]
+  }).then(buffer => {
+    file.contents = buffer;
   });
-
 };
