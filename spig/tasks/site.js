@@ -24,6 +24,21 @@ const runTask = (task, file) => {
   return new Promise(resolve => resolve());
 };
 
+/**
+ * Resets all metadata and configuration to avoid accumulation on reloading.
+ */
+const reset = () => {
+  SpigConfig.siteConfig.collections = {};
+  SpigConfig.siteConfig.buildTime = new Date();
+
+  for (const file of SpigFiles.files) {
+    SpigFiles.resetMeta(file);
+  }
+};
+
+/**
+ * Runs single phase.
+ */
 const runPhase = (phaseNo) => {
   const phaseFiles = [];
 
@@ -79,6 +94,7 @@ const writeAllFiles = () => {
 
 gulp.task('site', (done) => {
   start()
+    .then(() => reset())
     .then(() => readAllFiles())
     .then(() => runPhase(1))
     .then(() => collectAllPages())

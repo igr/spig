@@ -2,7 +2,7 @@
 
 const nunjucks = require('nunjucks');
 const SpigConfig = require('../spig-config');
-const Meta = require('../meta');
+const SpigFiles = require('../spig-files');
 const log = require('fancy-log');
 const chalk = require('chalk');
 
@@ -41,7 +41,7 @@ module.exports = {
   render: (file) => {
     let string = file.contents.toString();
 
-    const result = nunjucksEnv.renderString(string, Meta.context(file));
+    const result = nunjucksEnv.renderString(string, SpigFiles.contextOf(file));
 
     file.contents = Buffer.from(result);
   },
@@ -51,7 +51,7 @@ module.exports = {
 
     string = `{% extends '${layout}' %}` + string;
 
-    const result = nunjucksEnv.renderString(string, Meta.context(file));
+    const result = nunjucksEnv.renderString(string, SpigFiles.contextOf(file));
 
     file.contents = Buffer.from(result);
   }

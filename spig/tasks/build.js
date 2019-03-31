@@ -35,9 +35,15 @@ gulp.task("watch", () => {
   gulp.watch(site.srcDir + site.dirJs + "/**/*", gulp.series('js'));
   gulp.watch(site.srcDir + site.dirImages + "/**/*", gulp.series('images'));
   gulp.watch(site.srcDir + site.dirCss + "/**/*", gulp.series('sass'));
-  gulp.watch(site.srcDir + site.dirStatic + "/**/*", gulp.series('static')).on('change', browserSync.reload);
-  gulp.watch(site.srcDir + site.dirSite + "/**/*", gulp.series('site')).on('change', browserSync.reload);
-  gulp.watch(site.srcDir + site.dirLayouts + "/**/*", gulp.series('site')).on('change', browserSync.reload);
+  gulp
+    .watch(site.srcDir + site.dirStatic + "/**/*", gulp.series('static'))
+    .on('change', browserSync.reload);
+  gulp
+    .watch(site.srcDir + site.dirSite + "/**/*", gulp.series('site'))
+    .on('change', browserSync.reload);
+  gulp
+    .watch(site.srcDir + site.dirLayouts + "/**/*", gulp.series('site'))
+    .on('change', browserSync.reload);
 });
 
 gulp.task('dev', gulp.series(

@@ -1,14 +1,14 @@
 "use strict";
 
 const SpigConfig = require('../spig-config');
-const Meta     = require('../meta');
+const SpigFiles = require('../spig-files');
 const Path     = require('path');
 const fs       = require('fs');
 
 module.exports = (file, options = {page: true}) => {
   const site = SpigConfig.siteConfig;
-  
-  Meta.update(file, options);
+
+  SpigFiles.updateMeta(file, options);
 
   let path = site.srcDir + site.dirSite + '/' + file.dir;
 
@@ -23,6 +23,6 @@ module.exports = (file, options = {page: true}) => {
   }
 
   // update meta data for file
-  Meta.updateAttr(file, attr);
+  SpigFiles.updateAttr(file, attr);
 
 };

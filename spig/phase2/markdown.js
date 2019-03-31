@@ -1,6 +1,6 @@
 "use strict";
 
-const Meta = require('../meta');
+const SpigFiles = require('../spig-files');
 const MarkdownIt = require('markdown-it');
 const hljs = require('highlight.js');
 const attrs = require('markdown-it-attrs');
@@ -57,7 +57,7 @@ module.exports = (file, options) => {
 
   file.contents = Buffer.from(md.render(file.contents.toString()));
 
-  Meta.update(file, {
+  SpigFiles.updateMeta(file, {
     source: markdown,
     inline: markdownInline
   });

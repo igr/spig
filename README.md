@@ -11,6 +11,7 @@ Just clone/download this repo and run:
 ```shell
 yarn install
 yarn dev
+open localhost:3000
 ```
 
 ## Quick run

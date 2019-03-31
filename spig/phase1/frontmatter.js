@@ -1,7 +1,7 @@
 "use strict";
 
 const matter = require('gray-matter');
-const Meta = require('../meta');
+const SpigFiles = require('../spig-files');
 
 /**
  * Exports front matter to attributes.
@@ -11,5 +11,5 @@ module.exports = (file, attributes = {}) => {
 
   file.contents = Buffer.from(fm.content);
 
-  Meta.updateAttr(file, {...fm.data, ...attributes})
+  SpigFiles.updateAttr(file, {...fm.data, ...attributes})
 };

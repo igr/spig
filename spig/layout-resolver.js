@@ -1,12 +1,12 @@
 "use strict";
 
 const Path = require('path');
-const Meta = require('./meta');
+const SpigFiles = require('./spig-files');
 const fs = require('fs');
 const SpigConfig = require('./spig-config');
 
 function extractLayout(file) {
-  const layout = Meta.attr(file, 'layout');
+  const layout = SpigFiles.attr(file, 'layout');
 
   const site = SpigConfig.siteConfig;
   const layoutsDir = Path.normalize(site.root + site.srcDir + site.dirLayouts);

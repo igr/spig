@@ -1,17 +1,17 @@
 "use strict";
 
-const Meta = require('../meta');
+const SpigFiles = require('../spig-files');
 const Mustache = require("mustache");
 const Path = require('path');
 
 module.exports = (file) => {
-  let slug = Meta.attr(file, 'slug');
+  let slug = SpigFiles.attr(file, 'slug');
 
   if (!slug) {
     return;
   }
 
-  slug = Mustache.render(slug, Meta.context(file), {}, ['{', '}']);
+  slug = Mustache.render(slug, SpigFiles.contextOf(file), {}, ['{', '}']);
 
   file.out = '/' + slug + '/' + Path.basename(file.out);
 };
