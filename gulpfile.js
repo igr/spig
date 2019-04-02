@@ -28,7 +28,6 @@ SpigConfig
 
 Spig
   .on('/**/*.{md,njk}')
-  .initPage()
   .pageCommon()
   .collect('tags')
   .render()

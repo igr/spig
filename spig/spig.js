@@ -172,6 +172,7 @@ class Spig {
    */
   pageCommon() {
     return this
+      .initPage()
       .folderize()
       .frontmatter()
       .slugish()
@@ -179,7 +180,8 @@ class Spig {
   }
 
   imagesCommon() {
-    return this.initAsset()
+    return this
+      .initAsset()
       .slugish();
   }
 
