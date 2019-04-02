@@ -41,15 +41,8 @@ Spig
 // COPY THROUGH
 
 Spig
-  .on(['/**/*.gif'])
-  .initAsset()
-  .imageMinify()
-//.debug()
-;
-
-Spig
-  .on('/**/*.{png,jpg}')
-  .initAsset()
+  .on('/**/*.{png,jpg,gif}')
+  .imagesCommon()
   .imageMinify()
 //  .debug()
 ;

@@ -175,7 +175,12 @@ class Spig {
       .folderize()
       .frontmatter()
       .slugish()
-      .asHtml()
+      .asHtml();
+  }
+
+  imagesCommon() {
+    return this.initAsset()
+      .slugish();
   }
 
   /**
