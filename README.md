@@ -1,4 +1,4 @@
-# Spig
+# Spig v1.0.1
 
 ![](src/images/spig.png)
 
@@ -19,7 +19,7 @@ open localhost:3000
 ## Read more
 
 + [Develop and Build with Spig](doc/BuildWithSpig.md)
-+ [Quick Run](doc/QuickRun.md)
-+ [Quick Run as Subtree](doc/QuickRunSubtree.md)
++ [Quick Run](doc/QuickRun.md) - preferred way
++ [Quick Run as subtree](doc/QuickRunSubtree.md)
 + [How Spig Works](doc/HowSpigWorks.md)
 + [File and attributes](doc/FileAndAttributes.md)

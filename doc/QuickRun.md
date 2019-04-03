@@ -7,15 +7,18 @@
 Simply:
  
 + [download the project](https://github.com/igr/spig/archive/master.zip)
-+ unzip it in your root folder
++ unzip it to your root folder
++ just keep the `/spig` folder and root files. 
 + Start adding content, modify `gulpfile`.
 
-For `Spig` updates, just copy `spig` folder over existing one. 
+For `Spig` updates, just copy `spig` folder over existing one.
+Update `package.json` when needed. 
 
 
 ## 2. Project 
 
 The website content is located in `src` folder.
+
 
 ## 3. Gulp
 

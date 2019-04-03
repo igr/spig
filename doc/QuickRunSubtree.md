@@ -20,7 +20,7 @@ git subtree pull --prefix spig https://github.com/igr/spig master --squash
 For faster setup, just copy the example:
 
 ```shell
-cp -R spig/src src
+cp -R spig/src .
 ``` 
 
 ## 3. Gulp
