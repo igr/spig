@@ -24,7 +24,7 @@ SpigConfig
     }
   });
 
-// WORK
+// PAGES
 
 Spig
   .on('/**/*.{md,njk}')
@@ -37,7 +37,7 @@ Spig
 ;
 
 
-// COPY THROUGH
+// IMAGES
 
 Spig
   .on('/**/*.{png,jpg,gif}')

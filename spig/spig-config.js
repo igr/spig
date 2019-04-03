@@ -27,6 +27,9 @@ const siteDefaults = {
 };
 
 const developmentDefaults = {
+  production: false,
+
+  env: process.env,
 
   // images to be resized
   resizeImageSizes: [400, 1000],
@@ -60,11 +63,32 @@ class SpigConfig {
     }
 
     this.devConfig = dev;
+
+    // production mode
+
+    if (dev.env.SPIG_PRODUCTION) {
+      dev.production = dev.env.SPIG_PRODUCTION;
+    }
+    if (dev.production === 'false' || dev.production === false) {
+      log('Environment: ' + chalk.green('DEVELOPMENT'));
+      site.rootURL = 'http://localhost';
+    } else {
+      log('Environment: ' + chalk.green('PRODUCTION'));
+    }
+
   }
+
   /**
    * Configures nunjucks.
    */
-  nunjucks(options) {
+  nunjucks(options = {}) {
+    const jsonFile = this.siteConfig.srcDir + '/nunjucks.json';
+    if (fs.existsSync(jsonFile)) {
+      log("Reading " + chalk.magenta("nunjucks.json"));
+      const json = JSON.parse(fs.readFileSync(jsonFile));
+      options = {...options, ...json};
+    }
+
     const nunjucks = require('./phase2/nunjucks');
     nunjucks.configure(options);
   }
