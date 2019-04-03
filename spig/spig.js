@@ -135,6 +135,9 @@ class Spig {
     return this.use(1, (file) => fn_slugish(file));
   }
 
+  /**
+   * Collects pages by given attribute name.
+   */
   collect(attribute) {
     // avoid circular dependencies
     const fn_collect = require('./phase1/collect');
@@ -179,6 +182,9 @@ class Spig {
       .asHtml();
   }
 
+  /**
+   * Shortcut for common images initialization.
+   */
   imagesCommon() {
     return this
       .initAsset()
@@ -220,6 +226,10 @@ class Spig {
     });
   }
 
+  /**
+   * Minifies the HTML content.
+   * @see fn_htmlMinify
+   */
   htmlMinify(options) {
     return this.use(2, file => fn_htmlMinify(file, options));
   }

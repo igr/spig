@@ -20,5 +20,6 @@ open localhost:3000
 
 + [Develop and Build with Spig](doc/BuildWithSpig.md)
 + [Quick Run](doc/QuickRun.md)
++ [Quick Run as Subtree](doc/QuickRunSubtree.md)
 + [How Spig Works](doc/HowSpigWorks.md)
 + [File and attributes](doc/FileAndAttributes.md)

@@ -1,72 +1,23 @@
 # Quick run
 
-`Spig` is a framework, and it is not designed to work out-of-box. 
+`Spig` is a framework, and it is not designed to work out-of-box.
 
 ## 1. Installation
 
-In a project's root, add `Spig`:
+Simply:
+ 
++ [download the project](https://github.com/igr/spig/archive/master.zip)
++ unzip it in your root folder
++ Start adding content, modify `gulpfile`.
 
-```shell
-git subtree add --prefix spig https://github.com/igr/spig master --squash
-```
-Update `Spig` any time with:
+For `Spig` updates, just copy `spig` folder over existing one. 
 
-```shell
-git subtree pull --prefix spig https://github.com/igr/spig master --squash
-```
 
-## 2. Project structure
+## 2. Project 
 
-For faster setup, just copy the example:
-
-```shell
-cp -R spig/src src
-``` 
+The website content is located in `src` folder.
 
 ## 3. Gulp
 
-Welcome JavaScript:
-
-```
-cp spig/package.json .
-edit package.json
-yarn install
-```
-
-Add the initial `gulpfile.js`:
-
-```javascript
-"use strict";
-
-const Spig = require('./spig/spig/spig');
-const SpigConfig = require('./spig/spig/spig-config');
-require('require-dir')('./spig/spig/tasks');
-
-const datetimefmt = require('./src/filters/datetimefmt');
-
-```
-
-Yeah, so many `Spig`s are in use :)
-
-
-## 4. Spig
-
-Extend your `gulpfile` with something like this:
-
-```javascript
-Spig
-  .on('/**/*.{md,njk}')
-  .pageCommon()
-  .collect('tags')
-  .render()
-  .applyTemplate()
-  .htmlMinify()
-
-Spig
-  .on('/**/*.{png,jpg,gif}')
-  .imagesCommon()
-  .imageMinify()
-```
-
-See [gulpfile](gulpfile.js) for an example.
+Edit the `gulpfile` to change or add more functionality and configuration.
 
