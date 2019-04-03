@@ -8,6 +8,8 @@ const gulp = require('gulp');
 const fs = require('fs');
 const Path = require('path');
 
+const logPrefix = 'Site';
+
 /**
  * Runs SPIG tasks on files.
  */
@@ -42,7 +44,7 @@ const reset = () => {
 const runPhase = (phaseNo) => {
   const phaseFiles = [];
 
-  log(chalk.gray(`PHASE ${phaseNo}`));
+  log(chalk.gray(`${logPrefix} PHASE ${phaseNo}`));
 
   for (const file of SpigFiles.files) {
     const p = [];
@@ -77,7 +79,12 @@ const readAllFiles = () => {
   }
 };
 
+function logline() {
+  log('-----------------------------------------------------');
+}
+
 const writeAllFiles = () => {
+  logline();
   for (const file of SpigFiles.files) {
     const site = SpigConfig.siteConfig;
     const out = file.out;
@@ -90,6 +97,10 @@ const writeAllFiles = () => {
       log(chalk.green(out) + " <--- " + chalk.blue(file.path));
     }
   }
+  logline();
+  log('Pages: ' + chalk.green(SpigConfig.siteConfig.pages.length));
+  log('Files: ' + chalk.green(SpigFiles.files.length));
+  logline();
 };
 
 gulp.task('site', (done) => {

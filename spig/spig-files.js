@@ -7,7 +7,7 @@ class SpigFiles {
 
   constructor() {
     this.files = [];
-    this.defaultFileKeys = ['src', 'name', 'path', 'out', 'dir', 'contents', 'attr', 'spig'];
+    this.defaultFileKeys = ['src', 'name', 'basename', 'path', 'out', 'dir', 'contents', 'attr', 'spig'];
   }
 
   /**
@@ -77,6 +77,7 @@ class SpigFiles {
   createMeta(absolutePath, dirName, path) {
     return {
       src: absolutePath,
+      basename: Path.basename(path, Path.extname(path)),
       name: dirName + Path.basename(path, Path.extname(path)),
       path: path,
       out: path,

@@ -6,6 +6,7 @@ const chalk      = require("chalk");
 
 const siteDefaults = {
   name:    'spig site',
+  baseURL: 'http://localhost:3000/',
   version: '1.0.0',
 
   // main folders
@@ -27,13 +28,19 @@ const siteDefaults = {
 };
 
 const developmentDefaults = {
+  // production or development mode
   production: false,
 
+  // environment variables
   env: process.env,
 
   // images to be resized
   resizeImageSizes: [400, 1000],
 
+  // template extensions
+  templateExtensions: ['.njk'],
+
+  templateDefault: 'base.njk'
 };
 
 
@@ -71,7 +78,7 @@ class SpigConfig {
     }
     if (dev.production === 'false' || dev.production === false) {
       log('Environment: ' + chalk.green('DEVELOPMENT'));
-      site.rootURL = 'http://localhost';
+      site.baseURL = 'http://localhost:3000/';
     } else {
       log('Environment: ' + chalk.green('PRODUCTION'));
     }

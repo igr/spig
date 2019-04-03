@@ -1,4 +1,4 @@
 {
   "name": "SPIG website",
-  "rootUrl" : "https://spig.io"
+  "baseURL": "https://spig.io"
 }

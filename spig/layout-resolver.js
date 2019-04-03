@@ -5,14 +5,46 @@ const SpigFiles = require('./spig-files');
 const fs = require('fs');
 const SpigConfig = require('./spig-config');
 
-function extractLayout(file) {
-  const layout = SpigFiles.attr(file, 'layout');
-
+/**
+ * Resolves layout file from the file's attributes and meta-data.
+ * The order is the following:
+ * + use attribute `layout`,
+ * + use file's basename,
+ * + returns default template
+ */
+function resolveLayout(file) {
   const site = SpigConfig.siteConfig;
+  const dev = SpigConfig.devConfig;
   const layoutsDir = Path.normalize(site.root + site.srcDir + site.dirLayouts);
 
-  let path = file.dir;
+  const layout = SpigFiles.attr(file, 'layout');
+  let layoutFile;
 
+  if (layout) {
+    layoutFile = findLayout(layoutsDir, file.dir, layout);
+    if (layoutFile) {
+      return layoutFile;
+    }
+
+    for (let ext of dev.templateExtensions) {
+      layoutFile = findLayout(layoutsDir, file.dir, layout + ext);
+      if (layoutFile) {
+        return layoutFile;
+      }
+    }
+  }
+
+  for (let ext of dev.templateExtensions) {
+    layoutFile = findLayout(layoutsDir, file.dir, file.basename + ext);
+    if (layoutFile) {
+      return layoutFile;
+    }
+  }
+
+  return dev.templateDefault;
+}
+
+function findLayout(layoutsDir, path, layout) {
   while (true) {
     let layoutFile = path + layout;
     if (fs.existsSync(layoutsDir + layoutFile)) {
@@ -26,9 +58,8 @@ function extractLayout(file) {
     }
     path = Path.dirname(path);
   }
-
-  return 'base.njk';
+  return undefined;
 }
 
 
-module.exports = extractLayout;
+module.exports = resolveLayout;
