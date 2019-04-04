@@ -2,9 +2,11 @@
 
 const SpigConfig = require('./spig-config');
 const SpigFiles = require('./spig-files');
+const SpigVersion = require('./spig-version');
 const LayoutResolver = require('./layout-resolver');
 const Path = require('path');
 const glob = require('glob');
+const log = require('fancy-log');
 
 // system debug errors
 
@@ -23,6 +25,8 @@ const fn_markdown = require('./phase2/markdown');
 const fn_debug = require('./phase2/debug');
 const fn_imageMinify = require('./phase2/imageMinify');
 const fn_htmlMinify = require('./phase2/htmlMinify');
+
+log(`-=[Spig v${SpigVersion}]=-`);
 
 class Spig {
 
