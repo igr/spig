@@ -7,9 +7,9 @@ const SpigFiles = require('../spig-files');
  * Exports front matter to attributes.
  */
 module.exports = (file, attributes = {}) => {
-  const fm = matter(file.contents.toString());
+  const fm = matter(SpigFiles.stringContents(file));
 
-  file.contents = Buffer.from(fm.content);
+  file.contents = fm.content;
 
   SpigFiles.updateAttr(file, {...fm.data, ...attributes})
 };

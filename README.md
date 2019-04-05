@@ -1,4 +1,4 @@
-# Spig v1.0.1
+# Spig v1.1.0
 
 ![](src/images/spig.png)
 
@@ -32,13 +32,16 @@ open localhost:3000
 + sass compilation
 + sass minification 
 + html minification
++ html syntax highlighting
 + images size optimization
 + images resizing
 + static copythrough
-+ live reload
-+ templates in: Markdown, [Nunjucks](https://mozilla.github.io/nunjucks/) (extensible)
++ templates in: Markdown, [Nunjucks](https://mozilla.github.io/nunjucks/)...
 + layouts in [Nunjucks](https://mozilla.github.io/nunjucks/)
 + frontmatter
 + slug
 + making collections from frontmatter attributes (e.g. tags)
++ excerpts
++ configuration in `.js` and `.json`
++ live reload
 + very extensible

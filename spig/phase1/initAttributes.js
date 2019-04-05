@@ -13,7 +13,7 @@ module.exports = (file, options = {page: true}) => {
   let path = site.srcDir + site.dirSite + file.dir;
 
   let attr = {};
-  while(path !== '.') {
+  while(path !== './') {
     const jsonFile = path + '_.json';
     if (fs.existsSync(jsonFile)) {
       const config = JSON.parse(fs.readFileSync(jsonFile));
@@ -29,7 +29,7 @@ module.exports = (file, options = {page: true}) => {
       attr = {...config, ...attr};
     }
 
-    path = Path.dirname(path);
+    path = Path.dirname(path) + '/';
   }
 
   // update meta data for file

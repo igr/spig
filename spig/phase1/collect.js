@@ -39,9 +39,8 @@ module.exports = (file, attrName) => {
       const fileName = `/${attrName}/` + slugify(v);
 
       const file = spig.addFile(fileName + '/index.html', v);
-      file.attr.layout = `${attrName}.njk`;
 
-      //spig.initPage();
+      file.attr.layout = `${attrName}`;
     }
 
     map[v].push(file);

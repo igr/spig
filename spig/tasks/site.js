@@ -19,11 +19,17 @@ const start = () => {
 };
 
 const runTask = (task, file) => {
-  const result = task(file);
-  if (result) {
-    return result;
+  try {
+    const result = task(file);
+    if (result) {
+      return result;
+    }
+    return new Promise(resolve => resolve());
   }
-  return new Promise(resolve => resolve());
+  catch (err) {
+    log.error(chalk.red("Error! File: " + file.path));
+    throw err;
+  }
 };
 
 /**
@@ -57,16 +63,22 @@ const runPhase = (phaseNo) => {
   return Promise.all(phaseFiles);
 };
 
+/**
+ * Collects all pages.
+ */
 const collectAllPages = () => {
   const site = SpigConfig.siteConfig;
   site.pages = [];
   for (const file of SpigFiles.files) {
     if (file.page) {
-      site.pages.push(file);
+      site.pages.push(SpigFiles.contextOf(file));
     }
   }
 };
 
+/**
+ * Reads all file content.
+ */
 const readAllFiles = () => {
   for (const file of SpigFiles.files) {
     if (file.src) {
@@ -83,6 +95,9 @@ function logline() {
   log('-----------------------------------------------------');
 }
 
+/**
+ * Writes destination files.
+ */
 const writeAllFiles = () => {
   logline();
   for (const file of SpigFiles.files) {
@@ -91,6 +106,10 @@ const writeAllFiles = () => {
     const dest = Path.normalize(site.root + site.outDir + out);
 
     fs.mkdirSync(Path.dirname(dest), {recursive: true});
+
+    if (typeof file.contents === 'string') {
+      file.contents = Buffer.from(file.contents);
+    }
     fs.writeFileSync(dest, file.contents);
 
     if (file.page) {
@@ -99,7 +118,7 @@ const writeAllFiles = () => {
   }
   logline();
   log('Pages: ' + chalk.green(SpigConfig.siteConfig.pages.length));
-  log('Files: ' + chalk.green(SpigFiles.files.length));
+  log('Total files: ' + chalk.green(SpigFiles.files.length));
   logline();
 };
 

@@ -1,6 +1,7 @@
 "use strict";
 
 const minify = require('html-minifier').minify;
+const SpigFiles = require('../spig-files');
 
 const defaults = {
   collapseWhitespace: true,
@@ -12,6 +13,6 @@ const defaults = {
  */
 
 module.exports = (file, options = {}) => {
-  const value = minify(file.contents.toString(), {...defaults, ...options});
-  file.contents = Buffer.from(value);
+  const value = minify(SpigFiles.stringContents(file), {...defaults, ...options});
+  file.contents = value;
 };

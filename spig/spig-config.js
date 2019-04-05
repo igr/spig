@@ -40,7 +40,7 @@ const developmentDefaults = {
   // template extensions
   templateExtensions: ['.njk'],
 
-  templateDefault: 'base.njk'
+  templateDefault: 'base'
 };
 
 
@@ -82,23 +82,45 @@ class SpigConfig {
     } else {
       log('Environment: ' + chalk.green('PRODUCTION'));
     }
+  }
 
+  /**
+   * Configure all engines from source folder.
+   */
+  configureEngines() {
+    if (fs.existsSync(this.siteConfig.srcDir + '/markdown.js')) {
+      log("Reading " + chalk.magenta("markdown.js"));
+      this.markdown(require('../' + this.siteConfig.srcDir + '/markdown'));
+    }
+
+    if (fs.existsSync(this.siteConfig.srcDir + '/nunjucks.js')) {
+      log("Reading " + chalk.magenta("nunjucks.js"));
+      this.nunjucks(require('../' + this.siteConfig.srcDir + '/nunjucks'));
+    }
+  }
+
+  /**
+   * Configure Markdown engine.
+   */
+  markdown(fn) {
+    if (typeof fn == 'function') {
+      log("Configuring " + chalk.magenta("markdown"));
+      const md = require('./engines/markdown-engine');
+      fn(md);
+    }
   }
 
   /**
    * Configures nunjucks.
    */
-  nunjucks(options = {}) {
-    const jsonFile = this.siteConfig.srcDir + '/nunjucks.json';
-    if (fs.existsSync(jsonFile)) {
-      log("Reading " + chalk.magenta("nunjucks.json"));
-      const json = JSON.parse(fs.readFileSync(jsonFile));
-      options = {...options, ...json};
+  nunjucks(fn) {
+    if (typeof fn == 'function') {
+      log("Configuring " + chalk.magenta("nunjucks"));
+      const nunjucksEnv = require('./engines/nunjucks-engine');
+      fn(nunjucksEnv);
     }
-
-    const nunjucks = require('./phase2/nunjucks');
-    nunjucks.configure(options);
   }
+
 }
 
 module.exports = new SpigConfig();

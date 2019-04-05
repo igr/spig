@@ -1,6 +1,7 @@
 "use strict";
 
 const gulp         = require('gulp');
+const gulpif         = require('gulp-if');
 const sass         = require('gulp-sass');
 const sourcemaps   = require('gulp-sourcemaps');
 const plumber      = require('gulp-plumber');
@@ -20,7 +21,7 @@ gulp.task('sass', () => {
     .pipe(autoprefixer({
       browsers: [ 'last 3 versions', '> 0.5%' ]
     }))
-    .pipe(cssnano())
+    .pipe(gulpif(SpigConfig.devConfig.production, cssnano()))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(site.outDir + site.dirCss))
     .pipe(browserSync.stream());

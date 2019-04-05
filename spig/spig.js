@@ -19,14 +19,18 @@ const fn_frontmatter = require('./phase1/frontmatter');
 const fn_initAttributes = require('./phase1/initAttributes');
 const fn_folderize = require('./phase1/folderize');
 const fn_slugish = require('./phase1/slugish');
-const fn_renameExt = require('./phase1/renameExtension');
-const fn_nunjucks = require('./phase2/nunjucks');
-const fn_markdown = require('./phase2/markdown');
+const fn_rename = require('./phase1/rename');
+const fn_render_nunjucks = require('./phase2/render-nunjucks');
+const fn_template_nunjucks = require('./phase2/template-nunjucks');
+const fn_render_markdown = require('./phase2/render-markdown');
 const fn_debug = require('./phase2/debug');
 const fn_imageMinify = require('./phase2/imageMinify');
 const fn_htmlMinify = require('./phase2/htmlMinify');
+const fn_excerpt = require('./phase2/excerpt');
 
 log(`-=[Spig v${SpigVersion}]=-`);
+
+SpigConfig.configureEngines();
 
 class Spig {
 
@@ -152,6 +156,9 @@ class Spig {
    * @see fn_imageMinify
    */
   imageMinify(options) {
+    if (!SpigConfig.devConfig.production) {
+      return this;
+    }
     return this.use(2, (file) => fn_imageMinify(file, options));
   }
 
@@ -161,15 +168,15 @@ class Spig {
   /**
    * @see fn_renameExt
    */
-  as(extension) {
-    return this.use(1, (file) => fn_renameExt(file, extension));
+  rename(fn) {
+    return this.use(1, (file) => fn_rename(file, fn));
   }
 
   /**
-   * @see as
+   * Renames extension to HTML.
    */
   asHtml() {
-    return this.as('.html');
+    return this.rename(path => path.extname = '.html');
   }
 
   // --- render & template ---
@@ -203,10 +210,10 @@ class Spig {
       const ext = Path.extname(file.path);
       switch (ext) {
         case '.njk':
-          fn_nunjucks.render(file);
+          fn_render_nunjucks(file);
           break;
         case '.md':
-          fn_markdown(file);
+          fn_render_markdown(file);
           break;
       }
     });
@@ -222,10 +229,10 @@ class Spig {
       const ext = Path.extname(layout);
       switch (ext) {
         case '.njk':
-          fn_nunjucks.apply(file, layout);
+          fn_template_nunjucks(file, layout);
           break;
         default:
-          throw new Error("Unknown template engine.");
+          throw new Error("Unknown template engine for " + ext);
       }
     });
   }
@@ -235,7 +242,17 @@ class Spig {
    * @see fn_htmlMinify
    */
   htmlMinify(options) {
+    if (!SpigConfig.devConfig.production) {
+      return this;
+    }
     return this.use(2, file => fn_htmlMinify(file, options));
+  }
+
+  /**
+   * Reads summary.
+   */
+  summary() {
+    return this.use(2, file => fn_excerpt((file)));
   }
 
 }

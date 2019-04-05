@@ -7,7 +7,8 @@ class SpigFiles {
 
   constructor() {
     this.files = [];
-    this.defaultFileKeys = ['src', 'name', 'basename', 'path', 'out', 'dir', 'contents', 'attr', 'spig'];
+    this.map = {};
+    this.defaultFileKeys = ['src', 'name', 'basename', 'path', 'out', 'dir', 'contents', 'attr', 'spig', 'id'];
   }
 
   /**
@@ -75,16 +76,23 @@ class SpigFiles {
    * Creates basic set of meta data for the file.
    */
   createMeta(absolutePath, dirName, path) {
-    return {
+    const id = dirName + Path.basename(path, Path.extname(path));
+
+    const meta = {
       src: absolutePath,
       basename: Path.basename(path, Path.extname(path)),
-      name: dirName + Path.basename(path, Path.extname(path)),
+      name: Path.basename(path),
+      id: id,
       path: path,
       out: path,
       dir: dirName,
       contents: undefined,
       attr: {}
     };
+
+    this.map[id] = meta;
+
+    return meta;
   }
 
   /**
@@ -103,6 +111,10 @@ class SpigFiles {
       }
       if (!this.defaultFileKeys.includes(key)) {
         delete file[key];
+      }
+
+      if (file.id === '/index') {
+        file.attr.home = true;
       }
     }
 
@@ -132,11 +144,27 @@ class SpigFiles {
       site: site,
       collections: site.collections,
       page: file.attr,
-      url: file.out
+      url: file.out,
+      src: file.dir + file.name
     };
   }
 
+  /**
+   * Lookups the file object by its ID.
+   */
+  lookup(id) {
+    return this.map[id];
+  }
 
+  /**
+   * Returns file content as String and replaces the buffer.
+   */
+  stringContents(file) {
+    if (typeof file.contents === 'string') {
+      return file.contents;
+    }
+    return file.contents.toString();
+  }
 }
 
 module.exports = new SpigFiles();

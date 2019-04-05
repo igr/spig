@@ -41,6 +41,17 @@ function resolveLayout(file) {
     }
   }
 
+  // default
+
+  for (let ext of dev.templateExtensions) {
+    layoutFile = findLayout(layoutsDir, file.dir, dev.templateDefault + ext);
+    if (layoutFile) {
+      return layoutFile;
+    }
+  }
+
+  // nothing found
+
   return dev.templateDefault;
 }
 
@@ -56,7 +67,12 @@ function findLayout(layoutsDir, path, layout) {
     if (path === '/') {
       break;
     }
+
     path = Path.dirname(path);
+
+    if (path !== '/') {
+      path = path + '/';
+    }
   }
   return undefined;
 }
