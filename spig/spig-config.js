@@ -48,8 +48,6 @@ const developmentDefaults = {
     default: 'base'
   },
 
-  permalinks: true
-
 };
 
 
