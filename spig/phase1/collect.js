@@ -24,7 +24,10 @@ module.exports = (file, attrName) => {
     map = {};
     site.collections[attrName] = map;
     site.pageOfCollection = (collName, name) => {
-      const fileName = '/' + collName + '/' + name + '/';
+      let fileName = '/' + slugify(collName) + '/' + slugify(name) + '/';
+      if (!SpigConfig.devConfig.permalinks) {
+        fileName = fileName + 'index.html';
+      }
       return site.pageOf(fileName);
     }
   }
