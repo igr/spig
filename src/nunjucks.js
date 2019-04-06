@@ -1,19 +1,19 @@
 "use strict";
 
-const datetimefmt = require('./filters/datetimefmt');
-const pages = require('./filters/pages');
+const datetimefmt = require('../spig/filters/datetimefmt');
+const pages = require('../spig/filters/pages');
 
 module.exports = nunjucksEnv => {
   nunjucksEnv
-    .addFilter('out', require('./filters/out'))
+    .addFilter('out', require('../spig/filters/out'))
 
     .addFilter('dateDisplay', datetimefmt.dateDisplay)
     .addFilter('dateISO', datetimefmt.dateISO)
 
     .addFilter('within', pages.within)
     .addFilter('reverse', pages.reverse)
-    .addFilter('sortByAttr', pages.sortByAttr)
-    .addFilter('groupByAttr', pages.groupByAttr)
-    .addFilter('groupByAttrDateYear', pages.groupByAttrDateYear)
+    .addFilter('sortBy', pages.sortBy)
+    .addFilter('groupBy', pages.groupBy)
+    .addFilter('groupByYear', pages.groupByDateYear)
   ;
 };

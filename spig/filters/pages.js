@@ -1,11 +1,23 @@
 "use strict";
 
+function val(map, name) {
+  const names = name.split('.');
+  let result = map;
+  for (const n of names) {
+    result = result[n];
+    if (!result) {
+      break;
+    }
+  }
+  return result;
+}
 
-function groupByAttrDate_Part(pages, attr, dateconsumer) {
+
+function groupByDate_Part(pages, attr, dateconsumer) {
   const result = new Map();
 
   for (const p of pages) {
-    const key = dateconsumer(p.page[attr]);
+    const key = dateconsumer(val(p, attr));
     let value = result.get(key);
 
     if (!value) {
@@ -37,12 +49,12 @@ module.exports = {
     return pages.reverse();
   },
 
-  sortByAttr: (pages, attr) => {
+  sortBy: (pages, attr) => {
     const result = Object.values(pages);
 
     result.sort((a, b) => {
-      const date1 = a.page[attr];
-      const date2 = b.page[attr];
+      const date1 = val(a, attr);
+      const date2 = val(b, attr);
 
       if (date1 > date2) return 1;
       if (date1 < date2) return -1;
@@ -52,11 +64,11 @@ module.exports = {
     return result;
   },
 
-  groupByAttr: (pages, attr) => {
+  groupBy: (pages, attr) => {
     const result = new Map();
 
     for (const p of pages) {
-      const key = p.page[attr];
+      const key = val(p, attr);
       let value = result.get(key);
 
       if (!value) {
@@ -70,8 +82,8 @@ module.exports = {
     return result;
   },
 
-  groupByAttrDateYear: (pages, attr) => {
-    return groupByAttrDate_Part(pages, attr, (date) => {
+  groupByDateYear: (pages, attr) => {
+    return groupByDate_Part(pages, attr, (date) => {
       return date.getFullYear();
     });
   },
