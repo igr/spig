@@ -32,11 +32,12 @@ Gulp tasks are defined in `spig/tasks` folder. There is no surprise here: this i
 
 `Spig` operations are simple JavaScript functions that operate just on _files_ - JSON objects that contains the file and all the metadata. `Spig` operations do whatever it takes to make website content from the source, e.g. Markdown files.
 
-## Two phases
+## Phases
 
-All operations are executed in two phases:
+All operations are executed in phases. It does not matter where and when operations are defined, it is guaranteed that new phase does not start until all the operations from previous phase are executed. This way it is possible to fine-tune the generation process.
 
-+ PHASE 1 - invokes all `Spig` operations that do NOT modify the content, just the meta-data or collect additional data across the whole source set.
-+ PHASE 2 - once when all the meta data is resolved, `Spig` executes operations that actually performs the modification of the content; like converting from Markdown to HTML.
+By default there are the following phases:  
 
-This way we can e.g. perform collection or analysis of all the pages, or even add virtual pages (for tags) and so on.
++ PREPARE - invokes all `Spig` operations that do NOT modify the content, just the meta-data or collect additional data across the whole source set.
++ RENDER - once when all the meta data is resolved, `Spig` executes operations that actually performs the modification of the content; like converting from Markdown to HTML.
++ IMG - operations on images.

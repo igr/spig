@@ -1,11 +1,10 @@
 "use strict";
 
-const Spig = require('../spig');
 const SpigConfig = require('../spig-config');
 const SpigFiles = require('../spig-files');
 const slugify = require('slugify');
 
-module.exports = (file, attrName) => {
+module.exports = (spig, file, attrName) => {
   if (!file.attr.hasOwnProperty(attrName)) {
     return;
   }
@@ -25,14 +24,9 @@ module.exports = (file, attrName) => {
     site.collections[attrName] = map;
     site.pageOfCollection = (collName, name) => {
       let fileName = '/' + slugify(collName) + '/' + slugify(name) + '/';
-      if (!SpigConfig.devConfig.permalinks) {
-        fileName = fileName + 'index.html';
-      }
       return site.pageOf(fileName);
     }
   }
-
-  const spig = Spig.on();
 
   for (const v of values) {
     if (!map.hasOwnProperty(v)) {
@@ -55,6 +49,4 @@ module.exports = (file, attrName) => {
 
     map[v].push(SpigFiles.contextOf(file));
   }
-
-  spig.applyTemplate();
 };

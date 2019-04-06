@@ -147,9 +147,10 @@ class SpigFiles {
    */
   contextOf(file) {
     const site = SpigConfig.siteConfig;
-    const purl = SpigConfig.devConfig.permalinks ? permalink(file.out) : file.out;
+    const purl = permalink(file.out);
     const fo = {
       content: file.contents,
+      plain: file.plain,
       site: site,
       url: purl,
       link: site.baseURL + purl,

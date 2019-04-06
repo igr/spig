@@ -27,10 +27,14 @@ const fn_debug = require('./phase2/debug');
 const fn_imageMinify = require('./phase2/imageMinify');
 const fn_htmlMinify = require('./phase2/htmlMinify');
 const fn_excerpt = require('./phase2/excerpt');
+const fn_collect = require('./phase1/collect');
+
 
 log(`-=[Spig v${SpigVersion}]=-`);
 
 SpigConfig.configureEngines();
+
+let PHASES = [];
 
 class Spig {
 
@@ -39,6 +43,16 @@ class Spig {
    */
   static on(files) {
     return new Spig(files);
+  }
+
+  /**
+   * Predefines phases order.
+   */
+  static phases(arr) {
+    if (!arr) {
+      return PHASES;
+    }
+    PHASES = arr;
   }
 
   constructor(files) {
@@ -65,12 +79,27 @@ class Spig {
       this.addFile(fileName);
     }
 
-    this.tasks = {
-      1: [],
-      2: []
-    };
+    this.tasks = {};
+    for (const p of PHASES) {
+      this.tasks[p] = [];
+    }
+
     this.out = site.outDir;
     this.dev = process.env.NODE_ENV !== 'production';
+    this.currentPhase = PHASES[0];
+  }
+
+  /**
+   * Starts the current phase.
+   * If phase is not register it will be added to the end of phases!
+   */
+  kick(val) {
+    if (!this.tasks[val]) {
+      this.tasks[val] = [];
+      PHASES.push(val);
+    }
+    this.currentPhase = val;
+    return this;
   }
 
   /**
@@ -83,17 +112,17 @@ class Spig {
       fo.contents = value;
       return fo;
     }
+
     const fo = SpigFiles.createFileObject(fileName);
     fo.spig = this;
-
     return fo;
   }
 
   /**
    * Uses generic function to manipulate files.
    */
-  use(phase, fn) {
-    this.tasks[phase].push(fn);
+  use(fn) {
+    this.tasks[this.currentPhase].push(fn);
     return this;
   }
 
@@ -101,7 +130,10 @@ class Spig {
    * Iterate all tasks of given phase.
    */
   forEachTask(phase, fn) {
-    this.tasks[phase].forEach(fn);
+    const tasks = this.tasks[phase];
+    if (tasks) {
+      tasks.forEach(fn);
+    }
     return this;
   }
 
@@ -111,45 +143,43 @@ class Spig {
    * @see fn_frontmatter
    */
   frontmatter(attributes = {}) {
-    return this.use(1, (file) => fn_frontmatter(file, attributes));
+    return this.use((file) => fn_frontmatter(file, attributes));
   }
 
   /**
    * @see fn_debug
    */
   debug() {
-    return this.use(2, fn_debug);
+    return this.use(fn_debug);
   }
 
   initPage() {
-    return this.use(1, (file) => fn_initAttributes(file, {page: true}));
+    return this.use((file) => fn_initAttributes(file, {page: true}));
   }
 
   initAsset() {
-    return this.use(1, (file) => fn_initAttributes(file, {page: false}));
+    return this.use((file) => fn_initAttributes(file, {page: false}));
   }
 
   /**
    * @see fn_folderize
    */
   folderize() {
-    return this.use(1, (file) => fn_folderize(file));
+    return this.use((file) => fn_folderize(file));
   }
 
   /**
    * @see fn_slugish
    */
   slugish() {
-    return this.use(1, (file) => fn_slugish(file));
+    return this.use((file) => fn_slugish(file));
   }
 
   /**
    * Collects pages by given attribute name.
    */
   collect(attribute) {
-    // avoid circular dependencies
-    const fn_collect = require('./phase1/collect');
-    return this.use(1, (file) => fn_collect(file, attribute));
+    return this.use((file) => fn_collect(this, file, attribute));
   }
 
   /**
@@ -159,7 +189,7 @@ class Spig {
     if (!SpigConfig.devConfig.production) {
       return this;
     }
-    return this.use(2, (file) => fn_imageMinify(file, options));
+    return this.use((file) => fn_imageMinify(file, options));
   }
 
 
@@ -169,7 +199,7 @@ class Spig {
    * @see fn_renameExt
    */
   rename(fn) {
-    return this.use(1, (file) => fn_rename(file, fn));
+    return this.use((file) => fn_rename(file, fn));
   }
 
   /**
@@ -186,11 +216,15 @@ class Spig {
    */
   pageCommon() {
     return this
+      .kick("PREPARE")
       .initPage()
       .folderize()
       .frontmatter()
       .slugish()
-      .asHtml();
+      .asHtml()
+      .collect('tags')
+      .kick("RENDER")
+      ;
   }
 
   /**
@@ -198,15 +232,18 @@ class Spig {
    */
   imagesCommon() {
     return this
+      .kick("PREPARE")
       .initAsset()
-      .slugish();
+      .slugish()
+      .kick("IMG")
+      ;
   }
 
   /**
    * Renders a file using render engine determined by its extension.
    */
   render() {
-    return this.use(2, (file) => {
+    return this.use((file) => {
       const ext = Path.extname(file.path);
       switch (ext) {
         case '.njk':
@@ -223,7 +260,7 @@ class Spig {
    * Applies a template using template engine determined by layout extension.
    */
   applyTemplate() {
-    return this.use(2, (file) => {
+    return this.use((file) => {
       const layout = LayoutResolver(file);
 
       const ext = Path.extname(layout);
@@ -245,14 +282,14 @@ class Spig {
     if (!SpigConfig.devConfig.production) {
       return this;
     }
-    return this.use(2, file => fn_htmlMinify(file, options));
+    return this.use(file => fn_htmlMinify(file, options));
   }
 
   /**
    * Reads summary.
    */
   summary() {
-    return this.use(2, file => fn_excerpt((file)));
+    return this.use(file => fn_excerpt((file)));
   }
 
 }

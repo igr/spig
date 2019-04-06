@@ -1,5 +1,6 @@
 "use strict";
 
+const Spig = require('../spig');
 const SpigConfig = require('../spig-config');
 const SpigFiles = require('../spig-files');
 const log = require('fancy-log');
@@ -55,7 +56,7 @@ const reset = () => {
 const runPhase = (phaseNo) => {
   const phaseFiles = [];
 
-  log(chalk.gray(`${logPrefix} PHASE ${phaseNo}`));
+  log(chalk.gray(`${logPrefix} phase: ${phaseNo}`));
 
   for (const file of SpigFiles.files) {
     const p = [];
@@ -105,6 +106,7 @@ const readAllFiles = () => {
     if (file.src) {
       if (fs.existsSync(file.src)) {
         file.contents = fs.readFileSync(file.src);
+        file.plain = file.contents.toString();
       } else {
         throw new Error("File not found: " + fileName);
       }
@@ -144,12 +146,17 @@ const writeAllFiles = () => {
 };
 
 gulp.task('site', (done) => {
-  start()
+  let promise = start()
     .then(() => reset())
-    .then(() => readAllFiles())
-    .then(() => runPhase(1))
-    .then(() => collectAllPages())
-    .then(() => runPhase(2))
+    .then(() => readAllFiles());
+
+  for (const phase of Spig.phases()) {
+    promise = promise
+      .then(() => runPhase(phase))
+      .then(() => collectAllPages());
+  }
+
+  promise
     .then(() => {
       writeAllFiles();
       done();

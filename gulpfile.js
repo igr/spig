@@ -13,11 +13,10 @@ require('require-dir')('./spig/tasks');
 Spig
   .on('/**/*.{md,njk}')
   .pageCommon()
-  .collect('tags')
+  .summary()
   .render()
   .applyTemplate()
   .htmlMinify()
-//  .debug()
 ;
 
 
@@ -27,6 +26,5 @@ Spig
   .on('/**/*.{png,jpg,gif}')
   .imagesCommon()
   .imageMinify()
-//  .debug()
 ;
 

@@ -1,4 +1,4 @@
-# Spig v1.2.4
+# Spig v1.3.0
 
 ![](src/images/spig.png)
 
@@ -20,7 +20,6 @@ open localhost:3000
 
 + [Develop and Build with Spig](doc/BuildWithSpig.md)
 + [Quick Run](doc/QuickRun.md) - preferred way
-+ [Quick Run as subtree](doc/QuickRunSubtree.md)
 + [How Spig Works](doc/HowSpigWorks.md)
 + [File and attributes](doc/FileAndAttributes.md)
 
@@ -28,7 +27,7 @@ open localhost:3000
 ## Features
 
 + javascript minify
-+ javascript babel
++ javascript babel ES6
 + sass compilation
 + sass minification 
 + html minification
@@ -44,4 +43,5 @@ open localhost:3000
 + excerpts
 + configuration in `.js` and `.json`
 + live reload
++ phases
 + very extensible
