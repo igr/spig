@@ -1,8 +1,8 @@
 "use strict";
 
 const Path = require('path');
-const SpigFiles = require('./spig-files');
 const fs = require('fs');
+const SpigFiles = require('./spig-files');
 const SpigConfig = require('./spig-config');
 
 /**
@@ -26,7 +26,7 @@ function resolveLayout(file) {
       return layoutFile;
     }
 
-    for (let ext of dev.templateExtensions) {
+    for (let ext of dev.templates.extensions) {
       layoutFile = findLayout(layoutsDir, file.dir, layout + ext);
       if (layoutFile) {
         return layoutFile;
@@ -34,7 +34,7 @@ function resolveLayout(file) {
     }
   }
 
-  for (let ext of dev.templateExtensions) {
+  for (let ext of dev.templates.extensions) {
     layoutFile = findLayout(layoutsDir, file.dir, file.basename + ext);
     if (layoutFile) {
       return layoutFile;
@@ -43,8 +43,8 @@ function resolveLayout(file) {
 
   // default
 
-  for (let ext of dev.templateExtensions) {
-    layoutFile = findLayout(layoutsDir, file.dir, dev.templateDefault + ext);
+  for (let ext of dev.templates.extensions) {
+    layoutFile = findLayout(layoutsDir, file.dir, dev.templates.default + ext);
     if (layoutFile) {
       return layoutFile;
     }
@@ -52,7 +52,7 @@ function resolveLayout(file) {
 
   // nothing found
 
-  return dev.templateDefault;
+  return dev.templates.default;
 }
 
 function findLayout(layoutsDir, path, layout) {

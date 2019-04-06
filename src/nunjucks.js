@@ -5,6 +5,8 @@ const pages = require('./filters/pages');
 
 module.exports = nunjucksEnv => {
   nunjucksEnv
+    .addFilter('out', require('./filters/out'))
+
     .addFilter('dateDisplay', datetimefmt.dateDisplay)
     .addFilter('dateISO', datetimefmt.dateISO)
 

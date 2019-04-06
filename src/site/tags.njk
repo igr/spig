@@ -7,10 +7,12 @@ All Tags:
 <ul>
   {% for tag in site.tags %}
     <li>
-      <h2>{{ tag }}</h2>
+      {% set t = site.pageOfCollection('tags', tag) %}
+
+      <h2><a href="{{ t.url }}">{{ tag }}</a></h2>
       <ul>
-        {% for tagPage in collections.tags[tag] %}
-          <li>{{ tagPage.out }}</li>
+        {% for tagPage in site.collections.tags[tag] %}
+          <li><a href="{{ tagPage.url }}">{{ tagPage.title }}</a></li>
         {% endfor %}
       </ul>
     </li>

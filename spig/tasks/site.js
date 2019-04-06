@@ -36,6 +36,11 @@ const runTask = (task, file) => {
  * Resets all metadata and configuration to avoid accumulation on reloading.
  */
 const reset = () => {
+  const collections = SpigConfig.siteConfig.collections;
+  Object.keys(collections).forEach(key => {
+    delete SpigConfig.siteConfig[key];
+  });
+
   SpigConfig.siteConfig.collections = {};
   SpigConfig.siteConfig.buildTime = new Date();
 
@@ -74,6 +79,22 @@ const collectAllPages = () => {
       site.pages.push(SpigFiles.contextOf(file));
     }
   }
+
+  site.pageOf = (url) => {
+    for (const page of site.pages) {
+      if (page.url === url) {
+        return page;
+      }
+    }
+  };
+  site.pageOfSrc = (src) => {
+    for (const page of site.pages) {
+      if (page.src === src) {
+        return page;
+      }
+    }
+  };
+
 };
 
 /**

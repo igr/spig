@@ -30,10 +30,7 @@ class SpigFiles {
       path = '/' + Path.relative(site.root + site.srcDir + site.dirSite, absolutePath);
     }
 
-    let dirName = Path.dirname(path);
-    dirName = (dirName === '/' ? dirName : dirName + '/');
-
-    const fileObject = this.createMeta(absolutePath, dirName, path);
+    const fileObject = this.createMeta(absolutePath, path);
 
     this.files.push(fileObject);
 
@@ -75,17 +72,21 @@ class SpigFiles {
   /**
    * Creates basic set of meta data for the file.
    */
-  createMeta(absolutePath, dirName, path) {
+  createMeta(absolutePath, path) {
+    let dirName = Path.dirname(path);
+    dirName = (dirName === '/' ? dirName : dirName + '/');
+
     const id = dirName + Path.basename(path, Path.extname(path));
 
     const meta = {
       src: absolutePath,
       basename: Path.basename(path, Path.extname(path)),
+      dir: dirName,
       name: Path.basename(path),
       id: id,
       path: path,
+
       out: path,
-      dir: dirName,
       contents: undefined,
       attr: {}
     };
@@ -139,14 +140,20 @@ class SpigFiles {
    */
   contextOf(file) {
     const site = SpigConfig.siteConfig;
-    return {
+    const fo = {
       content: file.contents,
       site: site,
-      collections: site.collections,
-      page: file.attr,
       url: file.out,
-      src: file.dir + file.name
+      src: file.dir + file.name,
     };
+
+    const attrName = SpigConfig.devConfig.templates.attrName;
+    if (attrName) {
+      fo[attrName] = file.attr;
+      return fo;
+    }
+
+    return {...file.attr, ...fo};
   }
 
   /**

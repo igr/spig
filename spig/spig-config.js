@@ -37,10 +37,17 @@ const developmentDefaults = {
   // images to be resized
   resizeImageSizes: [400, 1000],
 
-  // template extensions
-  templateExtensions: ['.njk'],
+  templates: {
+    // template extensions
+    extensions: ['.njk'],
 
-  templateDefault: 'base'
+    // name of the `attr` in context, if undefined it will be merged
+    attrName: undefined,
+
+    // default template name
+    default: 'base'
+  }
+
 };
 
 

@@ -2,6 +2,7 @@
 
 const Spig = require('../spig');
 const SpigConfig = require('../spig-config');
+const SpigFiles = require('../spig-files');
 const slugify = require('slugify');
 
 module.exports = (file, attrName) => {
@@ -22,6 +23,10 @@ module.exports = (file, attrName) => {
     // store new collection
     map = {};
     site.collections[attrName] = map;
+    site.pageOfCollection = (collName, name) => {
+      const fileName = '/' + collName + '/' + name + '/index.html';
+      return site.pageOf(fileName);
+    }
   }
 
   const spig = Spig.on();
@@ -36,14 +41,16 @@ module.exports = (file, attrName) => {
       }
       site[attrName].push(v);
 
-      const fileName = `/${attrName}/` + slugify(v);
+      const fileName = `/${slugify(attrName)}/` + slugify(v);
 
       const file = spig.addFile(fileName + '/index.html', v);
 
-      file.attr.layout = `${attrName}`;
+      file.page = true;
+      file.attr.title = `${attrName}: ${v}`;
+      file.attr.layout = attrName;
     }
 
-    map[v].push(file);
+    map[v].push(SpigFiles.contextOf(file));
   }
 
   spig.applyTemplate();

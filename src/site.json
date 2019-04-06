@@ -1,10 +1,4 @@
 {
-  "name": "Oblac",
-  "baseURL": "https://oblac.rs",
-  "title": "Oblac",
-  "description": "Oblac: blog / kod / mišljenja / stavovi / lično",
-  "tagline" : "blog / kod / mišljenja / stavovi / lično",
-  "author": {
-    "name": "Igor"
-  }
+  "name": "Spig",
+  "baseURL": "https://spig.io"
 }
