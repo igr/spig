@@ -43,6 +43,15 @@ function resolveLayout(file) {
     }
   }
 
+  // try name as layout name
+
+  for (let ext of dev.templates.extensions) {
+    layoutFile = findLayout(layoutsDir, file.dir, file.name + ext);
+    if (layoutFile) {
+      return layoutFile;
+    }
+  }
+
   // try dirnames
   let dir = file.dir;
   while (true) {
