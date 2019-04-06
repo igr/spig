@@ -36,7 +36,14 @@ md.use(require('markdown-it-anchor'), {
   permalink: false,
 });
 md.use(container, 'div');
-md.use(attrs);
+md.use(attrs, {
+  pattern: /^https?:\/\//,
+  attrs: {
+    target: '_blank'
+  },
+  leftDelimiter: '{',
+  rightDelimiter: '}'
+});
 md.use(html5Media, {
   videoAttrs: 'controls',
   audioAttrs: 'controls'
