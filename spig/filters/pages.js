@@ -88,4 +88,19 @@ module.exports = {
     });
   },
 
+
+  lastN: (pages, count) => {
+    if (pages.length <= count) {
+      return pages;
+    }
+    return pages.slice(pages.length - count);
+  },
+
+  firstN: (pages, count) => {
+    if (pages.length <= count) {
+      return pages;
+    }
+    return pages.slice(0, count);
+  }
+
 };
