@@ -9,7 +9,8 @@ const SpigFiles = require('../spig-files');
 module.exports = (file, attributes = {}) => {
   const fm = matter(SpigFiles.stringContents(file));
 
-  file.contents = fm.content;
+  file.contents = fm.content.trim();
+  file.plain = file.contents;
 
   SpigFiles.updateAttr(file, {...fm.data, ...attributes})
 };
