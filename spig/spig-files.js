@@ -3,6 +3,13 @@
 const Path = require("path");
 const SpigConfig = require('./spig-config');
 
+function permalink(link) {
+  if (link.endsWith('index.html')) {
+    return link.substr(0, link.length - 10);
+  }
+  return link;
+}
+
 class SpigFiles {
 
   constructor() {
@@ -140,11 +147,12 @@ class SpigFiles {
    */
   contextOf(file) {
     const site = SpigConfig.siteConfig;
+    const purl = SpigConfig.devConfig.permalinks ? permalink(file.out) : file.out;
     const fo = {
       content: file.contents,
       site: site,
-      url: file.out,
-      link: site.baseURL + file.out,
+      url: purl,
+      link: site.baseURL + purl,
       src: file.dir + file.name,
     };
 

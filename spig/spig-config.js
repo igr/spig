@@ -46,7 +46,9 @@ const developmentDefaults = {
 
     // default template name
     default: 'base'
-  }
+  },
+
+  permalinks: true
 
 };
 

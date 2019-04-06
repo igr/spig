@@ -24,7 +24,7 @@ module.exports = (file, attrName) => {
     map = {};
     site.collections[attrName] = map;
     site.pageOfCollection = (collName, name) => {
-      const fileName = '/' + collName + '/' + name + '/index.html';
+      const fileName = '/' + collName + '/' + name + '/';
       return site.pageOf(fileName);
     }
   }
