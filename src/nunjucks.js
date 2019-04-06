@@ -9,11 +9,14 @@ module.exports = nunjucksEnv => {
 
     .addFilter('dateDisplay', datetimefmt.dateDisplay)
     .addFilter('dateISO', datetimefmt.dateISO)
+    .addFilter('dateUTC', datetimefmt.dateUTC)
 
     .addFilter('within', pages.within)
     .addFilter('reverse', pages.reverse)
     .addFilter('sortBy', pages.sortBy)
     .addFilter('groupBy', pages.groupBy)
     .addFilter('groupByYear', pages.groupByDateYear)
+    .addFilter('lastN', pages.lastN)
+    .addFilter('firstN', pages.firstN)
   ;
 };
