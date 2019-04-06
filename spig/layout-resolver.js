@@ -34,12 +34,37 @@ function resolveLayout(file) {
     }
   }
 
+  // try basename as layout name
+
   for (let ext of dev.templates.extensions) {
     layoutFile = findLayout(layoutsDir, file.dir, file.basename + ext);
     if (layoutFile) {
       return layoutFile;
     }
   }
+
+  // try dirnames
+  let dir = file.dir;
+  while (true) {
+    if (dir.endsWith('/')) {
+      dir = dir.substr(0, dir.length - 1);
+    }
+    const ndx = dir.lastIndexOf('/');
+    if (ndx === -1) {
+      break;
+    }
+
+    const name = dir.substr(ndx + 1);
+    dir = dir.substr(0, ndx + 1);
+
+    for (let ext of dev.templates.extensions) {
+      layoutFile = findLayout(layoutsDir, dir, name + ext);
+      if (layoutFile) {
+        return layoutFile;
+      }
+    }
+  }
+
 
   // default
 
@@ -55,6 +80,9 @@ function resolveLayout(file) {
   return dev.templates.default;
 }
 
+/**
+ * Finds layout by checking for layout file on path and all upper paths.
+ */
 function findLayout(layoutsDir, path, layout) {
   while (true) {
     let layoutFile = path + layout;
