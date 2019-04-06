@@ -144,6 +144,7 @@ class SpigFiles {
       content: file.contents,
       site: site,
       url: file.out,
+      link: site.baseURL + file.out,
       src: file.dir + file.name,
     };
 

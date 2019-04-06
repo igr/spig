@@ -1,4 +1,4 @@
-# Spig v1.2.1
+# Spig v1.2.2
 
 ![](src/images/spig.png)
 

@@ -6,7 +6,7 @@ const chalk      = require("chalk");
 
 const siteDefaults = {
   name:    'spig site',
-  baseURL: 'http://localhost:3000/',
+  baseURL: 'http://localhost:3000',
   version: '1.0.0',
 
   // main folders
@@ -85,7 +85,7 @@ class SpigConfig {
     }
     if (dev.production === 'false' || dev.production === false) {
       log('Environment: ' + chalk.green('DEVELOPMENT'));
-      site.baseURL = 'http://localhost:3000/';
+      site.baseURL = 'http://localhost:3000';
     } else {
       log('Environment: ' + chalk.green('PRODUCTION'));
     }
