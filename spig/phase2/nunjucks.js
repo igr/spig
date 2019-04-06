@@ -39,20 +39,16 @@ module.exports = {
   },
 
   render: (file) => {
-    let string = file.contents.toString();
+    let string = SpigFiles.stringContents(file);
 
-    const result = nunjucksEnv.renderString(string, SpigFiles.contextOf(file));
-
-    file.contents = Buffer.from(result);
+    file.contents = nunjucksEnv.renderString(string, SpigFiles.contextOf(file));
   },
 
   apply: (file, layout) => {
-    let string = file.contents.toString();
+    let string = SpigFiles.stringContents(file);
 
     string = `{% extends '${layout}' %}` + string;
 
-    const result = nunjucksEnv.renderString(string, SpigFiles.contextOf(file));
-
-    file.contents = Buffer.from(result);
+    file.contents = nunjucksEnv.renderString(string, SpigFiles.contextOf(file));
   }
 };

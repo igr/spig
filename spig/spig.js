@@ -80,7 +80,7 @@ class Spig {
     if (value) {
       const fo = SpigFiles.createFileObject(fileName, {virtual: true});
       fo.spig = this;
-      fo.contents = Buffer.from(value);
+      fo.contents = value;
       return fo;
     }
     const fo = SpigFiles.createFileObject(fileName);

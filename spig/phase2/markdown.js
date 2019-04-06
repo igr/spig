@@ -55,7 +55,7 @@ module.exports = (file, options) => {
 
   // render
 
-  file.contents = Buffer.from(md.render(file.contents.toString()));
+  file.contents = md.render(SpigFiles.stringContents(file));
 
   SpigFiles.updateMeta(file, {
     source: markdown,
