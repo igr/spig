@@ -34,12 +34,15 @@ const uslugify = s => slugify(s);
     }
   });
 });
+
 md.use(require('markdown-it-anchor'), {
   level: 1,
   slugify: uslugify,
   permalink: false,
 });
+
 md.use(container, 'div');
+
 md.use(attrs, {
   pattern: /^https?:\/\//,
   attrs: {
@@ -48,6 +51,7 @@ md.use(attrs, {
   leftDelimiter: '{',
   rightDelimiter: '}'
 });
+
 md.use(html5Media, {
   videoAttrs: 'controls',
   audioAttrs: 'controls'
