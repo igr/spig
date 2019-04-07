@@ -4,6 +4,7 @@ const MarkdownIt = require('markdown-it');
 const hljs = require('highlight.js');
 const attrs = require('markdown-it-attrs');
 const container = require('markdown-it-container');
+const slugify = require('slugify');
 const {html5Media} = require('markdown-it-html5-media');
 
 const defaults = {
@@ -21,6 +22,8 @@ const defaults = {
 
 const md = new MarkdownIt(defaults);
 
+const uslugify = s => slugify(s);
+
 ['section', 'figure', 'figcaption', 'header', 'footer'].forEach(name => {
   md.use(container, name, {
     validate: params =>
@@ -32,7 +35,8 @@ const md = new MarkdownIt(defaults);
   });
 });
 md.use(require('markdown-it-anchor'), {
-  level: [2],
+  level: 1,
+  slugify: uslugify,
   permalink: false,
 });
 md.use(container, 'div');
