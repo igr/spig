@@ -24,6 +24,7 @@ const siteDefaults = {
 
   buildTime: new Date(),
 
+  pages: [],
   collections: {}
 };
 

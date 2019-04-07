@@ -157,8 +157,11 @@ const writeAllFiles = () => {
       log(chalk.green(out) + " <--- " + chalk.blue(file.path));
     }
   }
-  logline();
-  log('Pages: ' + chalk.green(SpigConfig.siteConfig.pages.length));
+  const pageCount = SpigConfig.siteConfig.pages.length;
+  if (pageCount !== 0) {
+    logline();
+  }
+  log('Pages: ' + chalk.green(pageCount));
   log('Total files: ' + chalk.green(SpigFiles.files.length));
   logline();
 };
@@ -168,9 +171,9 @@ let counter = 0;
 gulp.task('site', (done) => {
   let promise = start();
 
-  // if (counter > 0) {
-  promise = promise.then(() => reset());
-  // }
+  if (counter > 0) {
+    promise = promise.then(() => reset());
+  }
   counter = counter + 1;
 
   promise.then(() => readAllFiles());

@@ -54,7 +54,6 @@ class Spig {
   }
 
   constructor(files) {
-    this.files = files;
     this.tasks = {};
     this.out = SpigConfig.siteConfig.outDir;
     this.dev = process.env.NODE_ENV !== 'production';
@@ -64,11 +63,7 @@ class Spig {
       this.tasks[p] = [];
     }
 
-    this.load();
-  }
 
-  load() {
-    const files = this.files;
     const site = SpigConfig.siteConfig;
     let filePatterns;
 
@@ -83,12 +78,16 @@ class Spig {
     }
 
     // file names
-    let allFiles = [];
+    this.allFiles = [];
     for (const pattern of filePatterns) {
-      allFiles = allFiles.concat(glob.sync(pattern));
+      this.allFiles = this.allFiles.concat(glob.sync(pattern));
     }
 
-    for (const fileName of allFiles) {
+    this.load();
+  }
+
+  load() {
+    for (const fileName of this.allFiles) {
       this.addFile(fileName);
     }
 
