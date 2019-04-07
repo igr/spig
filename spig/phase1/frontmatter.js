@@ -12,5 +12,5 @@ module.exports = (file, attributes = {}) => {
   file.contents = fm.content.trim();
   file.plain = file.contents;
 
-  SpigFiles.updateAttr(file, {...fm.data, ...attributes})
+  file.attr = {...file.attr, ...fm.data, ...attributes};
 };

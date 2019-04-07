@@ -41,9 +41,6 @@ const developmentDefaults = {
     // template extensions
     extensions: ['.njk'],
 
-    // name of the `attr` in context, if undefined it will be merged
-    attrName: undefined,
-
     // default template name
     default: 'base'
   },

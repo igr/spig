@@ -23,12 +23,14 @@ module.exports = (spig, file, attrName) => {
     map = {};
     site.collections[attrName] = map;
     site.pageOfCollection = (collName, name) => {
-      let fileName = '/' + slugify(collName) + '/' + slugify(name) + '/';
+      let fileName = `/${slugify(collName)}/${slugify(name)}/`;
       return site.pageOf(fileName);
     }
   }
 
   for (const v of values) {
+    let attrFile;
+
     if (!map.hasOwnProperty(v)) {
       // first time collection is used
       map[v] = [];
@@ -38,13 +40,29 @@ module.exports = (spig, file, attrName) => {
       }
       site[attrName].push(v);
 
-      const fileName = `/${slugify(attrName)}/` + slugify(v);
+      const fileName = `/${slugify(attrName)}/${slugify(v)}/index.html`;
 
-      const file = spig.addFile(fileName + '/index.html', v);
+      attrFile = spig.addFile(fileName, v);
 
-      file.page = true;
-      file.attr.title = `${attrName}: ${v}`;
-      file.attr.layout = attrName;
+      attrFile.page = true;
+      attrFile.attr.title = `${attrName}: ${v}`;
+      attrFile.attr.layout = attrName;
+    } else {
+      const id = `/${slugify(attrName)}/${slugify(v)}/index`;
+
+      attrFile = SpigFiles.lookup(id);
+    }
+
+    // update date
+
+    if (file.attr.date) {
+      if (!attrFile.attr.date) {
+        attrFile.attr.date = file.attr.date;
+      } else {
+        if (file.attr.date > attrFile.attr.date) {
+          attrFile.attr.date = file.attr.date;
+        }
+      }
     }
 
     map[v].push(SpigFiles.contextOf(file));

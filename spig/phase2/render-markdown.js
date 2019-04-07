@@ -9,9 +9,12 @@ const markdownInline = text => (text ? md.renderInline(text) : '');
 module.exports = file => {
   file.contents = md.render(SpigFiles.stringContents(file));
 
-  SpigFiles.updateMeta(file, {
-    markdown: renderMarkdown,
-    markdownInline: markdownInline
-  });
+  file.attr = {
+    ...file.attr,
+    ...{
+      markdown: renderMarkdown,
+      markdownInline: markdownInline
+    }
+  };
 
 };

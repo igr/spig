@@ -16,14 +16,12 @@ require('events').EventEmitter.prototype._maxListeners = 100;
 // functions
 
 const fn_frontmatter = require('./phase1/frontmatter');
-const fn_initAttributes = require('./phase1/initAttributes');
 const fn_folderize = require('./phase1/folderize');
 const fn_slugish = require('./phase1/slugish');
 const fn_rename = require('./phase1/rename');
 const fn_render_nunjucks = require('./phase2/render-nunjucks');
 const fn_template_nunjucks = require('./phase2/template-nunjucks');
 const fn_render_markdown = require('./phase2/render-markdown');
-const fn_debug = require('./phase2/debug');
 const fn_imageMinify = require('./phase2/imageMinify');
 const fn_htmlMinify = require('./phase2/htmlMinify');
 const fn_excerpt = require('./phase2/excerpt');
@@ -56,6 +54,21 @@ class Spig {
   }
 
   constructor(files) {
+    this.files = files;
+    this.tasks = {};
+    this.out = SpigConfig.siteConfig.outDir;
+    this.dev = process.env.NODE_ENV !== 'production';
+
+    this.tasks = {};
+    for (const p of PHASES) {
+      this.tasks[p] = [];
+    }
+
+    this.load();
+  }
+
+  load() {
+    const files = this.files;
     const site = SpigConfig.siteConfig;
     let filePatterns;
 
@@ -79,21 +92,13 @@ class Spig {
       this.addFile(fileName);
     }
 
-    this.tasks = {};
-    for (const p of PHASES) {
-      this.tasks[p] = [];
-    }
-
-    this.out = site.outDir;
-    this.dev = process.env.NODE_ENV !== 'production';
-    this.currentPhase = PHASES[0];
   }
 
   /**
    * Starts the current phase.
    * If phase is not register it will be added to the end of phases!
    */
-  kick(val) {
+  _(val) {
     if (!this.tasks[val]) {
       this.tasks[val] = [];
       PHASES.push(val);
@@ -146,19 +151,12 @@ class Spig {
     return this.use((file) => fn_frontmatter(file, attributes));
   }
 
-  /**
-   * @see fn_debug
-   */
-  debug() {
-    return this.use(fn_debug);
-  }
-
   initPage() {
-    return this.use((file) => fn_initAttributes(file, {page: true}));
+    return this.use((file) => file.page = true);
   }
 
   initAsset() {
-    return this.use((file) => fn_initAttributes(file, {page: false}));
+    return this.use((file) => file.page = false);
   }
 
   /**
@@ -216,26 +214,21 @@ class Spig {
    */
   pageCommon() {
     return this
-      .kick("PREPARE")
       .initPage()
       .folderize()
       .frontmatter()
       .slugish()
       .asHtml()
-      .collect('tags')
-      .kick("RENDER")
       ;
   }
 
   /**
-   * Shortcut for common images initialization.
+   * Shortcut for common asset initialization.
    */
-  imagesCommon() {
+  assetCommon() {
     return this
-      .kick("PREPARE")
       .initAsset()
       .slugish()
-      .kick("IMG")
       ;
   }
 

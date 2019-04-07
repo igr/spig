@@ -21,5 +21,4 @@ module.exports = (file, renameFn) => {
   renameFn(parsedPath);
 
   file.out = Path.join(parsedPath.dirname, parsedPath.basename + parsedPath.extname);
-
 };

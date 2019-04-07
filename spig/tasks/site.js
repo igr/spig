@@ -45,9 +45,19 @@ const reset = () => {
   SpigConfig.siteConfig.collections = {};
   SpigConfig.siteConfig.buildTime = new Date();
 
+  const allSpigs = [];
   for (const file of SpigFiles.files) {
-    SpigFiles.resetMeta(file);
+    if (!allSpigs.includes(file.spig)) {
+      allSpigs.push(file.spig);
+    }
   }
+
+  SpigFiles.reset();
+
+  for (const s of allSpigs) {
+    s.load();
+  }
+
 };
 
 /**
@@ -98,6 +108,14 @@ const collectAllPages = () => {
 
 };
 
+
+/**
+ * Site updates only after a phase!
+ */
+const siteUpdate = () => {
+  collectAllPages();
+};
+
 /**
  * Reads all file content.
  */
@@ -145,15 +163,22 @@ const writeAllFiles = () => {
   logline();
 };
 
+let counter = 0;
+
 gulp.task('site', (done) => {
-  let promise = start()
-    .then(() => reset())
-    .then(() => readAllFiles());
+  let promise = start();
+
+  // if (counter > 0) {
+  promise = promise.then(() => reset());
+  // }
+  counter = counter + 1;
+
+  promise.then(() => readAllFiles());
 
   for (const phase of Spig.phases()) {
     promise = promise
       .then(() => runPhase(phase))
-      .then(() => collectAllPages());
+      .then(() => siteUpdate());
   }
 
   promise

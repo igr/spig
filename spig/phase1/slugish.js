@@ -5,16 +5,16 @@ const Mustache = require("mustache");
 const Path = require('path');
 
 module.exports = (file) => {
-  let slug = SpigFiles.attr(file, 'slug');
+  let slug = file.attr.slug;
 
   if (!slug) {
-    const bundle = SpigFiles.attr(file, 'bundle');
+    const bundle = file.attr.bundle;
     if (bundle) {
       // special case, bundles!
       if (file.basename !== 'index') {
         const indexFile = SpigFiles.lookup(file.dir + 'index');
         if (indexFile) {
-          slug = SpigFiles.attr(indexFile, 'slug');
+          slug = indexFile.attr.slug;
         }
       }
     }

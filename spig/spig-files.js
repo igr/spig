@@ -2,6 +2,7 @@
 
 const Path = require("path");
 const SpigConfig = require('./spig-config');
+const initAttributes = require('./init-attributes');
 
 function permalink(link) {
   if (link.endsWith('index.html')) {
@@ -15,7 +16,11 @@ class SpigFiles {
   constructor() {
     this.files = [];
     this.map = {};
-    this.defaultFileKeys = ['src', 'name', 'basename', 'path', 'out', 'dir', 'contents', 'attr', 'spig', 'id'];
+  }
+
+  reset() {
+    this.files = [];
+    this.map = {};
   }
 
   /**
@@ -39,39 +44,11 @@ class SpigFiles {
 
     const fileObject = this.createMeta(absolutePath, path);
 
+    initAttributes(fileObject);
+
     this.files.push(fileObject);
 
     return fileObject;
-  }
-
-  // ATTRIBUTES
-
-  /**
-   * Resolves file attribute or meta value.
-   */
-  attr(file, name) {
-    if (file.attr) {
-      const value = file.attr[name];
-      if (value) {
-        return value;
-      }
-    }
-    return file[name];
-  }
-
-  /**
-   * Updates file attributes.
-   */
-  updateAttr(file, data) {
-    if (!file.attr) {
-      file.attr = data;
-      return;
-    }
-    for (const key in data) {
-      if (data.hasOwnProperty(key)) {
-        file.attr[key] = data[key];
-      }
-    }
   }
 
   // META
@@ -98,46 +75,20 @@ class SpigFiles {
       attr: {}
     };
 
+    if (id === '/index') {
+      meta.attr.home = true;
+    }
+
     this.map[id] = meta;
 
     return meta;
   }
 
   /**
-   * Resets all metadata for the file.
+   * Lookups the file object by its ID.
    */
-  resetMeta(file) {
-    if (file.src) {
-      file.contents = undefined;
-    }
-
-    file.attr = {};
-
-    for (const key in file) {
-      if (!file.hasOwnProperty(key)) {
-        continue;
-      }
-      if (!this.defaultFileKeys.includes(key)) {
-        delete file[key];
-      }
-
-      if (file.id === '/index') {
-        file.attr.home = true;
-      }
-    }
-
-  }
-
-  /**
-   * Updates file meta data.
-   * Use with care as important system values may be overwritten.
-   */
-  updateMeta(file, data) {
-    for (const key in data) {
-      if (data.hasOwnProperty(key)) {
-        file[key] = data[key];
-      }
-    }
+  lookup(id) {
+    return this.map[id];
   }
 
   // CONTEXT
@@ -157,20 +108,7 @@ class SpigFiles {
       src: file.dir + file.name,
     };
 
-    const attrName = SpigConfig.devConfig.templates.attrName;
-    if (attrName) {
-      fo[attrName] = file.attr;
-      return fo;
-    }
-
     return {...file.attr, ...fo};
-  }
-
-  /**
-   * Lookups the file object by its ID.
-   */
-  lookup(id) {
-    return this.map[id];
   }
 
   /**

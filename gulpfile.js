@@ -1,10 +1,5 @@
 "use strict";
 
-//
-// EXAMPLE
-//
-
-
 const Spig = require('./spig/spig');
 require('require-dir')('./spig/tasks');
 
@@ -12,7 +7,12 @@ require('require-dir')('./spig/tasks');
 
 Spig
   .on('/**/*.{md,njk}')
+
+  ._("PREPARE")
   .pageCommon()
+  .collect('tags')
+
+  ._("RENDER")
   .summary()
   .render()
   .applyTemplate()
@@ -24,7 +24,11 @@ Spig
 
 Spig
   .on('/**/*.{png,jpg,gif}')
-  .imagesCommon()
+
+  ._("PREPARE")
+  .assetCommon()
+
+  ._("ASSETS")
   .imageMinify()
 ;
 
