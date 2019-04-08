@@ -1,4 +1,4 @@
-# Spig v1.3.3
+# Spig v1.3.7
 
 ![](src/images/spig.png)
 
@@ -39,9 +39,11 @@ open localhost:3000
 + layouts in [Nunjucks](https://mozilla.github.io/nunjucks/)
 + frontmatter
 + slug
++ permalinks
 + making collections from frontmatter attributes (e.g. tags)
 + excerpts
 + configuration in `.js` and `.json`
-+ live reload
 + phases
++ sitmap generator
++ live reload
 + very extensible

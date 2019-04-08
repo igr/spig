@@ -16,7 +16,7 @@ require('events').EventEmitter.prototype._maxListeners = 100;
 // functions
 
 const fn_frontmatter = require('./phase1/frontmatter');
-const fn_folderize = require('./phase1/folderize');
+const fn_permalinks = require('./phase1/permalinks');
 const fn_slugish = require('./phase1/slugish');
 const fn_rename = require('./phase1/rename');
 const fn_render_nunjucks = require('./phase2/render-nunjucks');
@@ -159,10 +159,10 @@ class Spig {
   }
 
   /**
-   * @see fn_folderize
+   * @see fn_permalinks
    */
-  folderize() {
-    return this.use((file) => fn_folderize(file));
+  permalinks() {
+    return this.use((file) => fn_permalinks(file));
   }
 
   /**
@@ -214,7 +214,7 @@ class Spig {
   pageCommon() {
     return this
       .initPage()
-      .folderize()
+      .permalinks()
       .frontmatter()
       .slugish()
       .asHtml()

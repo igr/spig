@@ -36,7 +36,12 @@ Gulp tasks are defined in `spig/tasks` folder. There is no surprise here: this i
 
 All operations are executed in phases. It does not matter where and when operations are defined, it is guaranteed that new phase does not start until all the operations from previous phase are executed. This way it is possible to fine-tune the generation process.
 
-By default there are the following phases:  
+In one phase, operations on files are executed in parallel. The order of the execution is not guaranteed!
+
+After each phase the `site` is updated - i.e. pages are collected and so on. Phase's end serves as a synchronization point between several `Spig`s.  
+  
+
+Common phases may be: 
 
 + PREPARE - invokes all `Spig` operations that do NOT modify the content, just the meta-data or collect additional data across the whole source set.
 + RENDER - once when all the meta data is resolved, `Spig` executes operations that actually performs the modification of the content; like converting from Markdown to HTML.

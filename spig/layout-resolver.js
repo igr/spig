@@ -2,7 +2,6 @@
 
 const Path = require('path');
 const fs = require('fs');
-const SpigFiles = require('./spig-files');
 const SpigConfig = require('./spig-config');
 
 /**
@@ -93,6 +92,10 @@ function resolveLayout(file) {
  * Finds layout by checking for layout file on path and all upper paths.
  */
 function findLayout(layoutsDir, path, layout) {
+  if (layout.startsWith('spig:')) {
+    return "spig-" + layout.substr(5);
+  }
+
   while (true) {
     let layoutFile = path + layout;
     if (fs.existsSync(layoutsDir + layoutFile)) {
