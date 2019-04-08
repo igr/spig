@@ -146,7 +146,9 @@ const writeAllFiles = () => {
     const out = file.out;
     const dest = Path.normalize(site.root + site.outDir + out);
 
-    fs.mkdirSync(Path.dirname(dest), {recursive: true});
+    if (!fs.existsSync(Path.dirname(dest))) {
+      fs.mkdirSync(Path.dirname(dest), {recursive: true});
+    }
 
     if (typeof file.contents === 'string') {
       file.contents = Buffer.from(file.contents);
