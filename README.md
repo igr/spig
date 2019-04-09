@@ -1,4 +1,4 @@
-# Spig v1.3.7
+# Spig v1.3.8
 
 ![](src/images/spig.png)
 
@@ -29,7 +29,7 @@ open localhost:3000
 + javascript minify
 + javascript babel ES6
 + sass compilation
-+ sass minification 
++ sass minification
 + html minification
 + html syntax highlighting
 + images size optimization

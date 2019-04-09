@@ -31,4 +31,3 @@ Spig
   ._("ASSETS")
   .imageMinify()
 ;
-

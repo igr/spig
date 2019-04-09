@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  {% for page in site.pages %}
-    {% if page.date %}
+  {% for page in site.pages -%}
+    {% if page.date -%}
       <url>
         <loc>{{ page.link }}</loc>
         <lastmod>{{ page.date | dateISO }}</lastmod>
-        {% if page.sitemap %}
+        {% if page.sitemap -%}
           <priority>{{ page.sitemap.priority }}</priority>
-        {% endif %}
+        {% endif -%}
       </url>
     {% endif %}
-  {% endfor %}
+  {%- endfor %}
 </urlset>
