@@ -1,4 +1,4 @@
-# Spig v1.3.8
+# Spig v1.3.9
 
 ![](src/images/spig.png)
 
@@ -41,7 +41,8 @@ open localhost:3000
 + slug
 + permalinks
 + making collections from frontmatter attributes (e.g. tags)
-+ excerpts
++ summaries
++ reading time
 + configuration in `.js` and `.json`
 + phases
 + sitmap generator

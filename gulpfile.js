@@ -11,6 +11,7 @@ Spig
   ._("PREPARE")
   .pageCommon()
   .collect('tags')
+  .readingTime()
 
   ._("RENDER")
   .summary()

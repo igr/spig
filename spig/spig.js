@@ -26,6 +26,7 @@ const fn_imageMinify = require('./phase2/imageMinify');
 const fn_htmlMinify = require('./phase2/htmlMinify');
 const fn_excerpt = require('./phase2/excerpt');
 const fn_collect = require('./phase1/collect');
+const fn_readingtime = require('./phase1/readingtime');
 
 
 log(`-=[Spig v${SpigVersion}]=-`);
@@ -281,7 +282,14 @@ class Spig {
    * Reads summary.
    */
   summary() {
-    return this.use(file => fn_excerpt((file)));
+    return this.use(file => fn_excerpt(file));
+  }
+
+  /**
+   * Adds reading time information in the `readingTime` attribute.
+   */
+  readingTime() {
+    return this.use(file => fn_readingtime(file));
   }
 
 }
