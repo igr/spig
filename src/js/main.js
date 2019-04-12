@@ -1,3 +1,1 @@
-import hello from './modules/hello.js';
-
-hello();
+console.log("Hello from javascript");

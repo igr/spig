@@ -15,14 +15,18 @@ gulp.task('js', () => {
   const site = SpigConfig.siteConfig;
   return gulp.src([site.srcDir + site.dirJs + '/**/*.js'])
     .pipe(plumber())
-    .pipe(webpack({
+    .pipe(gulpif(SpigConfig.devConfig.jsUseBabel, webpack({
       mode: 'production'
-    }))
+    })))
     .pipe(sourcemaps.init())
-    .pipe(babel({
-      presets: ['@babel/env']
-    }))
-    .pipe(concat('main.js'))
+    .pipe(gulpif(SpigConfig.devConfig.jsUseBabel, babel({
+      presets: ['es2015', '@babel/env', {
+        "targets": {
+          "browsers": SpigConfig.devConfig.supportedBrowsers
+        }
+      }]
+    })))
+    .pipe(concat(SpigConfig.siteConfig.jsBundleName))
     .pipe(gulpif(SpigConfig.devConfig.production, uglify()))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(site.outDir + site.dirJs))
