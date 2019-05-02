@@ -11,8 +11,8 @@ const SpigConfig = require('../spig-config');
 // creates a set of resize tasks at defined image widths
 
 let resizeImageTasks = [];
-const site = SpigConfig.siteConfig;
-const dev = SpigConfig.devConfig;
+const site = SpigConfig.site;
+const dev = SpigConfig.dev;
 
 dev.resizeImageSizes.forEach(function (size) {
   let resizeImageTask = 'resize_' + size;

@@ -89,7 +89,7 @@ class SpigConfig {
 
     site.root = process.cwd() + '/';
 
-    this.siteConfig = site;
+    this.site = site;
 
     // update development configuration
 
@@ -101,7 +101,7 @@ class SpigConfig {
       dev = {...dev, ...devJson};
     }
 
-    this.devConfig = dev;
+    this.dev = dev;
 
     // production mode
 
@@ -120,14 +120,14 @@ class SpigConfig {
    * Configure all engines from source folder.
    */
   configureEngines() {
-    if (fs.existsSync(this.siteConfig.srcDir + '/markdown.js')) {
+    if (fs.existsSync(this.site.srcDir + '/markdown.js')) {
       log("Reading " + chalk.magenta("markdown.js"));
-      this.markdown(require('../' + this.siteConfig.srcDir + '/markdown'));
+      this.markdown(require('../' + this.site.srcDir + '/markdown'));
     }
 
-    if (fs.existsSync(this.siteConfig.srcDir + '/nunjucks.js')) {
+    if (fs.existsSync(this.site.srcDir + '/nunjucks.js')) {
       log("Reading " + chalk.magenta("nunjucks.js"));
-      this.nunjucks(require('../' + this.siteConfig.srcDir + '/nunjucks'));
+      this.nunjucks(require('../' + this.site.srcDir + '/nunjucks'));
     }
   }
 

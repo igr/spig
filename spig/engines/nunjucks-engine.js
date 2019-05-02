@@ -2,7 +2,7 @@
 
 const nunjucks = require('nunjucks');
 const SpigConfig = require('../spig-config');
-const site = SpigConfig.siteConfig;
+const site = SpigConfig.site;
 
 function configure() {
   return nunjucks.configure(
@@ -11,7 +11,7 @@ function configure() {
       site.root + "spig/layouts",
     ], {
       autoescape: true,
-      noCache: !SpigConfig.devConfig.production
+      noCache: !SpigConfig.dev.production
     }
   );
 }

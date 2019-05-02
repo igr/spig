@@ -12,8 +12,8 @@ const SpigConfig = require('./spig-config');
  * + returns default template
  */
 function resolveLayout(file) {
-  const site = SpigConfig.siteConfig;
-  const dev = SpigConfig.devConfig;
+  const site = SpigConfig.site;
+  const dev = SpigConfig.dev;
   const layoutsDir = Path.normalize(site.root + site.srcDir + site.dirLayouts);
 
   const layout = file.attr.layout;

@@ -8,7 +8,7 @@ require('require-dir')('.');
 
 gulp.task('browser-sync', () => {
   return browserSync.init({
-    server: SpigConfig.siteConfig.outDir,
+    server: SpigConfig.site.outDir,
     open: false,
     watchOptions: {
       ignoreInitial: true,
@@ -30,7 +30,7 @@ gulp.task('build', gulp.parallel(
 ));
 
 gulp.task("watch", () => {
-  const site = SpigConfig.siteConfig;
+  const site = SpigConfig.site;
 
   gulp.watch(site.srcDir + site.dirJs + "/**/*", gulp.series('js'));
   gulp.watch(site.srcDir + site.dirImages + "/**/*", gulp.series('images'));

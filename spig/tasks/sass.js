@@ -11,7 +11,7 @@ const browserSync = require('browser-sync').create();
 const SpigConfig = require('../spig-config');
 
 gulp.task('sass', () => {
-  const site = SpigConfig.siteConfig;
+  const site = SpigConfig.site;
 
   return gulp.src([site.srcDir + site.dirCss + '/**/*.s?ss'])
     .pipe(sourcemaps.init())
@@ -19,10 +19,10 @@ gulp.task('sass', () => {
     .pipe(sass())
     .on('error', sass.logError)
     .pipe(autoprefixer({
-      browsers: SpigConfig.devConfig.supportedBrowsers,
+      browsers: SpigConfig.dev.supportedBrowsers,
       cascade: false
     }))
-    .pipe(gulpif(SpigConfig.devConfig.production, cssnano()))
+    .pipe(gulpif(SpigConfig.dev.production, cssnano()))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(site.outDir + site.dirCss))
     .pipe(browserSync.stream());

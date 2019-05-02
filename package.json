@@ -1,6 +1,6 @@
 {
   "name": "spig",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "Spig - static web generator framework",
   "scripts": {
     "clean": "gulp clean",

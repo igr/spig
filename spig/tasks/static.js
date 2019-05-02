@@ -6,7 +6,7 @@ const SpigConfig = require('../spig-config');
 const browserSync = require('browser-sync').create();
 
 gulp.task('static', () => {
-  const site = SpigConfig.siteConfig;
+  const site = SpigConfig.site;
   return gulp.src(
     [ site.srcDir + site.dirStatic + '/**/*' ],
     { base: site.srcDir + site.dirStatic + '/' })

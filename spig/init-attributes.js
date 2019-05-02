@@ -5,7 +5,7 @@ const Path = require('path');
 const fs = require('fs');
 
 module.exports = (file) => {
-  const site = SpigConfig.siteConfig;
+  const site = SpigConfig.site;
 
   let path = site.srcDir + site.dirSite + file.dir;
 
