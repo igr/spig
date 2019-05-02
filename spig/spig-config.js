@@ -52,6 +52,10 @@ const developmentDefaults = {
     default: 'base'
   },
 
+  render: [
+    "**/*.md"
+  ],
+
   jsUseBabel: false,
 
   supportedBrowsers: [

@@ -7,6 +7,7 @@ const LayoutResolver = require('./layout-resolver');
 const Path = require('path');
 const glob = require('glob');
 const log = require('fancy-log');
+const micromatch = require('micromatch');
 
 // system debug errors
 
@@ -237,6 +238,11 @@ class Spig {
    */
   render() {
     return this.use((file) => {
+
+      if (!micromatch.isMatch(file.path, SpigConfig.devConfig.render)) {
+        return;
+      }
+
       const ext = Path.extname(file.path);
       switch (ext) {
         case '.njk':
