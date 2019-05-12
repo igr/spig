@@ -12,8 +12,8 @@ const browserSync = require('browser-sync').create();
 const SpigConfig = require('../spig-config');
 
 gulp.task('js', () => {
-  const site = SpigConfig.site;
-  return gulp.src([site.srcDir + site.dirJs + '/**/*.js'])
+  const dev = SpigConfig.dev;
+  return gulp.src([dev.srcDir + dev.dirJs + '/**/*.js'])
     .pipe(plumber())
     .pipe(gulpif(SpigConfig.dev.jsUseBabel, webpack({
       mode: 'production'
@@ -26,9 +26,9 @@ gulp.task('js', () => {
         }
       }]
     })))
-    .pipe(concat(SpigConfig.site.jsBundleName))
-    .pipe(gulpif(SpigConfig.dev.production, uglify()))
+    .pipe(concat(SpigConfig.site.names.bundle_js))
+    .pipe(gulpif(SpigConfig.site.production, uglify()))
     .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest(site.outDir + site.dirJs))
+    .pipe(gulp.dest(dev.outDir + dev.dirJs))
     .pipe(browserSync.stream());
 });

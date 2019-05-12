@@ -57,26 +57,25 @@ class Spig {
 
   constructor(files) {
     this.tasks = {};
-    this.out = SpigConfig.site.outDir;
-    this.dev = process.env.NODE_ENV !== 'production';
+    this.out = SpigConfig.dev.outDir;
+    //this.dev = process.env.NODE_ENV !== 'production';
 
     this.tasks = {};
     for (const p of PHASES) {
       this.tasks[p] = [];
     }
 
-
-    const site = SpigConfig.site;
+    const dev = SpigConfig.dev;
     let filePatterns;
 
     if (Array.isArray(files)) {
       for (let i = 0; i < files.length; ++i) {
         const f = files[i];
-        files[i] = site.srcDir + site.dirSite + f;
+        files[i] = dev.srcDir + dev.dirSite + f;
       }
       filePatterns = files;
     } else {
-      filePatterns = [site.srcDir + site.dirSite + files];
+      filePatterns = [dev.srcDir + dev.dirSite + files];
     }
 
     // file names
@@ -185,7 +184,7 @@ class Spig {
    * @see fn_imageMinify
    */
   imageMinify(options) {
-    if (!SpigConfig.dev.production) {
+    if (!SpigConfig.site.production) {
       return this;
     }
     return this.use((file) => fn_imageMinify(file, options));
@@ -278,7 +277,7 @@ class Spig {
    * @see fn_htmlMinify
    */
   htmlMinify(options) {
-    if (!SpigConfig.dev.production) {
+    if (!SpigConfig.site.production) {
       return this;
     }
     return this.use(file => fn_htmlMinify(file, options));

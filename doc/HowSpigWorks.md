@@ -21,7 +21,7 @@ The whole site is defined in `/src` folder:
 
 Configuration `json` files can be founded in `src` folder as well:
 
-+ `site.json` - site configuration
++ `site.json` - site configuration, available in templates
 + `dev.json` - development related configuration
 
 ## Gulp tasks

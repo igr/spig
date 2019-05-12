@@ -3,7 +3,6 @@
 /**
  * Safe dump.
  */
-
 module.exports = (obj) => {
   if (obj) {
     delete obj.spig;

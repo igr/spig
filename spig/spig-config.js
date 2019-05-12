@@ -6,19 +6,39 @@ const chalk      = require("chalk");
 const glob       = require("glob");
 
 const siteDefaults = {
-  name: 'spig example site',
+  name: 'Spig Site',
   baseURL: 'http://localhost:3000',
   version: '1.0.0',
 
   // environment
   env: process.env,
 
+  // production or development mode
+  production: false,
+
+  // names
+  names: {
+    bundle_js: 'main.js'
+  },
+
+  // data folder
+  data: {},
+
+  // stats
+  buildTime: new Date(),
+
+  // pages
+  pages: [],
+
+  // collections
+  collections: {}
+};
+
+const devDefaults = {
+
   // main folders
   srcDir:       './src',
   outDir:       './out',
-
-  // js config
-  jsBundleName: 'main.js',
 
   // relative folders
   dirSite:      '/site',
@@ -28,20 +48,6 @@ const siteDefaults = {
   dirCss:       '/css',
   dirStatic:    '/static',
   dirLayouts:   '/layouts',
-
-  buildTime: new Date(),
-
-  pages: [],
-  data: {},
-  collections: {}
-};
-
-const devDefaults = {
-  // production or development mode
-  production: false,
-
-  // environment variables
-  env: process.env,
 
   // images to be resized
   resizeImageSizes: [400, 1000],
@@ -81,24 +87,44 @@ const devDefaults = {
 
 class SpigConfig {
   constructor() {
-    // update site configuration
+    // read and update development configuration
+
+    let dev = devDefaults;
+
+    const devJsonFile = dev.srcDir + '/dev.json';
+
+    if (fs.existsSync(devJsonFile)) {
+      log("Reading " + chalk.magenta("dev.json"));
+      const devJson = JSON.parse(fs.readFileSync(devJsonFile));
+      dev = {...dev, ...devJson};
+    }
+
+    dev.root = process.cwd() + '/';
+
+    this.dev = dev;
+
+
+    // read and update site configuration
+
     let site = siteDefaults;
 
-    if (fs.existsSync('./src/site.json')) {
+    const siteJsonFile = dev.srcDir + '/site.json';
+
+    if (fs.existsSync(siteJsonFile)) {
       log("Reading " + chalk.magenta("site.json"));
-      const siteJson = JSON.parse(fs.readFileSync('./src/site.json'));
+      const siteJson = JSON.parse(fs.readFileSync(siteJsonFile));
       site = {...site, ...siteJson};
     }
 
-    site.root = process.cwd() + '/';
-
     this.site = site;
+
+    site.dev = this.dev;
 
     // data
 
-    log("Reading " + chalk.magenta(site.dirData));
+    log("Reading " + chalk.magenta(dev.dirData));
 
-    const dataRoot = site.srcDir + site.dirData + "/";
+    const dataRoot = dev.srcDir + dev.dirData + "/";
     const dataFiles = glob.sync(dataRoot + "/**/*.json");
     for (const f of dataFiles) {
       let target = site.data;
@@ -120,24 +146,12 @@ class SpigConfig {
       }
     }
 
-    // update development configuration
-
-    let dev = devDefaults;
-
-    if (fs.existsSync('./src/dev.json')) {
-      log("Reading " + chalk.magenta("dev.json"));
-      const devJson = JSON.parse(fs.readFileSync('./src/dev.json'));
-      dev = {...dev, ...devJson};
-    }
-
-    this.dev = dev;
-
     // production mode
 
-    if (dev.env.SPIG_PRODUCTION) {
-      dev.production = dev.env.SPIG_PRODUCTION;
+    if (site.env.SPIG_PRODUCTION) {
+      site.production = site.env.SPIG_PRODUCTION;
     }
-    if (dev.production === 'false' || dev.production === false) {
+    if (site.production === 'false' || site.production === false) {
       log('Environment: ' + chalk.green('DEVELOPMENT'));
       site.baseURL = 'http://localhost:3000';
     } else {
@@ -149,14 +163,14 @@ class SpigConfig {
    * Configure all engines from source folder.
    */
   configureEngines() {
-    if (fs.existsSync(this.site.srcDir + '/markdown.js')) {
+    if (fs.existsSync(this.dev.srcDir + '/markdown.js')) {
       log("Reading " + chalk.magenta("markdown.js"));
-      this.markdown(require('../' + this.site.srcDir + '/markdown'));
+      this.markdown(require('../' + this.dev.srcDir + '/markdown'));
     }
 
-    if (fs.existsSync(this.site.srcDir + '/nunjucks.js')) {
+    if (fs.existsSync(this.dev.srcDir + '/nunjucks.js')) {
       log("Reading " + chalk.magenta("nunjucks.js"));
-      this.nunjucks(require('../' + this.site.srcDir + '/nunjucks'));
+      this.nunjucks(require('../' + this.dev.srcDir + '/nunjucks'));
     }
   }
 

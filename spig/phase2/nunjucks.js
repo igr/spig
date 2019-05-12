@@ -6,10 +6,10 @@ const SpigFiles = require('../spig-files');
 const log = require('fancy-log');
 const chalk = require('chalk');
 
-const site = SpigConfig.site;
+const dev = SpigConfig.dev;
 
 const nunjucksEnv = nunjucks.configure(
-  site.srcDir + site.dirLayouts, {
+  dev.srcDir + dev.dirLayouts, {
     autoescape: true
   }
 );

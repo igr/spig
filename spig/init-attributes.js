@@ -5,9 +5,9 @@ const Path = require('path');
 const fs = require('fs');
 
 module.exports = (file) => {
-  const site = SpigConfig.site;
+  const dev = SpigConfig.dev;
 
-  let path = site.srcDir + site.dirSite + file.dir;
+  let path = dev.srcDir + dev.dirSite + file.dir;
 
   let attr = {};
   while (path !== './') {
@@ -19,7 +19,7 @@ module.exports = (file) => {
 
     const jsFile = path + '_.js';
     if (fs.existsSync(jsFile)) {
-      const jsRelativePath = '../' + Path.relative(site.root, Path.normalize(jsFile));
+      const jsRelativePath = '../' + Path.relative(dev.root, Path.normalize(jsFile));
       const requireModule = jsRelativePath.substr(0, jsRelativePath.length - 3);
       const config = require(requireModule)();
 

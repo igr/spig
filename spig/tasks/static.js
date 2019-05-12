@@ -6,11 +6,11 @@ const SpigConfig = require('../spig-config');
 const browserSync = require('browser-sync').create();
 
 gulp.task('static', () => {
-  const site = SpigConfig.site;
+  const dev = SpigConfig.dev;
   return gulp.src(
-    [ site.srcDir + site.dirStatic + '/**/*' ],
-    { base: site.srcDir + site.dirStatic + '/' })
+    [ dev.srcDir + dev.dirStatic + '/**/*' ],
+    { base: dev.srcDir + dev.dirStatic + '/' })
     .pipe(plumber())
-    .pipe(gulp.dest(site.outDir))
+    .pipe(gulp.dest(dev.outDir))
     .pipe(browserSync.stream());
 });

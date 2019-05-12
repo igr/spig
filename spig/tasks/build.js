@@ -8,7 +8,7 @@ require('require-dir')('.');
 
 gulp.task('browser-sync', () => {
   return browserSync.init({
-    server: SpigConfig.site.outDir,
+    server: SpigConfig.dev.outDir,
     open: false,
     watchOptions: {
       ignoreInitial: true,
@@ -30,19 +30,19 @@ gulp.task('build', gulp.parallel(
 ));
 
 gulp.task("watch", () => {
-  const site = SpigConfig.site;
+  const dev = SpigConfig.dev;
 
-  gulp.watch(site.srcDir + site.dirJs + "/**/*", gulp.series('js'));
-  gulp.watch(site.srcDir + site.dirImages + "/**/*", gulp.series('images'));
-  gulp.watch(site.srcDir + site.dirCss + "/**/*", gulp.series('sass'));
+  gulp.watch(dev.srcDir + dev.dirJs + "/**/*", gulp.series('js'));
+  gulp.watch(dev.srcDir + dev.dirImages + "/**/*", gulp.series('images'));
+  gulp.watch(dev.srcDir + dev.dirCss + "/**/*", gulp.series('sass'));
   gulp
-    .watch(site.srcDir + site.dirStatic + "/**/*", gulp.series('static'))
+    .watch(dev.srcDir + dev.dirStatic + "/**/*", gulp.series('static'))
     .on('change', browserSync.reload);
   gulp
-    .watch(site.srcDir + site.dirSite + "/**/*", gulp.series('site'))
+    .watch(dev.srcDir + dev.dirSite + "/**/*", gulp.series('site'))
     .on('change', browserSync.reload);
   gulp
-    .watch(site.srcDir + site.dirLayouts + "/**/*", gulp.series('site'))
+    .watch(dev.srcDir + dev.dirLayouts + "/**/*", gulp.series('site'))
     .on('change', browserSync.reload);
 });
 

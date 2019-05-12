@@ -142,9 +142,9 @@ function logline() {
 const writeAllFiles = () => {
   logline();
   for (const file of SpigFiles.files) {
-    const site = SpigConfig.site;
+    const dev = SpigConfig.dev;
     const out = file.out;
-    const dest = Path.normalize(site.root + site.outDir + out);
+    const dest = Path.normalize(dev.root + dev.outDir + out);
 
     if (!fs.existsSync(Path.dirname(dest))) {
       fs.mkdirSync(Path.dirname(dest), {recursive: true});
