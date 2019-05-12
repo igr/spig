@@ -14,8 +14,9 @@ const SpigConfig = require('../spig-config');
 gulp.task('js', () => {
   const dev = SpigConfig.dev;
 
-  SpigConfig.site.assets['dir_js'] = dev.dirJsOut;
-  SpigConfig.site.assets['bundle_js'] = dev.dirJsOut + '/' + SpigConfig.dev.names.bundle_js;
+  SpigConfig.site.assets['js'] = {};
+  SpigConfig.site.assets.js['dir'] = dev.dirJsOut;
+  SpigConfig.site.assets.js['bundle'] = dev.dirJsOut + '/' + SpigConfig.dev.names.bundle_js;
 
   return gulp.src([dev.srcDir + dev.dirJs + '/**/*.js'])
     .pipe(plumber())

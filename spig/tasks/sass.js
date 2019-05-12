@@ -13,7 +13,8 @@ const SpigConfig = require('../spig-config');
 gulp.task('sass', () => {
   const dev = SpigConfig.dev;
 
-  SpigConfig.site.assets['dir_css'] = dev.dirCssOut;
+  SpigConfig.site.assets['css'] = {};
+  SpigConfig.site.assets.css['dir'] = dev.dirCssOut;
 
   return gulp.src([dev.srcDir + dev.dirCss + '/**/*.s?ss'])
     .pipe(sourcemaps.init())
