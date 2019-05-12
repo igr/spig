@@ -6,7 +6,7 @@ Static website generator lightweight _framework_ using just Gulp and no-surprise
 
 Since `Spig` is a framework, it is very extensible and configurable.
 
-## Try it put!
+## Try it out!
 
 Just clone/download this repo and run:
 
