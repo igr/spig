@@ -3,6 +3,7 @@
 const log        = require("fancy-log");
 const fs         = require("fs");
 const chalk      = require("chalk");
+const glob       = require("glob");
 
 const siteDefaults = {
   name: 'spig example site',
@@ -31,10 +32,11 @@ const siteDefaults = {
   buildTime: new Date(),
 
   pages: [],
+  data: {},
   collections: {}
 };
 
-const developmentDefaults = {
+const devDefaults = {
   // production or development mode
   production: false,
 
@@ -52,6 +54,7 @@ const developmentDefaults = {
     default: 'base'
   },
 
+  // extensions to be rendered
   render: [
     "**/*.md"
   ],
@@ -91,9 +94,35 @@ class SpigConfig {
 
     this.site = site;
 
+    // data
+
+    log("Reading " + chalk.magenta(site.dirData));
+
+    const dataRoot = site.srcDir + site.dirData + "/";
+    const dataFiles = glob.sync(dataRoot + "/**/*.json");
+    for (const f of dataFiles) {
+      let target = site.data;
+      const file = f.substr(dataRoot.length);
+      const chunks = file.split("/");
+      for (const chunk of chunks) {
+        if (chunk.endsWith(".json")) {
+          // file located
+          const dataJson = JSON.parse(fs.readFileSync(dataRoot + file));
+          target[chunk.substr(0, chunk.length - 5)] = dataJson;
+        }
+        else {
+          // go one folder deeper
+          if (!target[chunk]) {
+            target[chunk] = {};
+          }
+          target = target[chunk];
+        }
+      }
+    }
+
     // update development configuration
 
-    let dev = developmentDefaults;
+    let dev = devDefaults;
 
     if (fs.existsSync('./src/dev.json')) {
       log("Reading " + chalk.magenta("dev.json"));

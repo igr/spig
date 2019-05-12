@@ -4,7 +4,6 @@
 
 ## 1. Installation
 
-Simply:
  
 + [download the project](https://github.com/igr/spig/archive/master.zip)
 + unzip it to your root folder
