@@ -9,6 +9,7 @@ The whole site is defined in `/src` folder:
 ```
 /src
   /css - SASS files
+  /data - data files in JSON format
   /filters - filters used in templates
   /images - all the images
   /js - javascript files and modules
@@ -43,6 +44,6 @@ After each phase the `site` is updated - i.e. pages are collected and so on. Pha
 
 Common phases may be: 
 
-+ PREPARE - invokes all `Spig` operations that do NOT modify the content, just the meta-data or collect additional data across the whole source set.
-+ RENDER - once when all the meta data is resolved, `Spig` executes operations that actually performs the modification of the content; like converting from Markdown to HTML.
-+ IMG - operations on images.
++ **PREPARE** - invokes all `Spig` operations that do NOT modify the content, just the meta-data or collect additional data across the whole source set.
++ **RENDER** - once when all the meta data is resolved, `Spig` executes operations that actually performs the modification of the content; like converting from Markdown to HTML.
++ **IMG** - operations on images.

@@ -1,12 +1,12 @@
-# Spig v1.4.2
+# Spig v1.5.0
 
 ![](src/images/spig.png)
 
-Static website generator lightweight _framework_ using just Gulp and no-surprise JavaScript. `Spig` uses regular Gulp tasks for assets, and provides a developer-friendly extension for the web static generation.
+Static website generator lightweight _framework_ using just Gulp and no-surprise JavaScript. `Spig` uses regular Gulp tasks for assets and provides a developer-friendly extension for the web static generation.
 
 Since `Spig` is a framework, it is very extensible and configurable.
 
-## Try it!
+## Try it put!
 
 Just clone/download this repo and run:
 
@@ -18,8 +18,8 @@ open localhost:3000
 
 ## Read more
 
++ [Install](doc/Install.md)
 + [Develop and Build with Spig](doc/BuildWithSpig.md)
-+ [Quick Run](doc/QuickRun.md) - preferred way
 + [How Spig Works](doc/HowSpigWorks.md)
 + [File and attributes](doc/FileAndAttributes.md)
 
@@ -41,6 +41,7 @@ open localhost:3000
 + slug
 + permalinks
 + making collections from frontmatter attributes (e.g. tags)
++ data folder
 + summaries
 + reading time
 + configuration in `.js` and `.json`

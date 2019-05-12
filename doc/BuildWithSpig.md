@@ -7,8 +7,10 @@ Build:
 ```shell
 yarn build
 ```
+
 or
-```
+
+```shell
 gulp build
 ```
 
