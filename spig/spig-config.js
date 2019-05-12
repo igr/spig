@@ -16,10 +16,7 @@ const siteDefaults = {
   // production or development mode
   production: false,
 
-  // names
-  names: {
-    bundle_js: 'main.js'
-  },
+  assets: {},
 
   // data folder
   data: {},
@@ -36,11 +33,10 @@ const siteDefaults = {
 
 const devDefaults = {
 
-  // main folders
+  // source root folder
   srcDir:       './src',
-  outDir:       './out',
 
-  // relative folders
+  // relative source folders
   dirSite:      '/site',
   dirImages:    '/images',
   dirJs:        '/js',
@@ -48,6 +44,18 @@ const devDefaults = {
   dirCss:       '/css',
   dirStatic:    '/static',
   dirLayouts:   '/layouts',
+
+  // output root folder
+  outDir:       './out',
+
+  // relative output folders
+  dirJsOut:     '/js',
+  dirCssOut:    '/css',
+
+  // names
+  names: {
+    bundle_js: 'main.js'
+  },
 
   // images to be resized
   resizeImageSizes: [400, 1000],

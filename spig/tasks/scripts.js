@@ -13,6 +13,10 @@ const SpigConfig = require('../spig-config');
 
 gulp.task('js', () => {
   const dev = SpigConfig.dev;
+
+  SpigConfig.site.assets['dir_js'] = dev.dirJsOut;
+  SpigConfig.site.assets['bundle_js'] = dev.dirJsOut + '/' + SpigConfig.dev.names.bundle_js;
+
   return gulp.src([dev.srcDir + dev.dirJs + '/**/*.js'])
     .pipe(plumber())
     .pipe(gulpif(SpigConfig.dev.jsUseBabel, webpack({
@@ -26,9 +30,9 @@ gulp.task('js', () => {
         }
       }]
     })))
-    .pipe(concat(SpigConfig.site.names.bundle_js))
+    .pipe(concat(SpigConfig.dev.names.bundle_js))
     .pipe(gulpif(SpigConfig.site.production, uglify()))
     .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest(dev.outDir + dev.dirJs))
+    .pipe(gulp.dest(dev.outDir + dev.dirJsOut))
     .pipe(browserSync.stream());
 });

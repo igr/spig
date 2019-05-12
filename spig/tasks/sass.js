@@ -13,6 +13,8 @@ const SpigConfig = require('../spig-config');
 gulp.task('sass', () => {
   const dev = SpigConfig.dev;
 
+  SpigConfig.site.assets['dir_css'] = dev.dirCssOut;
+
   return gulp.src([dev.srcDir + dev.dirCss + '/**/*.s?ss'])
     .pipe(sourcemaps.init())
     .pipe(plumber())
@@ -24,6 +26,6 @@ gulp.task('sass', () => {
     }))
     .pipe(gulpif(SpigConfig.site.production, cssnano()))
     .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest(dev.outDir + dev.dirCss))
+    .pipe(gulp.dest(dev.outDir + dev.dirCssOut))
     .pipe(browserSync.stream());
 });
