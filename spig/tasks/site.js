@@ -29,7 +29,8 @@ const runTask = (task, file) => {
   }
   catch (err) {
     log.error(chalk.red("Error! File: " + file.path));
-    throw err;
+    log.error(err);
+    //throw err;
   }
 };
 
