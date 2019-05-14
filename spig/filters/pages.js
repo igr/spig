@@ -12,7 +12,6 @@ function val(map, name) {
   return result;
 }
 
-
 function groupByDate_Part(pages, attr, dateconsumer) {
   const result = new Map();
 
@@ -33,6 +32,9 @@ function groupByDate_Part(pages, attr, dateconsumer) {
 
 module.exports = {
 
+  /**
+   * Filters pages by a prefix.
+   */
   within: (pages, prefix) => {
     const result = [];
 
@@ -45,10 +47,16 @@ module.exports = {
     return result;
   },
 
+  /**
+   * Revers list of pages.
+   */
   reverse: (pages) => {
     return pages.reverse();
   },
 
+  /**
+   * Sorts pages by given attribute(s).
+   */
   sortBy: (pages, attr) => {
     const result = Object.values(pages);
 
@@ -64,6 +72,9 @@ module.exports = {
     return result;
   },
 
+  /**
+   * Groups pages by given attribute(s) values.
+   */
   groupBy: (pages, attr) => {
     const result = new Map();
 
@@ -82,6 +93,9 @@ module.exports = {
     return result;
   },
 
+  /**
+   * Groups pages by year of attribute(s).
+   */
   groupByDateYear: (pages, attr) => {
     return groupByDate_Part(pages, attr, (date) => {
       return date.getFullYear();
@@ -89,6 +103,9 @@ module.exports = {
   },
 
 
+  /**
+   * Returns last N pages.
+   */
   lastN: (pages, count) => {
     if (pages.length <= count) {
       return pages;
@@ -96,6 +113,9 @@ module.exports = {
     return pages.slice(pages.length - count);
   },
 
+  /**
+   * Returns first N pages.
+   */
   firstN: (pages, count) => {
     if (pages.length <= count) {
       return pages;

@@ -17,3 +17,8 @@ Book: {{ site.data.books[0].title }}
 
 <br>
 Production: {{ site.production }}
+
+<br>
+Page lookup:
+
++ {{  site.pageOfSrc('/posts/post1.md').title }}
