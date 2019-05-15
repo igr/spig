@@ -40,7 +40,7 @@ module.exports = (spig, file, attrName) => {
       }
       site[attrName].push(v);
 
-      const fileName = `/${slugify(attrName)}/${slugify(v)}/index.html`;
+      const fileName = `/${slugify(attrName)}/${slugify(String(v))}/index.html`;
 
       attrFile = spig.addFile(fileName, v);
 
@@ -48,7 +48,7 @@ module.exports = (spig, file, attrName) => {
       attrFile.attr.title = `${attrName}: ${v}`;
       attrFile.attr.layout = attrName;
     } else {
-      const id = `/${slugify(attrName)}/${slugify(v)}/index`;
+      const id = `/${slugify(attrName)}/${slugify(String(v))}/index`;
 
       attrFile = SpigFiles.lookup(id);
     }
