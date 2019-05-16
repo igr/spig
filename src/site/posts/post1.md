@@ -8,3 +8,5 @@ slug: hello
 # This is the first post
 
 Hello _markdown_ **world**.
+
+[External link](http://jodd.org)
