@@ -1,6 +1,6 @@
 {
   "name": "spig",
-  "version": "1.5.2",
+  "version": "1.5.3",
   "description": "Spig - static web generator framework",
   "scripts": {
   },
@@ -55,6 +55,7 @@
     "markdown-it": "^8.4.2",
     "markdown-it-anchor": "^5.0.2",
     "markdown-it-attrs": "^2.3.4",
+    "markdown-it-link-attributes": "^2.1.0",
     "markdown-it-container": "^2.0.0",
     "markdown-it-html5-media": "^0.6.0",
     "mustache": "^3.0.1",

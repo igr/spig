@@ -3,6 +3,7 @@
 const MarkdownIt = require('markdown-it');
 const hljs = require('highlight.js');
 const attrs = require('markdown-it-attrs');
+const mila = require('markdown-it-link-attributes')
 const container = require('markdown-it-container');
 const slugify = require('slugify');
 const {html5Media} = require('markdown-it-html5-media');
@@ -43,13 +44,13 @@ md.use(require('markdown-it-anchor'), {
 
 md.use(container, 'div');
 
-md.use(attrs, {
+md.use(attrs);
+
+md.use(mila, {
   pattern: /^https?:\/\//,
   attrs: {
     target: '_blank'
-  },
-  leftDelimiter: '{',
-  rightDelimiter: '}'
+  }
 });
 
 md.use(html5Media, {
