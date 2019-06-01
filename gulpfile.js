@@ -11,6 +11,7 @@ Spig
   ._("PREPARE")
   .pageCommon()
   .collect('tags')
+  .collectAttr('menu')
   .readingTime()
 
   ._("RENDER")

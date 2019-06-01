@@ -4,7 +4,7 @@ const SpigConfig = require('../spig-config');
 const SpigFiles = require('../spig-files');
 const slugify = require('slugify');
 
-module.exports = (spig, file, attrName) => {
+module.exports = (spig, file, attrName, createFile) => {
   if (!file.attr.hasOwnProperty(attrName)) {
     return;
   }
@@ -23,7 +23,7 @@ module.exports = (spig, file, attrName) => {
     map = {};
     site.collections[attrName] = map;
     site.pageOfCollection = (collName, name) => {
-      let fileName = `/${slugify(collName)}/${slugify(name)}/`;
+      let fileName = `/${slugify(collName)}/${slugify(String(name))}/`;
       return site.pageOf(fileName);
     }
   }
@@ -42,25 +42,31 @@ module.exports = (spig, file, attrName) => {
 
       const fileName = `/${slugify(attrName)}/${slugify(String(v))}/index.html`;
 
-      attrFile = spig.addFile(fileName, v);
+      if (createFile) {
+        attrFile = spig.addFile(fileName, v);
 
-      attrFile.page = true;
-      attrFile.attr.title = `${attrName}: ${v}`;
-      attrFile.attr.layout = attrName;
+        attrFile.page = true;
+        attrFile.attr.title = `${attrName}: ${v}`;
+        attrFile.attr.layout = attrName;
+      }
     } else {
       const id = `/${slugify(attrName)}/${slugify(String(v))}/index`;
 
-      attrFile = SpigFiles.lookup(id);
+      if (createFile) {
+        attrFile = SpigFiles.lookup(id);
+      }
     }
 
     // update date
 
-    if (file.attr.date) {
-      if (!attrFile.attr.date) {
-        attrFile.attr.date = file.attr.date;
-      } else {
-        if (file.attr.date > attrFile.attr.date) {
+    if (createFile) {
+      if (file.attr.date) {
+        if (!attrFile.attr.date) {
           attrFile.attr.date = file.attr.date;
+        } else {
+          if (file.attr.date > attrFile.attr.date) {
+            attrFile.attr.date = file.attr.date;
+          }
         }
       }
     }

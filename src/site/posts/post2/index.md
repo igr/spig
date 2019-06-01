@@ -1,5 +1,6 @@
 ---
 title: 'TwoTwo'
+menu: 2
 tags:
   - tag1
   - tag2
