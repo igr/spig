@@ -124,6 +124,14 @@ class Spig {
   }
 
   /**
+   * Allows to do additional computation on site.
+   */
+  with(fn) {
+    fn(this, SpigConfig.site);
+    return this;
+  }
+
+  /**
    * Uses generic function to manipulate files.
    */
   use(fn) {
