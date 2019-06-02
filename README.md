@@ -18,13 +18,14 @@ open localhost:3000
 
 ## Read more
 
++ [Show Cases](doc/ShowCases.md)
 + [Install](doc/Install.md)
 + [Develop and Build with Spig](doc/BuildWithSpig.md)
 + [How Spig Works](doc/HowSpigWorks.md)
 + [File and attributes](doc/FileAndAttributes.md)
 
 
-## Features
+## Spig Features
 
 + javascript minify
 + javascript babel ES6
