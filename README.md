@@ -1,4 +1,4 @@
-# Spig v1.5.4
+# Spig v1.5.5
 
 ![](src/images/spig.png)
 
@@ -18,7 +18,7 @@ open localhost:3000
 
 ## Read more
 
-+ [Show Cases](doc/ShowCases.md)
++ [Show Cases](doc/ShowCases.md) - real world examples
 + [Install](doc/Install.md)
 + [Develop and Build with Spig](doc/BuildWithSpig.md)
 + [How Spig Works](doc/HowSpigWorks.md)

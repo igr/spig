@@ -22,7 +22,6 @@ gulp.task('sass', () => {
     .pipe(sass())
     .on('error', sass.logError)
     .pipe(autoprefixer({
-      browsers: SpigConfig.dev.supportedBrowsers,
       cascade: false
     }))
     .pipe(gulpif(SpigConfig.site.production, cssnano()))

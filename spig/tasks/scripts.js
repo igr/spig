@@ -25,11 +25,7 @@ gulp.task('js', () => {
     })))
     .pipe(sourcemaps.init())
     .pipe(gulpif(SpigConfig.dev.jsUseBabel, babel({
-      presets: ['es2015', '@babel/env', {
-        "targets": {
-          "browsers": SpigConfig.dev.supportedBrowsers
-        }
-      }]
+      presets: ['es2015', '@babel/env', {}]
     })))
     .pipe(concat(SpigConfig.dev.names.bundle_js))
     .pipe(gulpif(SpigConfig.site.production, uglify()))
