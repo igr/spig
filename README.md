@@ -1,4 +1,4 @@
-# Spig v1.5.5
+# Spig v1.6.0
 
 ![](src/images/spig.png)
 
@@ -50,3 +50,4 @@ open localhost:3000
 + sitmap generator
 + live reload
 + very extensible
++ netlify lambdas (or other)

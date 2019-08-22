@@ -44,6 +44,7 @@ const devDefaults = {
   dirCss:       '/css',
   dirStatic:    '/static',
   dirLayouts:   '/layouts',
+  dirLambda:    '/lambda',
 
   // output root folder
   outDir:       './out',

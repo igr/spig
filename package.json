@@ -1,12 +1,13 @@
 {
   "name": "spig-example",
-  "version": "1.0.0",
+  "version": "1.6.0",
   "description": "SpigExample",
   "scripts": {
     "clean": "gulp clean",
     "dev": "gulp dev",
     "serve": "gulp build && gulp serve",
-    "build": "gulp build"
+    "build": "gulp build",
+    "build:lambda": "netlify-lambda build"
   },
   "dependencies": {
     "spig": "file:./spig"
