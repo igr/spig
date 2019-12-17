@@ -51,3 +51,13 @@ Spig
   ._("ASSETS")
   .imageMinify()
 ;
+
+// SITEMAP
+
+Spig
+  .on(['/index.xml', '/sitemap.xml'])
+  ._("POST_RENDER")
+  .frontmatter()
+  .applyTemplate()
+;
+
