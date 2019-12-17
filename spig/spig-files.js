@@ -46,6 +46,8 @@ class SpigFiles {
 
     initAttributes(fileObject);
 
+    fileObject.attr.syntethic = virtual ? true : false;
+
     this.files.push(fileObject);
 
     return fileObject;
