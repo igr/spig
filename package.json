@@ -7,7 +7,7 @@
     "dev": "gulp dev",
     "serve": "gulp build && gulp serve",
     "build": "gulp build",
-    "build:lambda": "netlify-lambda build"
+    "build:lambda": "cd netlify && build.sh"
   },
   "dependencies": {
     "spig": "file:./spig"
