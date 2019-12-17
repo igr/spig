@@ -5,7 +5,7 @@
 ## 1. Installation
 
 + [Download this repo](https://github.com/igr/spig/archive/master.zip)
-+ Copy the `/spig` folder to your project. 
++ Copy the `/spig` folder to your project.
 + Create `src` folder as in the example
 + Add dependency to `package.json`:
 ```json
@@ -21,4 +21,4 @@
 
 ## 2. Updates
 
-For `Spig` updates, just update the `spig` folder and run `yarn install`
+For **Spig** updates, just update the `/spig` folder and run `yarn install`. Sometimes you might need to reset the node, so use provided `spig-reset.sh`.

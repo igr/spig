@@ -16,9 +16,15 @@ gulp build
 
 The output folder is `out`.
 
+Clean:
+
+```shell
+yarn clean
+```
+
 ## Development mode
 
-Development mode, watch & server on port `3000`:
+In development mode, watch & server on port `3000`:
 
 ```shell
 yarn dev

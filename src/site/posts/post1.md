@@ -1,13 +1,11 @@
 ---
-title: "This is a post"
+title: "Post 1"
 tags:
   - tag1
 slug: hello
 ---
 
-# This is the first post {.red}
-
 Hello _markdown_ **world**.
 {.green}
 
-[External link](http://jodd.org)
+[External link](https://github.com/igr/spig)

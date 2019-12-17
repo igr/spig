@@ -1,11 +1,9 @@
 ---
-title: 'TwoTwo'
+title: 'Post 2'
 menu: 2
 tags:
   - tag1
   - tag2
 ---
 
-# About the Happy Pig!!!
-
-![](pig-happy-jumping.gif)
+![](ig.png)![](images/ig.png)

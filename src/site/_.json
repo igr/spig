@@ -1,4 +1,3 @@
 {
-  "layout": "base.njk",
-  "rootAttr": "Attribute defined in the root"
+  "rootAttr": "Attr in the root"
 }

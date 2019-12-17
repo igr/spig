@@ -1,8 +1,10 @@
 ---
-title: Page with slug
+title: Post 3 with slug
 menu: 12
+slug: p3
 ---
 
-Page with slug
++ [Sub page](sub1)
++ [Next page](three)
 
-![](pig-happy-jumping.gif)
+![](ig.png)![](images/ig.png)

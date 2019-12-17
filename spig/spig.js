@@ -182,7 +182,7 @@ class Spig {
   }
 
   /**
-   * Collects pages by given attribute name.
+   * Collects pages by given attribute name and create page per attribute.
    */
   collect(attribute) {
     return this.use((file) => fn_collect(this, file, attribute, true));
@@ -190,7 +190,7 @@ class Spig {
 
   /**
    *
-   * Collects pages by given attribute name, but dont generate pages.
+   * Collects pages by given attribute name, but don't generate pages per attributes.
    */
   collectAttr(attribute) {
     return this.use((file) => fn_collect(this, file, attribute, false));

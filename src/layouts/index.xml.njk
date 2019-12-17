@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>{{ site.name }}</title>
+    <link>{{ site.baseURL }}</link>
+    <description>DESCRIPTION</description>
+    <language>sr-RS</language>
+    <lastBuildDate> site.buildTime | dateUTC </lastBuildDate>
+    <atom:link href="{{ link }}" rel="self" type="application/rss+xml"/>
+
+    {% for p in site.pages | reverse | firstN(20) -%}
+      <item>
+        <title>{{ p.title }}</title>
+        <link>{{ p.link }}</link>
+        <pubDate> p.date | dateUTC </pubDate>
+        <guid>{{ p.link }}</guid>
+        <description>{{ p.summary | e }}</description>
+      </item>
+    {%- endfor %}
+  </channel>
+</rss>
