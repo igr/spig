@@ -1,0 +1,11 @@
+{
+  "name": "@spig/netlify",
+  "version": "1.0.0",
+  "description": "Spig/Netlify",
+  "scripts": {
+    "build": "netlify-lambda build"
+  },
+  "dependencies": {
+    "netlify-lambda": "^1.6.3"
+  }
+}
