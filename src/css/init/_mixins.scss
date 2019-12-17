@@ -39,7 +39,7 @@
   @-moz-keyframes #{$name} {
     @content;
   }
-  @-o-keyframes $animation-name {
+  @-o-keyframes #{$name} {
     @content;
   }
   @keyframes #{$name} {
