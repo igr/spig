@@ -9,12 +9,23 @@ module.exports = (file) => {
 
   let attr = SpigUtil.readAttributesOnPath(path, "__");
 
-  while (path !== '/') {
+  // this weird flag is here just because Path.dirname returns the same value for
+  // the root path ("/") - and the root must be processed once.
+  let breakIt = false;
+
+  while (true) {
     let config = SpigUtil.readAttributesOnPath(path, "_");
 
     attr = {...config, ...attr};
 
+    if (breakIt) {
+      break
+    }
+
     path = Path.dirname(path);
+    if (path === '/') {
+      breakIt = true
+    }
 
     if (!_s.endsWith(path, '/')) {
       path += '/';
