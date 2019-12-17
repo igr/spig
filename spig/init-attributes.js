@@ -7,24 +7,21 @@ const Path = require('path');
 module.exports = (file) => {
   let path = file.dir;
 
-  let attr = SpigUtil.readAttributesOnPath(path, "__");
-
-  // this weird flag is here just because Path.dirname returns the same value for
-  // the root path ("/") - and the root must be processed once.
-  let breakIt = false;
+  let attr = SpigUtil.readAttributesOnPath(file, path, "__");
 
   while (true) {
-    let config = SpigUtil.readAttributesOnPath(path, "_");
+    let config = SpigUtil.readAttributesOnPath(file, path, "_");
 
     attr = {...config, ...attr};
 
-    if (breakIt) {
-      break
-    }
+    const oldPath = path;
 
     path = Path.dirname(path);
-    if (path === '/') {
-      breakIt = true
+
+    if (oldPath === '/' && path === '/') {
+      // this is the only way how we can be sure that
+      // root has been processed once
+      break
     }
 
     if (!_s.endsWith(path, '/')) {

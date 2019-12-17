@@ -25,7 +25,7 @@ class SpigUtil {
   /**
    * Reads attributes on path.
    */
-  readAttributesOnPath(path, fileBaseName) {
+  readAttributesOnPath(file, path, fileBaseName) {
     const dev = SpigConfig.dev;
     let root = dev.srcDir + dev.dirSite;
 
@@ -45,12 +45,16 @@ class SpigUtil {
     if (fs.existsSync(jsFile)) {
       const jsRelativePath = '../' + Path.relative(dev.root, Path.normalize(jsFile));
       const jsRequireModule = jsRelativePath.substr(0, jsRelativePath.length - 3);
-      const config = require(jsRequireModule)();
+      const config = require(jsRequireModule)(file);
 
       attr = {...config, ...attr};
     }
 
     return attr
+  }
+
+  isObject(obj) {
+    return obj != null && obj.constructor.name === "Object"
   }
 
 }
