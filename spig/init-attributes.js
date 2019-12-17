@@ -1,32 +1,24 @@
 "use strict";
 
-const SpigConfig = require('./spig-config');
+const _s = require("underscore.string");
+const SpigUtil = require('./spig-util');
 const Path = require('path');
-const fs = require('fs');
 
 module.exports = (file) => {
-  const dev = SpigConfig.dev;
+  let path = file.dir;
 
-  let path = dev.srcDir + dev.dirSite + file.dir;
+  let attr = SpigUtil.readAttributesOnPath(path, "__");
 
-  let attr = {};
-  while (path !== './') {
-    const jsonFile = path + '_.json';
-    if (fs.existsSync(jsonFile)) {
-      const config = JSON.parse(fs.readFileSync(jsonFile));
-      attr = {...config, ...attr};
+  while (path !== '/') {
+    let config = SpigUtil.readAttributesOnPath(path, "_");
+
+    attr = {...config, ...attr};
+
+    path = Path.dirname(path);
+
+    if (!_s.endsWith(path, '/')) {
+      path += '/';
     }
-
-    const jsFile = path + '_.js';
-    if (fs.existsSync(jsFile)) {
-      const jsRelativePath = '../' + Path.relative(dev.root, Path.normalize(jsFile));
-      const requireModule = jsRelativePath.substr(0, jsRelativePath.length - 3);
-      const config = require(requireModule)();
-
-      attr = {...config, ...attr};
-    }
-
-    path = Path.dirname(path) + '/';
   }
 
   // update attributes for file
