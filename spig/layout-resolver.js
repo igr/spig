@@ -2,7 +2,7 @@
 
 const Path = require('path');
 const fs = require('fs');
-const SpigConfig = require('./spig-config');
+const dev = require('./spig-config').dev;
 
 /**
  * Resolves layout file from the file's attributes and meta-data.
@@ -12,7 +12,6 @@ const SpigConfig = require('./spig-config');
  * + returns default template
  */
 function resolveLayout(file) {
-  const dev = SpigConfig.dev;
   const layoutsDir = Path.normalize(dev.root + dev.srcDir + dev.dirLayouts);
 
   const layout = file.attr.layout;

@@ -4,9 +4,11 @@ const SpigConfig = require('./spig-config');
 const SpigFiles = require('./spig-files');
 const SpigVersion = require('./spig-version');
 const LayoutResolver = require('./layout-resolver');
+const TaskRunner = require('./task-runner');
 const Path = require('path');
 const glob = require('glob');
 const log = require('fancy-log');
+const chalk = require('chalk');
 const micromatch = require('micromatch');
 
 // system debug errors
@@ -30,7 +32,7 @@ const fn_collect = require('./phase1/collect');
 const fn_readingtime = require('./phase1/readingtime');
 
 
-log(`-=[Spig v${SpigVersion}]=-`);
+log(chalk.bgHex("0xF74B00").black(` -=[Spig v${SpigVersion}]=- `));
 
 SpigConfig.configureEngines();
 
@@ -56,8 +58,9 @@ class Spig {
   }
 
   constructor(files) {
+    const dev = SpigConfig.dev;
     this.tasks = {};
-    this.out = SpigConfig.dev.outDir;
+    this.out = dev.outDir;
     //this.dev = process.env.NODE_ENV !== 'production';
 
     this.tasks = {};
@@ -65,7 +68,6 @@ class Spig {
       this.tasks[p] = [];
     }
 
-    const dev = SpigConfig.dev;
     let filePatterns;
 
     if (Array.isArray(files)) {
@@ -95,7 +97,7 @@ class Spig {
   }
 
   /**
-   * Starts the current phase.
+   * Starts the current phase definition.
    * If phase is not register it will be added to the end of phases!
    */
   _(val) {
@@ -108,7 +110,7 @@ class Spig {
   }
 
   /**
-   * Adds a real or virtual file.
+   * Adds a real or virtual (i.e. synthetic) file.
    */
   addFile(fileName, value) {
     if (value) {
@@ -311,6 +313,18 @@ class Spig {
    */
   readingTime() {
     return this.use(file => fn_readingtime(file));
+  }
+
+
+  static run() {
+    const taskRunner = new TaskRunner(this.phases());
+    let taskName = undefined;
+
+    const args = process.argv.slice(2);
+    if (args.length !== 0) {
+      taskName = args[0];
+    }
+    taskRunner.runTask(taskName);
   }
 
 }

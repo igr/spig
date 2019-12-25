@@ -1,10 +1,21 @@
 "use strict";
 
-const gulp    = require('gulp');
-const serve   = require('gulp-serve');
-const SpigConfig = require('../spig-config');
+const dev = require('../spig-config').dev;
+const serveStatic = require('serve-static');
+const http = require('http');
+const connect = require('connect');
 
-gulp.task('serve', serve({
-  root: [SpigConfig.dev.outDir],
-  port: 3000,
-}));
+const serverInitFunction = (err) => {
+  if (err) throw err;
+  //util.log(util.colors.blue('Server started at ' + scheme + '://' + address + ':' + port));
+};
+
+module.exports = () => {
+  const app = connect();
+  app.use(serveStatic(dev.outDir));
+
+  let server = http
+    .createServer(app)
+    .listen(dev.local.port, dev.local.hostname, serverInitFunction);
+
+};

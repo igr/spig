@@ -1,12 +1,10 @@
 "use strict";
 
 const nunjucks = require('nunjucks');
-const SpigConfig = require('../spig-config');
+const dev = require('../spig-config').dev;
 const SpigFiles = require('../spig-files');
 const log = require('fancy-log');
 const chalk = require('chalk');
-
-const dev = SpigConfig.dev;
 
 const nunjucksEnv = nunjucks.configure(
   dev.srcDir + dev.dirLayouts, {

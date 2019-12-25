@@ -1,11 +1,10 @@
 "use strict";
 
-const Spig = require('../spig');
 const SpigConfig = require('../spig-config');
 const SpigFiles = require('../spig-files');
+const SpigUtil = require('../spig-util');
 const log = require('fancy-log');
 const chalk = require('chalk');
-const gulp = require('gulp');
 const fs = require('fs');
 const Path = require('path');
 
@@ -171,7 +170,8 @@ const writeAllFiles = () => {
 
 let counter = 0;
 
-gulp.task('site', (done) => {
+module.exports = (taskCtx) => {
+  SpigUtil.logTask("site");
   let promise = start();
 
   if (counter > 0) {
@@ -181,7 +181,7 @@ gulp.task('site', (done) => {
 
   promise.then(() => readAllFiles());
 
-  for (const phase of Spig.phases()) {
+  for (const phase of taskCtx.phases) {
     promise = promise
       .then(() => runPhase(phase))
       .then(() => siteUpdate());
@@ -190,9 +190,9 @@ gulp.task('site', (done) => {
   promise
     .then(() => {
       writeAllFiles();
-      done();
     })
     .catch(reason => {
       log.error(reason);
     });
-});
+
+};

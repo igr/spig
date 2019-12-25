@@ -1,13 +1,10 @@
 "use strict";
 
-const gulp    = require('gulp');
-const del     = require('del');
-const SpigConfig = require('../spig-config');
+const del = require('del');
+const dev = require('../spig-config').dev;
 
-// cleanups the build output
-
-gulp.task('clean', () => {
-  return del([
-    SpigConfig.dev.outDir + '/**/*'
+module.exports = () => {
+  del([
+    dev.outDir + '/**/*'
   ]);
-});
+};

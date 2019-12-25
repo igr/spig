@@ -59,9 +59,6 @@ const devDefaults = {
     bundle_js: 'main.js'
   },
 
-  // images to be resized
-  resizeImageSizes: [400, 1000],
-
   templates: {
     // template extensions
     extensions: ['.njk'],
@@ -78,7 +75,13 @@ const devDefaults = {
   jsUseBabel: false,
 
   spig: {
-    version: SpigVersion
+    version: SpigVersion,
+  },
+
+  // configuration for local development
+  local: {
+    port: 3000,
+    hostname: 'localhost'
   }
 
 };

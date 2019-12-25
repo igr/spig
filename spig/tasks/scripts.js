@@ -1,35 +1,54 @@
 "use strict";
 
-const gulp = require('gulp');
-const gulpif = require('gulp-if');
-const uglify = require('gulp-uglify');
-const concat = require('gulp-concat');
-const sourcemaps = require('gulp-sourcemaps');
-const plumber = require('gulp-plumber');
-const webpack = require('webpack-stream');
-const babel = require('gulp-babel');
-const browserSync = require('browser-sync').create();
+const glob = require("glob");
+const fs = require("fs");
+const uglify = require("uglify-js");
+const babel = require("@babel/core");
 const SpigConfig = require('../spig-config');
+const SpigUtil = require('../spig-util');
 
-gulp.task('js', () => {
-  const dev = SpigConfig.dev;
+const dev = SpigConfig.dev;
+const sourceRoot = dev.srcDir + dev.dirJs;
+const files = sourceRoot + "/**/*";
+
+module.exports = task;
+module.exports.watch = {files: files, task: task};
+
+function task() {
+  SpigUtil.logTask("js");
 
   SpigConfig.site.assets['js'] = {};
   SpigConfig.site.assets.js['dir'] = dev.dirJsOut;
-  SpigConfig.site.assets.js['bundle'] = dev.dirJsOut + '/' + SpigConfig.dev.names.bundle_js;
+  SpigConfig.site.assets.js['bundle'] = dev.dirJsOut + '/' + dev.names.bundle_js;
 
-  return gulp.src([dev.srcDir + dev.dirJs + '/**/*.js'])
-    .pipe(plumber())
-    .pipe(gulpif(SpigConfig.dev.jsUseBabel, webpack({
-      mode: 'production'
-    })))
-    .pipe(sourcemaps.init())
-    .pipe(gulpif(SpigConfig.dev.jsUseBabel, babel({
-      presets: ['es2015', '@babel/env', {}]
-    })))
-    .pipe(concat(SpigConfig.dev.names.bundle_js))
-    .pipe(gulpif(SpigConfig.site.production, uglify()))
-    .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest(dev.outDir + dev.dirJsOut))
-    .pipe(browserSync.stream());
-});
+  let bundleCode = "";
+
+  // merge all JS files
+
+  glob.sync(files)
+    .forEach(file => {
+      bundleCode = bundleCode + fs.readFileSync(file);
+    });
+
+  // babel
+
+  const result = babel.transformSync(bundleCode, {
+    presets: ['@babel/preset-env', {
+    }]
+  });
+  bundleCode = result.code;
+
+  // uglify
+
+  if (SpigConfig.site.production) {
+    const result = uglify.minify(bundleCode);
+    if (result.error) {
+      throw new Error(result.error);
+    }
+    bundleCode = result.code;
+  }
+
+  // save bundle
+
+  SpigUtil.writeToOut(dev.dirJsOut, dev.names.bundle_js, bundleCode);
+}

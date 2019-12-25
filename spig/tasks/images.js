@@ -1,42 +1,101 @@
 "use strict";
 
-const os          = require("os");
-const gulp        = require('gulp');
-const parallel    = require("concurrent-transform");
-const rename      = require("gulp-rename");
-const imageResize = require('gulp-image-resize');
-const imagemin = require('gulp-imagemin');
-const SpigConfig = require('../spig-config');
+const glob = require("glob");
+const fs = require("fs");
+const log = require("fancy-log");
+const Path = require("path");
+const imagemin = require('imagemin');
+const imageminMozjpeg = require('imagemin-mozjpeg');
+const imageminPngquant = require('imagemin-pngquant');
+const imageminGifsicle = require('imagemin-gifsicle');
+const sharp = require('sharp');
 
-// creates a set of resize tasks at defined image widths
+const dev = require('../spig-config').dev;
+const SpigUtil = require('../spig-util');
 
-let resizeImageTasks = [];
-const dev = SpigConfig.dev;
+const sourceRoot = dev.srcDir + dev.dirImages;
+const files = sourceRoot + "/**/*";
 
-dev.resizeImageSizes.forEach(function (size) {
-  let resizeImageTask = 'resize_' + size;
-  gulp.task(resizeImageTask, function (done) {
-    gulp.src(dev.srcDir + dev.dirImages + '/*')
-      .pipe(parallel(
-        imageResize({width: size}),
-        os.cpus().length
-      ))
-      .pipe(rename(function (path) {
-        path.basename += "-" + size;
-      }))
-      .pipe(imagemin())
-      .pipe(gulp.dest(dev.outDir + dev.dirImages));
-    done();
+module.exports = task;
+module.exports.watch = {files: files, task: task};
+
+function task() {
+  SpigUtil.logTask("images");
+  (async () => {
+    const allPromises =
+      glob.sync(files)
+        .map(file => processFile(file));
+
+    await Promise.all(allPromises);
+  })();
+}
+
+function processFile(file) {
+  const fileName = Path.basename(file);
+  const extension = Path.extname(fileName);
+  const split = Path.basename(file, extension).split("__");
+  const basename = split[0];
+
+  const mods = createModsFromFileNameSplit(split);
+  const buffer = fs.readFileSync(file);
+
+  mods.forEach(m => {
+    m.mod(buffer).toBuffer()
+      .then(buf => {
+        minimize(buf).then(buf => {
+          SpigUtil.writeToOut(dev.dirImages, `${basename}-${m.name}${extension}` , buf);
+        })
+      })
+      .catch(err => {
+        log.error(err);
+      });
   });
-  resizeImageTasks.push(resizeImageTask);
-});
+
+  if (mods.length > 0) return;
+
+  return minimize(buffer)
+    .then(outBuffer => {
+      SpigUtil.writeToOut(dev.dirImages, fileName, outBuffer);
+    }).catch(err => {
+      log.error(err);
+    });
+}
+
+function minimize(buffer) {
+  return imagemin.buffer(buffer, {
+    plugins: [
+      imageminMozjpeg(),
+      imageminPngquant({
+        quality: [0.6, 0.8]
+      }),
+      imageminGifsicle()
+    ]
+  })
+}
 
 
-// Copy core images to the dist folder and resize all preview images
+function createModsFromFileNameSplit(split) {
+  if (split.length === 1) {
+    return [];
+  }
 
-gulp.task('images', gulp.parallel(resizeImageTasks, function copyOriginalImages(done) {
-  gulp.src(dev.srcDir + dev.dirImages + '/*/**')
-    .pipe(imagemin())
-    .pipe(gulp.dest(dev.outDir + dev.dirImages));
-  done();
-}));
+  const tasks = split.splice(1);
+  const mods = [];
+
+  for (const t of tasks) {
+    let element = {};
+    if (t.startsWith('w')) {
+      element.mod = (buffer) => sharp(buffer).resize({'width': parseInt(t.substr(1))});
+    }
+    else if (t.startsWith('h')) {
+      element.mod = (buffer) => sharp(buffer).resize({'height': parseInt(t.substr(1))});
+    }
+    else {
+      throw new Error(`Unknown image mod name '${t}' in ${fileName}`);
+    }
+    element.name = t;
+    mods.push(element);
+  }
+
+  return mods;
+}
