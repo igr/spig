@@ -1,37 +1,12 @@
 "use strict";
 
+const Spig = require('../spig');
 const SpigConfig = require('../spig-config');
 const SpigFiles = require('../spig-files');
-const SpigUtil = require('../spig-util');
-const log = require('fancy-log');
-const chalk = require('chalk');
+const log = require('../log');
 const fs = require('fs');
 const Path = require('path');
 
-const logPrefix = 'Site';
-
-/**
- * Runs SPIG tasks on files.
- */
-
-const start = () => {
-  return new Promise(resolve => resolve());
-};
-
-const runTask = (task, file) => {
-  try {
-    const result = task(file);
-    if (result) {
-      return result;
-    }
-    return new Promise(resolve => resolve());
-  }
-  catch (err) {
-    log.error(chalk.red("Error! File: " + file.path));
-    log.error(err);
-    //throw err;
-  }
-};
 
 /**
  * Resets all metadata and configuration to avoid accumulation on reloading.
@@ -55,28 +30,9 @@ const reset = () => {
   SpigFiles.reset();
 
   for (const s of allSpigs) {
-    s.load();
+    s.reset();
   }
 
-};
-
-/**
- * Runs single phase.
- */
-const runPhase = (phaseNo) => {
-  const phaseFiles = [];
-
-  log(chalk.gray(`${logPrefix} phase: ${phaseNo}`));
-
-  for (const file of SpigFiles.files) {
-    const p = [];
-    file.spig.forEachTask(phaseNo, (task) => {
-      p.push(runTask(task, file));
-    });
-    phaseFiles.push(Promise.all(p));
-  }
-
-  return Promise.all(phaseFiles);
 };
 
 /**
@@ -113,7 +69,7 @@ const collectAllPages = () => {
  * Site updates only after a phase!
  */
 const siteUpdate = () => {
-  collectAllPages();
+  //collectAllPages();
 };
 
 /**
@@ -126,21 +82,18 @@ const readAllFiles = () => {
         file.contents = fs.readFileSync(file.src);
         file.plain = file.contents.toString();
       } else {
-        throw new Error("File not found: " + fileName);
+        throw new Error("File not found: " + file.src);
       }
     }
   }
 };
 
-function logline() {
-  log('-----------------------------------------------------');
-}
-
 /**
- * Writes destination files.
+ * Writes all destination files.
  */
 const writeAllFiles = () => {
-  logline();
+  log.line();
+
   for (const file of SpigFiles.files) {
     const dev = SpigConfig.dev;
     const out = file.out;
@@ -165,34 +118,24 @@ const writeAllFiles = () => {
   }
   log('Pages: ' + chalk.green(pageCount));
   log('Total files: ' + chalk.green(SpigFiles.files.length));
-  logline();
+  log.line();
 };
 
 let counter = 0;
 
-module.exports = (taskCtx) => {
-  SpigUtil.logTask("site");
-  let promise = start();
-
+module.exports = () => {
   if (counter > 0) {
-    promise = promise.then(() => reset());
+    reset();
   }
+
   counter = counter + 1;
 
-  promise.then(() => readAllFiles());
+//  readAllFiles();
 
-  for (const phase of taskCtx.phases) {
-    promise = promise
-      .then(() => runPhase(phase))
-      .then(() => siteUpdate());
-  }
+  Spig.build(() => {
+    //siteUpdate();
+  });
 
-  promise
-    .then(() => {
-      writeAllFiles();
-    })
-    .catch(reason => {
-      log.error(reason);
-    });
+//  writeAllFiles();
 
 };
