@@ -1,24 +1,25 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="{{ site.assets.css.dir }}/main.css" rel="stylesheet" type="text/css">
-    <title>{{ title }}</title>
-  </head>
-  <body>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="/css/main.css" rel="stylesheet" type="text/css">
+  <title>{{ title }}</title>
+</head>
+<body>
 
-  {{ rootAttr }}
+{{ rootAttr }}
 
-    <main><div class="wrapper">
-      <h1>{{ title }}</h1>
+<main>
+  <div class="wrapper">
+    <h1>{{ title }}</h1>
 
-      {{ content | safe }}
+    {{ content | safe }}
 
-    </div></main>
+  </div></main>
 
     {% include "footer.njk" %}
 
-    <script type="text/javascript" src="{{ site.assets.js.bundle }}"></script>
-  </body>
+<script type="text/javascript" src="/js/main.js"></script>
+</body>
 </html>

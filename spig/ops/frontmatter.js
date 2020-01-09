@@ -9,8 +9,8 @@ const matter = require('gray-matter');
 function processFile(fileRef, attributes = {}) {
   const fm = matter(fileRef.string());
 
-  fileRef.contents = fm.content.trim();
-  fileRef.plain = fileRef.contents;
+  fileRef.string(fm.content.trim());
+  fileRef.plain = fileRef.string(); // todo wtf?
 
   fileRef.attr = {...fileRef.attr, ...fm.data, ...attributes};
 }

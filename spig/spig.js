@@ -143,11 +143,10 @@ class Spig {
   }
 
   /**
-   * Allows to do additional computation on site.
-   * todo da li nam ovo treba? Site mogu i treba sami da dohvate!
+   * Allows to do additional computation on this spig.
    */
   with(fn) {
-    fn(this, SpigConfig.site);
+    fn(this);
     return this;
   }
 
@@ -172,6 +171,13 @@ class Spig {
     hello.js();
     hello.jsBundles();
   };
+
+  /**
+   * Just a simple convenient method to return the global config.
+   */
+  config() {
+    return SpigConfig;
+  }
 
 }
 

@@ -9,6 +9,6 @@ module.exports = (fileRef, layout) => {
 
   const result = nunjucksEnv.renderString(string, fileRef.context());
 
-  fileRef.contents = result;
+  fileRef.string(result);
 };
 

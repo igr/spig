@@ -6,7 +6,6 @@ const SpigConfig = require('../spig-config');
 const SpigFiles = require('../spig-files');
 const log = require('../log');
 const fs = require('fs');
-const Path = require('path');
 
 // todo cleanup!
 
@@ -68,13 +67,6 @@ const collectAllPages = () => {
 
 
 /**
- * Site updates only after a phase!
- */
-const siteUpdate = () => {
-  //collectAllPages();
-};
-
-/**
  * Reads all file content.
  */
 const readAllFiles = () => {
@@ -90,55 +82,10 @@ const readAllFiles = () => {
   }
 };
 
-/**
- * Writes all destination files.
- */
-const writeAllFiles = () => {
-  log.line();
-
-  for (const file of SpigFiles.files) {
-    const dev = SpigConfig.dev;
-    const out = file.out;
-    const dest = Path.normalize(dev.root + dev.outDir + out);
-
-    if (!fs.existsSync(Path.dirname(dest))) {
-      fs.mkdirSync(Path.dirname(dest), {recursive: true});
-    }
-
-    if (typeof file.contents === 'string') {
-      file.contents = Buffer.from(file.contents);
-    }
-    fs.writeFileSync(dest, file.contents);
-
-    if (file.page) {
-      log(chalk.green(out) + " <--- " + chalk.blue(file.path));
-    }
-  }
-  const pageCount = SpigConfig.site.pages.length;
-  if (pageCount !== 0) {
-    logline();
-  }
-  log('Pages: ' + chalk.green(pageCount));
-  log('Total files: ' + chalk.green(SpigFiles.files.length));
-  log.line();
-};
-
-let counter = 0;
 
 module.exports = () => {
   log.task("build");
 
-  if (counter > 0) {
-    reset();
-  }
-
-  counter = counter + 1;
-
-//  readAllFiles();
-
   new SpigRunner(ctx.SPIGS, ctx.PHASES, ctx.OPS).run().catch(e => log.error(e));
-
-
-//  writeAllFiles();
 
 };

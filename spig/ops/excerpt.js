@@ -19,7 +19,7 @@ function processFile(fileRef) {
     return;
   }
 
-  let s = fileRef.contents;
+  let s = fileRef.string();
   const data = excerptBlock(s);
 
   if (data) {

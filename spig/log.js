@@ -75,7 +75,7 @@ module.exports.buildTime = (elapsedMilliseconds) => {
 
 module.exports.totalTime = (elapsedMilliseconds) => {
   const {sec, ms} = millisToSeconds(elapsedMilliseconds);
-  log(chalk.white(`⚡ Total time ${sec}.${ms}s.`));
+  log(chalk.white(`✅ All done. Total time ${sec}.${ms}s.`));
 };
 
 function millisToSeconds(elapsedMilliseconds) {
