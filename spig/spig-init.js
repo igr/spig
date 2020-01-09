@@ -105,16 +105,16 @@ module.exports.initData = () => {
   }
 };
 
-
 module.exports.initProductionMode = () => {
   const site = SpigConfig.site;
+  const dev = SpigConfig.dev;
 
   if (site.env.SPIG_PRODUCTION) {
     site.production = site.env.SPIG_PRODUCTION;
   }
   if (site.production === false) {
     log.env('DEVELOPMENT');
-    site.baseURL = 'http://localhost:3000';   // todo read from settings!
+    site.baseURL = `http://${dev.server.hostname}:${dev.server.port}`;
   } else {
     log.env('PRODUCTION');
   }

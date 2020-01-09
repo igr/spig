@@ -13,6 +13,8 @@ const SpigConfig = require('./spig-config');
  */
 function resolveLayout(file) {
   const dev = SpigConfig.dev;
+  const templateCfg = SpigConfig.ops.template;
+
   const layoutsDir = Path.normalize(dev.root + dev.srcDir + dev.dirLayouts);
 
   const layout = file.attr.layout;
@@ -24,7 +26,7 @@ function resolveLayout(file) {
       return layoutFile;
     }
 
-    for (let ext of dev.templates.extensions) {
+    for (let ext of templateCfg.extensions) {
       layoutFile = findLayout(layoutsDir, file.dir, layout + ext);
       if (layoutFile) {
         return layoutFile;
@@ -34,7 +36,7 @@ function resolveLayout(file) {
 
   // try basename as layout name
 
-  for (let ext of dev.templates.extensions) {
+  for (let ext of templateCfg.extensions) {
     layoutFile = findLayout(layoutsDir, file.dir, file.basename + ext);
     if (layoutFile) {
       return layoutFile;
@@ -43,7 +45,7 @@ function resolveLayout(file) {
 
   // try name as layout name
 
-  for (let ext of dev.templates.extensions) {
+  for (let ext of templateCfg.extensions) {
     layoutFile = findLayout(layoutsDir, file.dir, file.name + ext);
     if (layoutFile) {
       return layoutFile;
@@ -64,7 +66,7 @@ function resolveLayout(file) {
     const name = dir.substr(ndx + 1);
     dir = dir.substr(0, ndx + 1);
 
-    for (let ext of dev.templates.extensions) {
+    for (let ext of templateCfg.extensions) {
       layoutFile = findLayout(layoutsDir, dir, name + ext);
       if (layoutFile) {
         return layoutFile;
@@ -75,8 +77,8 @@ function resolveLayout(file) {
 
   // default
 
-  for (let ext of dev.templates.extensions) {
-    layoutFile = findLayout(layoutsDir, file.dir, dev.templates.default + ext);
+  for (let ext of templateCfg.extensions) {
+    layoutFile = findLayout(layoutsDir, file.dir, templateCfg.default + ext);
     if (layoutFile) {
       return layoutFile;
     }
@@ -84,7 +86,7 @@ function resolveLayout(file) {
 
   // nothing found
 
-  return dev.templates.default;
+  return templateCfg.default;
 }
 
 /**

@@ -75,24 +75,13 @@ module.exports.dev = {
     bundle_js: 'main.js'
   },
 
-  templates: {
-    // template extensions
-    extensions: ['.njk'],
-
-    // default template name
-    default: 'base'
-  },
-
   // extensions to be rendered
   render: [
     "**/*.md"
   ],
 
-  jsUseBabel: false,
-
   // configuration for local development
-  // todo move to configuration of each operation
-  local: {
+  server: {
     port: 3000,
     hostname: 'localhost'
   },
@@ -106,6 +95,10 @@ module.exports.ops = {
 
   excerpt: {
     regexp: /<!--+\s*more\s*--+>/i
+  },
+
+  js: {
+    useBabel: false
   },
 
   imageMinify: {
@@ -122,6 +115,14 @@ module.exports.ops = {
     gif: {
       optimizationLevel: 3
     }
-  }
+  },
+
+  template: {
+    // template extensions
+    extensions: ['.njk'],
+
+    // default template name
+    default: 'base'
+  },
 
 };

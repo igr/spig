@@ -8,6 +8,8 @@ const log = require('../log');
 const fs = require('fs');
 const Path = require('path');
 
+// todo cleanup!
+
 /**
  * Resets all metadata and configuration to avoid accumulation on reloading.
  */

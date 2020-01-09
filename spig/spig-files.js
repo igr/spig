@@ -88,10 +88,8 @@ class SpigFiles {
     this.files = [];
   }
 
-
   /**
    * Lookups the file reference by its ID.
-   * todo da li nam treba?
    */
   static lookup(id) {
     return ctx.FILES[id];

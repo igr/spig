@@ -8,9 +8,10 @@ const log = require('../log');
 
 const serverInitFunction = (err) => {
   if (err) throw err;
-  //todo add port etc
-  log.info("Server started at")
-  //util.log(util.colors.blue('Server started at ' + scheme + '://' + address + ':' + port));
+
+  const dev = SpigConfig.dev;
+
+  log.info(`Server started at http://${dev.server.hostname}:${dev.server.port}`);
 };
 
 module.exports = () => {
@@ -23,5 +24,5 @@ module.exports = () => {
 
   const server = http
     .createServer(app)
-    .listen(dev.local.port, dev.local.hostname, serverInitFunction);
+    .listen(dev.server.port, dev.server.hostname, serverInitFunction);
 };

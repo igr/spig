@@ -34,7 +34,7 @@ function processFile(fileRef) {
   fileRef.string(bundleCode)
 }
 
-module.exports.operation = (options) => {
+module.exports.operation = (options = {}) => {
   return SpigOperation
     .named('javascript')
     .onFile((fileRef) => processFile(fileRef));
