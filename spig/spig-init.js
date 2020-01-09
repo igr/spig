@@ -160,3 +160,24 @@ function nunjucks(fn) {
   }
 }
 
+/**
+ * Some utility template functions.
+ */
+module.exports.initUtilTemplateFunctions = () => {
+  const site = SpigConfig.site;
+
+  site.pageOf = (url) => {
+    for (const page of site.pages) {
+      if (page.url === url) {
+        return page;
+      }
+    }
+  };
+  site.pageOfSrc = (src) => {
+    for (const page of site.pages) {
+      if (page.src === src) {
+        return page;
+      }
+    }
+  };
+};

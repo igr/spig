@@ -19,8 +19,13 @@ module.exports.info = (message) => {
   log(chalk.magentaBright(message));
 };
 
-module.exports.line = () => {
-  console.log('-----------------------------------------------------');
+module.exports.line = (msg) => {
+  if (msg) {
+    msg = `[${msg}]`
+  } else {
+    msg = '';
+  }
+  console.log(`---${msg}--------------------------------------------------`.substr(0, 50));
 };
 
 module.exports.banner = (version) => {
@@ -50,10 +55,12 @@ module.exports.fileOut = (fileRef) => {
   if (outname.startsWith('//')) {
     outname = outname.substr(1);
   }
+
+  const outNameChalked = (fileRef.page) ? chalk.green(outname) : chalk.yellow(outname);
   if (fileRef.syntethic) {
-    console.log(chalk.green(outname));
+    console.log(outNameChalked);
   } else {
-    console.log(chalk.green(outname) + " ⮜ " + chalk.blue(fileRef.root + fileRef.path));
+    console.log(outNameChalked + " ⮜ " + chalk.blue(fileRef.root + fileRef.path));
   }
 };
 
@@ -61,12 +68,21 @@ module.exports.notification = (message) => {
   log(chalk.cyan(message));
 };
 
-module.exports.build = (elapsedMilliseconds) => {
+module.exports.buildTime = (elapsedMilliseconds) => {
+  const {sec, ms} = millisToSeconds(elapsedMilliseconds);
+  log(chalk.white(`🔥 Site built in ${sec}.${ms}s.`));
+};
+
+module.exports.totalTime = (elapsedMilliseconds) => {
+  const {sec, ms} = millisToSeconds(elapsedMilliseconds);
+  log(chalk.white(`⚡ Total time ${sec}.${ms}s.`));
+};
+
+function millisToSeconds(elapsedMilliseconds) {
   const sec = Math.floor(elapsedMilliseconds / 1000);
   let ms = Math.floor((elapsedMilliseconds % 1000) / 10);
   if (ms < 10) {
     ms = '0' + ms;
   }
-  log(chalk.white(`🔥 Site built in ${sec}.${ms} s.`));
-};
-
+  return {sec, ms};
+}

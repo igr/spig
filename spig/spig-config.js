@@ -38,7 +38,26 @@ module.exports.site = {
     version: SpigVersion,
   },
 
-};
+
+  // some functions
+
+  pageOf: (url) => {
+    for (const page of this.pages) {
+      if (page.url === url) {
+        return page;
+      }
+    }
+  },
+
+  pageOfSrc: (src) => {
+    for (const page of this.pages) {
+      if (page.src === src) {
+        return page;
+      }
+    }
+  }
+}
+;
 
 /**
  * Development-related configuration. For internal use only.

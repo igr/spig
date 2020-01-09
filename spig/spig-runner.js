@@ -29,11 +29,11 @@ class SpigRunner {
       await this.runPhase(phase);
     }
 
-    const t1 = performance.now();
-
-    log.build(t1 - t0);
+    log.buildTime(performance.now() - t0);
 
     await this.writeAllFiles();
+
+    log.totalTime(performance.now() - t0);
   }
 
   /**
@@ -104,14 +104,21 @@ class SpigRunner {
 
     log.line();
 
+    let pageCount = 0;
+    let totalCount = 0;
+
     for (let i = 0; i < filesLength; i += BATCH_SIZE) {
       const ops = files.slice(i, i + BATCH_SIZE)
         .filter(fileRef => fileRef.active)
-        .map(fileRef => write(fileRef.spig.def.destDir, fileRef));
+        .map(fileRef => {
+          totalCount += 1;
+          if (fileRef.page) pageCount += 1;
+          return write(fileRef.spig.def.destDir, fileRef)
+        });
       await Promise.all(ops);
     }
 
-    log.line();
+    log.line(`${pageCount}/${totalCount}`);
   }
 
 
