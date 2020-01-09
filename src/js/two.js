@@ -1,1 +1,1 @@
-console.log("Hello 2");
+console.log("Separate file");

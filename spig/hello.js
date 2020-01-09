@@ -2,6 +2,7 @@
 
 const Spig = require('./spig');
 const SpigConfig = require('./spig-config');
+const _s = require('underscore.string');
 
 /**
  * IMAGES.
@@ -57,10 +58,30 @@ module.exports.js = () => {
     .of(d => d
       .on('/**/*.js')
       .from(SpigConfig.dev.dir.js)
+      // skip bundles
+      .filter(fileRef => !_s.contains(fileRef.path, '_js/'))
       .to(SpigConfig.dev.dir.jsOut)
     )
     ._('HELLO')
-    .merge(SpigConfig.dev.names.bundle_js)
+    .js()
+  ;
+};
+
+module.exports.jsBundles = () => {
+  Spig
+    .of(d => d
+      .on('/*_js/**/*.js')
+      .from(SpigConfig.dev.dir.js)
+      .to(SpigConfig.dev.dir.jsOut)
+    )
+    ._('HELLO')
+    .merge((fileRef) => {
+      const slashNdx = fileRef.path.indexOf('/', 1);
+      const bundleFileName = fileRef.path.substr(1, slashNdx - 1);
+      if (_s.endsWith(bundleFileName, '_js')) {
+        return bundleFileName.replace('_js', '.js');
+      }
+    })
     .js()
   ;
 };

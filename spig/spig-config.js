@@ -69,12 +69,6 @@ module.exports.dev = {
     layouts: '/layouts',
   },
 
-  // names
-  // todo move to configuration of each operation!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  names: {
-    bundle_js: 'main.js'
-  },
-
   // configuration for local development
   server: {
     port: 3000,

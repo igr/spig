@@ -169,6 +169,7 @@ class Spig {
     hello.sass();
     hello.images();
     hello.js();
+    hello.jsBundles();
   };
 
 }

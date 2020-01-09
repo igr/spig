@@ -147,8 +147,8 @@ class SpigOps {
     return this.do(require('./ops/sass').operation(this.spig));
   }
 
-  merge(bundleFile) {
-    return this.do(require('./ops/merge').operation(this.spig, {bundle: bundleFile}));
+  merge(bundleAggregatorFn) {
+    return this.do(require('./ops/merge').operation(this.spig, bundleAggregatorFn));
   }
 
   js(options) {
