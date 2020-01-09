@@ -3,10 +3,9 @@
   "version": "1.6.0",
   "description": "SpigExample",
   "scripts": {
-    "clean": "gulp clean",
-    "dev": "gulp dev",
-    "serve": "gulp build && gulp serve",
-    "build": "gulp build",
+    "clean": "node spig.js clean",
+    "dev": "node spig.js dev",
+    "build": "node spig.js",
     "build:lambda": "cd netlify && build.sh"
   },
   "dependencies": {
