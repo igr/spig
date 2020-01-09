@@ -1,7 +1,7 @@
 "use strict";
 
+const SpigOperation = require('../spig-operation');
 const minify = require('html-minifier').minify;
-const SpigFiles = require('../spig-files');
 
 const defaults = {
   collapseWhitespace: true,
@@ -11,7 +11,12 @@ const defaults = {
 /**
  * Minifies HTML.
  */
+function processFile(fileRef, options = {}) {
+  fileRef.string(minify(fileRef.string()), {...defaults, ...options});
+}
 
-module.exports = (file, options = {}) => {
-  file.contents = minify(SpigFiles.stringContents(file), {...defaults, ...options});
+module.exports.operation = () => {
+  return SpigOperation
+    .named('minify html')
+    .onFile(fileRef => processFile(fileRef));
 };

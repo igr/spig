@@ -6,23 +6,13 @@ const uglify = require('uglify-js');
 const babel = require("@babel/core");
 
 const dev = SpigConfig.dev;
-const sourceRoot = dev.srcDir + dev.dirJs;
-const files = sourceRoot + "/**/*";
 
 SpigConfig.site.assets['js'] = {};
 SpigConfig.site.assets.js['dir'] = dev.dirJsOut;
 SpigConfig.site.assets.js['bundle'] = dev.dirJsOut + '/' + dev.names.bundle_js;
 
-module.exports.operation = (options) => {
-  return SpigOperation
-    .named("javascript")
-    .onFile((fileRef) => processFile(fileRef))
-    ;
-};
-
-
-function processFile(fileReference) {
-  let bundleCode = fileReference.string();
+function processFile(fileRef) {
+  let bundleCode = fileRef.string();
 
   const result = babel.transformSync(bundleCode, {
     presets: ['@babel/preset-env', {}]
@@ -41,5 +31,13 @@ function processFile(fileReference) {
 
   // update file reference
 
-  fileReference.string(bundleCode)
+  fileRef.string(bundleCode)
 }
+
+module.exports.operation = (options) => {
+  return SpigOperation
+    .named('javascript')
+    .onFile((fileRef) => processFile(fileRef));
+};
+
+

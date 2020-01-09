@@ -1,15 +1,14 @@
 "use strict";
 
 const nunjucksEnv = require('../engines/nunjucks-engine');
-const SpigFiles = require('../spig-files');
 
-module.exports = (file, layout) => {
-  let string = SpigFiles.stringContents(file);
+module.exports = (fileRef, layout) => {
+  let string = fileRef.string();
 
   string = `{% extends '${layout}' %}` + string;
 
-  const result = nunjucksEnv.renderString(string, SpigFiles.contextOf(file));
+  const result = nunjucksEnv.renderString(string, fileRef.context());
 
-  file.contents = result;
+  fileRef.contents = result;
 };
 

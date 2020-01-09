@@ -23,24 +23,7 @@ const gifOptionsDefaults = {
 
 /**
  * Minimizes images.
- * todo     // todo enable this back!
- if (!SpigConfig.site.production) {
-      return this;
-    }
-
  */
-module.exports.operation = (spig, options) => {
-  return SpigOperation
-    .named("minify images")
-    .onFile((fileRef) => {
-      return invoke(fileRef.buffer(), options)
-        .then(buffer => {
-          fileRef.buffer(buffer);
-        });
-    })
-    ;
-};
-
 function invoke(buffer, options = {}) {
   const jpegOptions = {
     ...jpgOptionsDefaults,
@@ -71,3 +54,14 @@ function invoke(buffer, options = {}) {
     ]
   });
 }
+
+module.exports.operation = (options) => {
+  return SpigOperation
+    .named('minify images')
+    .onFile((fileRef) => {
+      return invoke(fileRef.buffer(), options)
+        .then(buffer => {
+          fileRef.buffer(buffer);
+        });
+    });
+};

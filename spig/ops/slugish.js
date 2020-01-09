@@ -1,38 +1,39 @@
 "use strict";
 
+const SpigOperation = require('../spig-operation');
 const _s = require('underscore.string');
 const SpigFiles = require('../spig-files');
 const Mustache = require("mustache");
 const Path = require('path');
 
-function renderSlug(slug, file) {
-  return Mustache.render(slug, SpigFiles.contextOf(file), {}, ['{', '}']);
+function renderSlug(slug, fileRef) {
+  return Mustache.render(slug, fileRef.context(), {}, ['{', '}']);
 }
 
-function resolvePathToFileIncludingSubSlugs(file) {
-  let dirName = Path.dirname(file.out);
+function resolvePathToFileIncludingSubSlugs(fileRef) {
+  let dirName = Path.dirname(fileRef.out);
 
   let dirs = dirName.split('/').slice(1);
-  let out = "/";
-  let originalOutPath = "/";
+  let out = '/';
+  let originalOutPath = '/';
 
   for (let dir of dirs) {
     let slug = dir;
     originalOutPath = originalOutPath + dir + '/';
 
     // if there is `index` file in current folder, it can change folder name
-    const indexFile = SpigFiles.lookup(originalOutPath + 'index');
-    if (indexFile) {
-      if (indexFile.attr.slug) {
-        slug = indexFile.attr.slug;
-        slug = renderSlug(slug, indexFile);
+    // todo lookup for all input extensions, not only MD!
+    const indexFileRef = SpigFiles.lookup(originalOutPath + 'index.md');
+    if (indexFileRef) {
+      if (indexFileRef.attr.slug) {
+        slug = indexFileRef.attr.slug;
+        slug = renderSlug(slug, indexFileRef);
       }
     }
 
     if (slug.startsWith('/')) {
       out = slug;
-    }
-    else {
+    } else {
       out = out + slug;
     }
 
@@ -44,25 +45,30 @@ function resolvePathToFileIncludingSubSlugs(file) {
   return out;
 }
 
+function processFile(fileRef) {
+  let out = resolvePathToFileIncludingSubSlugs(fileRef);
 
-module.exports = (file) => {
-  let out = resolvePathToFileIncludingSubSlugs(file);
-
-  let slug = file.attr.slug;
+  let slug = fileRef.attr.slug;
 
   if (!slug) {
     // slug not defined on a file, return modified output path
-    file.out = out + Path.basename(file.out);
+    fileRef.out = out + Path.basename(fileRef.out);
     return;
   }
 
-  slug = renderSlug(slug, file);
+  slug = renderSlug(slug, fileRef);
   out = Path.dirname(out) + '/';
 
   if (slug.startsWith('/')) {
-    file.out = slug + '/' + Path.basename(file.out);
+    fileRef.out = slug + '/' + Path.basename(fileRef.out);
     return;
   }
 
-  file.out = out + slug + '/' + Path.basename(file.out);
+  fileRef.out = out + slug + '/' + Path.basename(fileRef.out);
+}
+
+module.exports.operation = () => {
+  return SpigOperation
+    .named('slugish')
+    .onFile(fileRef => processFile(fileRef));
 };

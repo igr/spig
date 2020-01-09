@@ -4,12 +4,12 @@ const SpigConfig = require('../spig-config');
 const SpigFiles = require('../spig-files');
 const slugify = require('slugify');
 
-module.exports = (spig, file, attrName, createFile) => {
-  if (!file.attr.hasOwnProperty(attrName)) {
+module.exports = (spig, fileRef, attrName, createFile) => {
+  if (!fileRef.attr.hasOwnProperty(attrName)) {
     return;
   }
 
-  let values = file.attr[attrName];
+  let values = fileRef.attr[attrName];
 
   if (!Array.isArray(values)) {
     values = [values];
@@ -60,17 +60,17 @@ module.exports = (spig, file, attrName, createFile) => {
     // update date
 
     if (createFile) {
-      if (file.attr.date) {
+      if (fileRef.attr.date) {
         if (!attrFile.attr.date) {
-          attrFile.attr.date = file.attr.date;
+          attrFile.attr.date = fileRef.attr.date;
         } else {
-          if (file.attr.date > attrFile.attr.date) {
-            attrFile.attr.date = file.attr.date;
+          if (fileRef.attr.date > attrFile.attr.date) {
+            attrFile.attr.date = fileRef.attr.date;
           }
         }
       }
     }
 
-    map[v].push(SpigFiles.contextOf(file));
+    map[v].push(fileRef.context());
   }
 };

@@ -1,16 +1,22 @@
 "use strict";
 
+const SpigOperation = require('../spig-operation');
 const matter = require('gray-matter');
-const SpigFiles = require('../spig-files');
 
 /**
  * Exports front matter to attributes.
  */
-module.exports = (file, attributes = {}) => {
-  const fm = matter(SpigFiles.stringContents(file));
+function processFile(fileRef, attributes = {}) {
+  const fm = matter(fileRef.string());
 
-  file.contents = fm.content.trim();
-  file.plain = file.contents;
+  fileRef.contents = fm.content.trim();
+  fileRef.plain = fileRef.contents;
 
-  file.attr = {...file.attr, ...fm.data, ...attributes};
+  fileRef.attr = {...fileRef.attr, ...fm.data, ...attributes};
+}
+
+module.exports.operation = () => {
+  return SpigOperation
+    .named('frontmatter')
+    .onFile(fileRef => processFile(fileRef));
 };

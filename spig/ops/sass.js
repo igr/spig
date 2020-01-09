@@ -13,13 +13,6 @@ const cssnano = require('cssnano');
 SpigConfig.site.assets['css'] = {};
 SpigConfig.site.assets.css['dir'] = SpigConfig.dev.dirCssOut;
 
-module.exports.operation = (spig) => {
-  return SpigOperation
-    .named("sass")
-    .onFile((fileRef) => processFile(spig, fileRef))
-    ;
-};
-
 function processFile(spig, fileRef) {
   // SASS -> CSS
 
@@ -57,3 +50,11 @@ function processFile(spig, fileRef) {
       }
     });
 }
+
+
+module.exports.operation = (spig) => {
+  return SpigOperation
+    .named('sass')
+    .onFile((fileRef) => processFile(spig, fileRef));
+};
+

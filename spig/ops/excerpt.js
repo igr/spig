@@ -1,5 +1,6 @@
 "use strict";
 
+const SpigOperation = require('../spig-operation');
 const rExcerpt2 = /<!--+\s*more\s*--+>/i;
 const removeMd = require('remove-markdown');
 
@@ -8,16 +9,15 @@ const excerptBlock = (content) => {
   if (!match) {
     return;
   }
-
   return content.substring(0, match.index).trim();
 };
 
-module.exports = (file) => {
-  if (file.attr.summary) {
+function processFile(fileRef) {
+  if (fileRef.attr.summary) {
     return;
   }
-  
-  let s = file.contents;
+
+  let s = fileRef.contents;
   const data = excerptBlock(s);
 
   if (data) {
@@ -29,5 +29,11 @@ module.exports = (file) => {
     }
   }
 
-  file.attr.summary = s;
+  fileRef.attr.summary = s;
+}
+
+module.exports.operation = () => {
+  return SpigOperation
+    .named("summary")
+    .onFile(fileRef => processFile(fileRef));
 };

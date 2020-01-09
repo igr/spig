@@ -1,13 +1,13 @@
 "use strict";
 
+const SpigOperation = require('../spig-operation');
 const readingTime = require('reading-time');
-const SpigFiles = require('../spig-files');
 
 /**
  * Reading time.
  */
-module.exports = (file) => {
-  const result = readingTime(SpigFiles.stringContents(file));
+function processFile(fileRef) {
+  const result = readingTime(fileRef.string());
 
   const time = result.minutes;
   if (time < 1) {
@@ -18,5 +18,11 @@ module.exports = (file) => {
 
   delete result.text;
 
-  file.attr.readingTime = result;
+  fileRef.attr.readingTime = result;
+}
+
+module.exports.operation = () => {
+  return SpigOperation
+    .named('reading time')
+    .onFile(fileRef => processFile(fileRef));
 };

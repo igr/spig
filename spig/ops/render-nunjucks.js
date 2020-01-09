@@ -3,9 +3,9 @@
 const nunjucksEnv = require('../engines/nunjucks-engine');
 const SpigFiles = require('../spig-files');
 
-module.exports = (file) => {
-  let string = SpigFiles.stringContents(file);
+module.exports = fileRef => {
+  let string = SpigFiles.stringContents(fileRef);
 
-  file.contents = nunjucksEnv.renderString(string, SpigFiles.contextOf(file));
+  fileRef.contents = nunjucksEnv.renderString(string, SpigFiles.contextOf(fileRef));
 };
 

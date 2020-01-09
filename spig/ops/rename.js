@@ -1,9 +1,9 @@
 "use strict";
 
+const SpigOperation = require('../spig-operation');
 const Path = require('path');
 
 function parsePath(path) {
-
   const extname = Path.extname(path);
   return {
     dirname: Path.dirname(path),
@@ -15,10 +15,17 @@ function parsePath(path) {
 /**
  * Renames file.
  */
-module.exports = (file, renameFn) => {
-  const parsedPath = parsePath(file.out);
+function processFile(fileRef, renameFn) {
+  const parsedPath = parsePath(fileRef.out);
 
   renameFn(parsedPath);
 
-  file.out = Path.join(parsedPath.dirname, parsedPath.basename + parsedPath.extname);
+  fileRef.out = Path.join(parsedPath.dirname, parsedPath.basename + parsedPath.extname);
+}
+
+module.exports.operation = (renameFn) => {
+  return SpigOperation
+    .named('rename')
+    .onFile((fileRef) => processFile(fileRef, renameFn));
 };
+

@@ -3,15 +3,6 @@
 const SpigOperation = require('../spig-operation');
 const sharp = require('sharp');
 
-module.exports.operation = (spig, options) => {
-  return SpigOperation
-    .named("resize images")
-    .onFile((fileRef) => {
-      return Promise.all(processFile(spig, fileRef));
-    })
-    ;
-};
-
 function processFile(spig, fileRef) {
   const buffer = fileRef.buffer();
 
@@ -51,3 +42,11 @@ function createModsFromFileNameSplit(split) {
 
   return mods;
 }
+
+module.exports.operation = (spig, options) => {
+  return SpigOperation
+    .named("resize images")
+    .onFile((fileRef) => {
+      return Promise.all(processFile(spig, fileRef));
+    });
+};

@@ -4,7 +4,7 @@ const SpigOperation = require('../spig-operation');
 
 module.exports.operation = (spig, options) => {
   return SpigOperation
-    .named("merge")
+    .named('merge')
     .onStart(() => {
       this.content = "";
     })
@@ -15,7 +15,6 @@ module.exports.operation = (spig, options) => {
     })
     .onEnd(() => {
       spig.addFile(options.bundle, this.content);
-    })
-    ;
+    });
 };
 
