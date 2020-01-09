@@ -61,7 +61,7 @@ class FileRef {
     // bar.ext
     this.name = Path.basename(path);
 
-    // ext
+    // .ext
     this.ext = Path.extname(path);
 
     // bar

@@ -75,11 +75,6 @@ module.exports.dev = {
     bundle_js: 'main.js'
   },
 
-  // extensions to be rendered
-  render: [
-    "**/*.md"
-  ],
-
   // configuration for local development
   server: {
     port: 3000,
@@ -99,6 +94,11 @@ module.exports.ops = {
 
   js: {
     useBabel: false
+  },
+
+  htmlMinify: {
+    collapseWhitespace: true,
+    conservativeCollapse: false
   },
 
   imageMinify: {
@@ -124,5 +124,11 @@ module.exports.ops = {
     // default template name
     default: 'base'
   },
+
+  render: {
+    // extensions to be rendered
+    extensions: ['.md']
+  },
+
 
 };
