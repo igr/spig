@@ -6,10 +6,13 @@ const chalk       = require("chalk");
 const glob        = require("glob");
 const SpigVersion = require('./spig-version');
 
+/**
+ * Site configuration defaults. Accessible in templates.
+ */
 const siteDefaults = {
-  name: 'Spig Site',
+  name: 'My Awesome Spig Site',
   baseURL: 'http://localhost:3000',
-  version: '1.0.0',
+  version: '0.0.1',
 
   // environment
   env: process.env,
@@ -22,39 +25,54 @@ const siteDefaults = {
   // data folder
   data: {},
 
-  // stats
-  buildTime: new Date(),
-
-  // pages
+  // list of all pages
   pages: [],
 
   // collections
-  collections: {}
+  collections: {},
+
+  // build related data
+  build: {
+    date: new Date()
+  },
+
+  // some spig data
+  spig: {
+    version: SpigVersion,
+  },
+
 };
 
+/**
+ * Development-related configuration. For internal use only.
+ * Folder names do not end with a slash. All paths are relative, but starts with `/`.
+ * This makes building paths easier.
+ */
 const devDefaults = {
 
   // source root folder
-  srcDir:       './src',
+  srcDir: './src',
 
   // relative source folders
-  dirSite:      '/site',
-  dirImages:    '/images',
-  dirJs:        '/js',
-  dirData:      '/data',
-  dirCss:       '/css',
-  dirStatic:    '/static',
-  dirLayouts:   '/layouts',
-  dirLambda:    '/lambda',
+  dirSite: '/site',
+  dirImages: '/images',
+  dirJs: '/js',
+  dirData: '/data',
+  dirCss: '/css',
+  dirStatic: '/static',
+  dirLayouts: '/layouts',
+  dirLambda: '/lambda',
 
   // output root folder
-  outDir:       './out',
+  outDir: './out',
 
   // relative output folders
-  dirJsOut:     '/js',
-  dirCssOut:    '/css',
+  dirJsOut: '/js',
+  dirCssOut: '/css',
+  dirImagesOut: `/images`,
 
   // names
+  // todo move to configuration of each operation!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   names: {
     bundle_js: 'main.js'
   },
@@ -74,15 +92,12 @@ const devDefaults = {
 
   jsUseBabel: false,
 
-  spig: {
-    version: SpigVersion,
-  },
-
   // configuration for local development
+  // todo move to configuration of each operation
   local: {
     port: 3000,
     hostname: 'localhost'
-  }
+  },
 
 };
 
@@ -93,7 +108,7 @@ class SpigConfig {
 
     let dev = devDefaults;
 
-    const devJsonFile = dev.srcDir + '/dev.json';
+    const devJsonFile = dev.srcDir + 'dev.json';
 
     if (fs.existsSync(devJsonFile)) {
       log("Reading " + chalk.magenta("dev.json"));
@@ -127,7 +142,7 @@ class SpigConfig {
     log("Reading " + chalk.magenta(dev.dirData));
 
     const dataRoot = dev.srcDir + dev.dirData + "/";
-    const dataFiles = glob.sync(dataRoot + "/**/*.json");
+    const dataFiles = glob.sync(dataRoot + "**/*.json");
     for (const f of dataFiles) {
       let target = site.data;
       const file = f.substr(dataRoot.length);
@@ -155,7 +170,7 @@ class SpigConfig {
     }
     if (site.production === 'false' || site.production === false) {
       log('Environment: ' + chalk.green('DEVELOPMENT'));
-      site.baseURL = 'http://localhost:3000';
+      site.baseURL = 'http://localhost:3000';   // tdo read dev
     } else {
       log('Environment: ' + chalk.green('PRODUCTION'));
     }

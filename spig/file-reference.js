@@ -1,7 +1,7 @@
 "use strict";
 
-const Path = require("path");
-const fs = require("fs");
+const Path = require('path');
+const fs = require('fs');
 const initAttributes = require('./init-attributes');
 
 /**
@@ -72,10 +72,15 @@ class FileRef {
     // /foo/bar.ext
     this.out = path;
 
+    // attributes
     this.attr = {};
 
+    // buffers
     this._buffer = undefined;
     this._string = undefined;
+
+    // Spig, will be set later
+    this.spig = undefined;
 
     initAttributes(this);
   }
