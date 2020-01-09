@@ -55,21 +55,19 @@ module.exports.dev = {
   // must be given without the slash prefix, as it is relative from project root
   outDir: 'out',
 
-  // relative source folders
+  // Spig structure: relative source and out folders
   dir: {
     site: '/site',
     images: '/images',
+    imagesOut: '/images',
     js: '/js',
+    jsOut: '/js',
     data: '/data',
     css: '/css',
+    cssOut: '/css',
     static: '/static',
     layouts: '/layouts',
   },
-
-  // relative output folders
-  dirJsOut: '/js',
-  dirCssOut: '/css',
-  dirImagesOut: `/images`,
 
   // names
   // todo move to configuration of each operation!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

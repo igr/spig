@@ -11,7 +11,7 @@ module.exports.images = () => {
     .of(d => d
       .on('/**/*')
       .from(SpigConfig.dev.dir.images)
-      .to(SpigConfig.dev.dirImagesOut)
+      .to(SpigConfig.dev.dir.imagesOut)
     )
     ._('HELLO')
     .resizeImage()
@@ -42,7 +42,7 @@ module.exports.sass = () => {
       .on('/**/*.s?ss')
       .from(SpigConfig.dev.dir.css)
       .filter(fileRef => !fileRef.basename.startsWith('_'))
-      .to(SpigConfig.dev.dirCssOut)
+      .to(SpigConfig.dev.dir.cssOut)
     )
     ._('HELLO')
     .sass()
@@ -57,7 +57,7 @@ module.exports.js = () => {
     .of(d => d
       .on('/**/*.js')
       .from(SpigConfig.dev.dir.js)
-      .to(SpigConfig.dev.dirJsOut)
+      .to(SpigConfig.dev.dir.jsOut)
     )
     ._('HELLO')
     .merge(SpigConfig.dev.names.bundle_js)

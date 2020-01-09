@@ -7,10 +7,6 @@ const babel = require("@babel/core");
 
 const dev = SpigConfig.dev;
 
-SpigConfig.site.assets['js'] = {};
-SpigConfig.site.assets.js['dir'] = dev.dirJsOut;
-SpigConfig.site.assets.js['bundle'] = dev.dirJsOut + '/' + dev.names.bundle_js;
-
 function processFile(fileRef) {
   let bundleCode = fileRef.string();
 

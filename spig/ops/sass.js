@@ -9,10 +9,6 @@ const postcss = require('postcss');
 const precss = require('precss');
 const cssnano = require('cssnano');
 
-// todo WHAT TO DO WHIT THIS!?
-SpigConfig.site.assets['css'] = {};
-SpigConfig.site.assets.css['dir'] = SpigConfig.dev.dirCssOut;
-
 function processFile(spig, fileRef) {
   // SASS -> CSS
 
