@@ -1,7 +1,8 @@
 "use strict";
 
+const SpigOperation = require('../spig-operation');
 const imagemin = require('imagemin');
-const imageminMozjpeg = require("imagemin-mozjpeg")
+const imageminMozjpeg = require("imagemin-mozjpeg");
 const imageminPngquant = require('imagemin-pngquant/index');
 const imageminOptipng = require('imagemin-optipng');
 const imageminGifsicle = require('imagemin-gifsicle');
@@ -22,37 +23,51 @@ const gifOptionsDefaults = {
 
 /**
  * Minimizes images.
+ * todo     // todo enable this back!
+ if (!SpigConfig.site.production) {
+      return this;
+    }
+
  */
-module.exports = (file, options = {}) => {
-  let jpegOptions = {
+module.exports.operation = (spig, options) => {
+  return SpigOperation
+    .named("minify images")
+    .onFile((fileRef) => {
+      return invoke(fileRef.buffer(), options)
+        .then(buffer => {
+          fileRef.buffer(buffer);
+        });
+    })
+    ;
+};
+
+function invoke(buffer, options = {}) {
+  const jpegOptions = {
     ...jpgOptionsDefaults,
     ...options.jpeg
   };
 
-  let pngOptions = {
+  const pngOptions = {
     ...pngOptionsDefaults,
     ...options.png
   };
 
-  let optipngOptions = {
+  const optipngOptions = {
     ...optipngOptionsDefaults,
     ...options.optipng
   };
 
-  let gifOptions = {
+  const gifOptions = {
     ...gifOptionsDefaults,
     ...options.gif
   };
 
-
-  return imagemin.buffer(file.contents, {
+  return imagemin.buffer(buffer, {
     use: [
       imageminMozjpeg(jpegOptions),
       imageminPngquant(pngOptions),
       imageminOptipng(optipngOptions),
       imageminGifsicle(gifOptions)
     ]
-  }).then(buffer => {
-    file.contents = buffer;
   });
-};
+}

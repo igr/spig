@@ -13,6 +13,5 @@ const defaults = {
  */
 
 module.exports = (file, options = {}) => {
-  const value = minify(SpigFiles.stringContents(file), {...defaults, ...options});
-  file.contents = value;
+  file.contents = minify(SpigFiles.stringContents(file), {...defaults, ...options});
 };
