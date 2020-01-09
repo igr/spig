@@ -2,8 +2,13 @@
 
 const dev = require('../spig-config').dev;
 const bs = require('browser-sync').create();
+const log = require('../log');
+const ctx = require('../ctx');
+const SpigRunner = require('../spig-runner');
 
-module.exports = (watches) => {
+module.exports = () => {
+  log.task("watch");
+
   bs.init({
     server: dev.outDir,
     open: false,
@@ -13,12 +18,27 @@ module.exports = (watches) => {
     }
   });
 
-  watches.forEach(w => {
-    bs.watch(w.files)
+  ctx.SPIGS.forEach(spig => {
+    const filesToWatch = [];
+
+    // collect all real, non-synthetic files
+    spig.forEachFile(fr => {
+      if (!fr.syntethic) {
+        filesToWatch.push(fr.src);
+      }
+    });
+
+    bs.watch(filesToWatch)
       .on("change", () => {
-        w.task();
+        log.notification("Change detected, rebuilding...");
+        spig.reset();
+        new SpigRunner([spig], ctx.PHASES, ctx.OPS).run().catch(e => log.error(e));
         bs.reload();
       });
+
   });
+
+  log.info("Watching for changes...");
+
 };
 
