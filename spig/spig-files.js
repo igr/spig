@@ -1,127 +1,121 @@
 "use strict";
 
-const Path = require("path");
+const ctx = require('./ctx');
 const SpigConfig = require('./spig-config');
-const initAttributes = require('./init-attributes');
+const FileRef = require('./file-reference');
+const Path = require('path');
+const glob = require('glob');
 
-function permalink(link) {
-  if (link.endsWith('index.html')) {
-    return link.substr(0, link.length - 10);
-  }
-  return link;
-}
 
+/**
+ * Set of files, associated to one Spig instance.
+ */
 class SpigFiles {
 
-  constructor() {
+  /**
+   * Creates set of files.
+   */
+  constructor(spig) {
+    this.spig = spig;
+    const spigDef = spig.def;
+    this.root = spigDef.srcDir;
+
+    // fix input args
+    let files = spigDef.files;
+    if (!Array.isArray(files)) {
+      files = [files];
+    }
+
     this.files = [];
-    this.map = {};
+
+    files.forEach(p => {
+      const dir = SpigConfig.dev.srcDir + this.root;
+      const pattern = SpigConfig.dev.srcDir + this.root + p;
+      const matchedFiles = glob.sync(pattern, {nodir: true});
+
+      matchedFiles.forEach(f => {
+        const file = f.substr(dir.length);
+        const fileRef = fileRefOf(this.spig, this.root, file, Path.resolve(f));
+        if (spigDef.filesFilter) {
+          if (!spigDef.filesFilter(fileRef)) return;
+        }
+        this.files.push(fileRef);
+      });
+
+    });
   }
 
-  reset() {
+  /**
+   * Adds a file to the Spig.
+   */
+  addFile(file, content) {
+    let absolutePath;
+
+    if (!content) {
+      absolutePath = Path.resolve(SpigConfig.dev.srcDir + this.root + file);
+    }
+
+    const fileRef = fileRefOf(this.spig, this.root, file, absolutePath);
+
+    if (content) {
+      fileRef.buffer(content);
+      fileRef.syntethic = true;
+    }
+
+    this.files.push(fileRef);
+
+    return fileRef;
+  }
+
+  /**
+   * Removes existing file reference.
+   */
+  removeFile(fileRef) {
+    const ndx = this.files.indexOf(fileRef);
+    if (ndx === -1) {
+      return;
+    }
+
+    this.files.splice(ndx, 1);
+    fileRef.active = false;
+    delete ctx.FILES[fileRef.id];
+  }
+
+  removeAllFiles() {
+    const ids = [];
+    this.files.forEach(f => ids.push(f.id));
+    ids.forEach(id => delete ctx.FILES[id]);
     this.files = [];
-    this.map = {};
   }
+
 
   /**
-   * Creates a file object and registers it.
+   * Lookups the file reference by its ID.
+   * todo da li nam treba?
    */
-  createFileObject(fileName, virtual = false) {
-    const dev = SpigConfig.dev;
-
-    let absolutePath = Path.resolve(fileName);
-
-    let path;
-
-    if (virtual) {
-      // virtual files do not have the absolute path
-      absolutePath = undefined;
-      path = fileName;
-    } else {
-      // real files
-      path = '/' + Path.relative(dev.root + dev.srcDir + dev.dirSite, absolutePath);
-    }
-
-    const fileObject = this.createMeta(absolutePath, path);
-
-    initAttributes(fileObject);
-
-    fileObject.attr.syntethic = virtual ? true : false;
-
-    this.files.push(fileObject);
-
-    return fileObject;
+  static lookup(id) {
+    return ctx.FILES[id];
   }
 
-  // META
-
-  /**
-   * Creates basic set of meta data for the file.
-   */
-  createMeta(absolutePath, path) {
-    let dirName = Path.dirname(path);
-    dirName = (dirName === '/' ? dirName : dirName + '/');
-
-    const id = dirName + Path.basename(path, Path.extname(path));
-
-    const meta = {
-      src: absolutePath,
-      basename: Path.basename(path, Path.extname(path)),
-      dir: dirName,
-      name: Path.basename(path),
-      id: id,
-      path: path,
-
-      out: path,
-      contents: undefined,
-      attr: {}
-    };
-
-    if (id === '/index') {
-      meta.attr.home = true;
-    }
-
-    this.map[id] = meta;
-
-    return meta;
-  }
-
-  /**
-   * Lookups the file object by its ID.
-   */
-  lookup(id) {
-    return this.map[id];
-  }
-
-  // CONTEXT
-
-  /**
-   * Builds a context for templates.
-   */
-  contextOf(file) {
-    const site = SpigConfig.site;
-    const purl = permalink(file.out);
-    const fo = {
-      content: file.contents,
-      plain: file.plain,
-      site: site,
-      url: purl,
-      link: site.baseURL + purl,
-      src: file.dir + file.name,
-    };
-
-    return {...file.attr, ...fo};
-  }
-
-  /**
-   * Returns file content as String and replaces the buffer.
-   */
-  stringContents(file) {
-    if (typeof file.contents === 'string') {
-      return file.contents;
-    }
-    return file.contents.toString();
-  }
 }
 
-module.exports = new SpigFiles();
+module.exports = SpigFiles;
+
+/**
+ * Fetches file reference or create new one if one does not exists.
+ */
+function fileRefOf(spig, dir, path, absolutePath) {
+  const fileRefId = FileRef.idOf(dir, path);
+
+  let existingFileRef = ctx.FILES[fileRefId];
+
+  if (existingFileRef) {
+    return existingFileRef;
+  }
+
+  const fileRef = new FileRef(dir, path, absolutePath);
+  fileRef.spig = spig;
+  ctx.FILES[fileRef.id] = fileRef;
+
+  return fileRef;
+}

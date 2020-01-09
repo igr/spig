@@ -16,7 +16,7 @@ module.exports.phase = (phaseName) => {
 };
 
 module.exports.line = () => {
-  log('-----------------------------------------------------');
+  console.log('-----------------------------------------------------');
 };
 
 module.exports.banner = (version) => {

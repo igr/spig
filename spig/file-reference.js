@@ -3,6 +3,7 @@
 const Path = require('path');
 const fs = require('fs');
 const initAttributes = require('./init-attributes');
+const SpigConfig = require('./spig-config');
 
 /**
  * File reference.
@@ -82,6 +83,9 @@ class FileRef {
     // Spig, will be set later
     this.spig = undefined;
 
+    // context
+    this._context = undefined;
+
     initAttributes(this);
   }
 
@@ -124,6 +128,37 @@ class FileRef {
     return this._string;
   }
 
+  // CONTEXT
+
+
+  /**
+   * Builds a context of this file.
+   */
+  context() {
+    if (!this._context) {
+      const site = SpigConfig.site;
+      const purl = permalink(this.out);
+      const fo = {
+        content: this.string(),
+//        plain: file.plain,      // todo wtf?
+        site: site,
+        url: purl,
+        link: site.baseURL + purl,
+        src: this.dir + this.name,
+      };
+
+      this._context = {...this.attr, ...fo};
+    }
+    return this._context;
+  }
+
+}
+
+function permalink(link) {
+  if (link.endsWith('index.html')) {
+    return link.substr(0, link.length - 10);
+  }
+  return link;
 }
 
 module.exports = FileRef;

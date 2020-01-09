@@ -1,132 +1,143 @@
 "use strict";
 
+const ctx = require('./ctx');
 const SpigConfig = require('./spig-config');
 const SpigFiles = require('./spig-files');
-const SpigVersion = require('./spig-version');
-const LayoutResolver = require('./layout-resolver');
+const SpigOps = require('./spig-ops');
 const TaskRunner = require('./task-runner');
-const Path = require('path');
-const glob = require('glob');
-const log = require('fancy-log');
-const chalk = require('chalk');
-const micromatch = require('micromatch');
 
 // system debug errors
 
 process.on('warning', e => console.warn(e.stack));
 require('events').EventEmitter.prototype._maxListeners = 100;
 
-// functions
-
-const fn_frontmatter = require('./phase1/frontmatter');
-const fn_permalinks = require('./phase1/permalinks');
-const fn_slugish = require('./phase1/slugish');
-const fn_rename = require('./phase1/rename');
-const fn_render_nunjucks = require('./phase2/render-nunjucks');
-const fn_template_nunjucks = require('./phase2/template-nunjucks');
-const fn_render_markdown = require('./phase2/render-markdown');
-const fn_imageMinify = require('./phase2/imageMinify');
-const fn_htmlMinify = require('./phase2/htmlMinify');
-const fn_excerpt = require('./phase2/excerpt');
-const fn_collect = require('./phase1/collect');
-const fn_readingtime = require('./phase1/readingtime');
-
-
-log(chalk.bgHex("0xF74B00").black(` -=[Spig v${SpigVersion}]=- `));
+// start
 
 SpigConfig.configureEngines();
 
-let PHASES = [];
+/**
+ * SPIG folders.
+ */
+class SpigDef {
 
-class Spig {
-
-  /**
-   * Creates new instance of Spig on give file set.
-   */
-  static on(files) {
-    return new Spig(files);
+  constructor() {
+    this.files = '/**/*';
+    this.srcDir = SpigConfig.dev.dirSite;
+    this.destDir = '/';
   }
 
-  /**
-   * Predefines phases order.
-   */
-  static phases(arr) {
-    if (!arr) {
-      return PHASES;
-    }
-    PHASES = arr;
-  }
-
-  constructor(files) {
-    const dev = SpigConfig.dev;
-    this.tasks = {};
-    this.out = dev.outDir;
-    //this.dev = process.env.NODE_ENV !== 'production';
-
-    this.tasks = {};
-    for (const p of PHASES) {
-      this.tasks[p] = [];
-    }
-
-    let filePatterns;
-
-    if (Array.isArray(files)) {
-      for (let i = 0; i < files.length; ++i) {
-        const f = files[i];
-        files[i] = dev.srcDir + dev.dirSite + f;
-      }
-      filePatterns = files;
-    } else {
-      filePatterns = [dev.srcDir + dev.dirSite + files];
-    }
-
-    // file names
-    this.allFiles = [];
-    for (const pattern of filePatterns) {
-      this.allFiles = this.allFiles.concat(glob.sync(pattern));
-    }
-
-    this.load();
-  }
-
-  load() {
-    for (const fileName of this.allFiles) {
-      this.addFile(fileName);
-    }
-
-  }
-
-  /**
-   * Starts the current phase definition.
-   * If phase is not register it will be added to the end of phases!
-   */
-  _(val) {
-    if (!this.tasks[val]) {
-      this.tasks[val] = [];
-      PHASES.push(val);
-    }
-    this.currentPhase = val;
+  on(pattern) {
+    this.files = pattern;
     return this;
   }
 
-  /**
-   * Adds a real or virtual (i.e. synthetic) file.
-   */
-  addFile(fileName, value) {
-    if (value) {
-      const fo = SpigFiles.createFileObject(fileName, {virtual: true});
-      fo.spig = this;
-      fo.contents = value;
-      return fo;
-    }
+  from(srcDir) {
+    this.srcDir = srcDir;
+    return this;
+  }
 
-    const fo = SpigFiles.createFileObject(fileName);
-    fo.spig = this;
-    return fo;
+  to(destDir) {
+    this.destDir = destDir;
+    return this;
+  }
+
+  filter(filter) {
+    this.filesFilter = filter;
+    return this;
+  }
+}
+
+/**
+ * Spig defines operations on one set of files. Simple as that.
+ * Operations are grouped and executed in phases, allowing
+ * synchronization between different parts of the process.
+ */
+class Spig {
+
+  /**
+   * Creates new Spig with given SPIG definition.
+   */
+  static of(spigDefConsumer) {
+    const spigDef = new SpigDef();
+    spigDefConsumer(spigDef);
+    return new Spig(spigDef);
+  }
+
+  /**
+   * Creates new Spig on given file set and default folders.
+   */
+  static on(files) {
+    return new Spig(new SpigDef().on(files));
+  }
+
+  /**
+   * Pre-defines phases order. By default, phases are
+   * ordered as they appear in the file. With this method
+   * you can set the custom order. Any missing phase defined later
+   * will be appended and executed after these ones.
+   */
+  static phases(phasesArray) {
+    phasesArray.forEach(phase => PHASES.push(phase));
+  }
+
+  constructor(spigDef) {
+    this.def = spigDef;
+    this.files = new SpigFiles(this);
+    ctx.SPIGS.push(this);
+  }
+
+  /**
+   * Resets all the files in this SPIG.
+   */
+  reset() {
+    this.files.removeAllFiles();
+    this.files = new SpigFiles(this);
+  }
+
+
+  /**
+   * Starts the phase definition.
+   * If phase is not register it will be added to the end of phases!
+   */
+  _(phaseName) {
+    if (!ctx.OPS[phaseName]) {
+      ctx.OPS[phaseName] = [];
+      ctx.PHASES.push(phaseName);
+    }
+    return new SpigOps(this, (op) => {
+      ctx.OPS[phaseName].push({
+        spig: this,
+        operation: op
+      })
+    });
+  }
+
+  /**
+   * Adds a real or virtual file to this Spig.
+   * @param fileName relative file name from the root
+   * @param content optional file content. If provided, file reference will be syntactics.
+   */
+  addFile(fileName, content) {
+    return this.files.addFile(fileName, content);
+  }
+
+  /**
+   * Removed a file from the SPIG.
+   */
+  removeFile(fileRef) {
+    this.files.removeFile(fileRef);
+  }
+
+  /**
+   * Iterates all the files.
+   */
+  forEachFile(fileRefConsumer) {
+    this.files.files.forEach(fileRefConsumer);
   }
 
   /**
    * Allows to do additional computation on site.
+   * todo da li nam ovo treba? Site mogu i treba sami da dohvate!
    */
   with(fn) {
     fn(this, SpigConfig.site);
@@ -134,198 +145,25 @@ class Spig {
   }
 
   /**
-   * Uses generic function to manipulate files.
+   * Runs all SPIG tasks :)
    */
-  use(fn) {
-    this.tasks[this.currentPhase].push(fn);
-    return this;
-  }
-
-  /**
-   * Iterate all tasks of given phase.
-   */
-  forEachTask(phase, fn) {
-    const tasks = this.tasks[phase];
-    if (tasks) {
-      tasks.forEach(fn);
-    }
-    return this;
-  }
-
-  // --- function commands ---
-
-  /**
-   * @see fn_frontmatter
-   */
-  frontmatter(attributes = {}) {
-    return this.use((file) => fn_frontmatter(file, attributes));
-  }
-
-  initPage() {
-    return this.use((file) => file.page = true);
-  }
-
-  initAsset() {
-    return this.use((file) => file.page = false);
-  }
-
-  /**
-   * @see fn_permalinks
-   */
-  permalinks() {
-    return this.use((file) => fn_permalinks(file));
-  }
-
-  /**
-   * @see fn_slugish
-   */
-  slugish() {
-    return this.use((file) => fn_slugish(file));
-  }
-
-  /**
-   * Collects pages by given attribute name and create page per attribute.
-   */
-  collect(attribute) {
-    return this.use((file) => fn_collect(this, file, attribute, true));
-  }
-
-  /**
-   *
-   * Collects pages by given attribute name, but don't generate pages per attributes.
-   */
-  collectAttr(attribute) {
-    return this.use((file) => fn_collect(this, file, attribute, false));
-  }
-
-  /**
-   * @see fn_imageMinify
-   */
-  imageMinify(options) {
-    if (!SpigConfig.site.production) {
-      return this;
-    }
-    return this.use((file) => fn_imageMinify(file, options));
-  }
-
-
-  // --- renames ---
-
-  /**
-   * @see fn_renameExt
-   */
-  rename(fn) {
-    return this.use((file) => fn_rename(file, fn));
-  }
-
-  /**
-   * Renames extension to HTML.
-   */
-  asHtml() {
-    return this.rename(path => path.extname = '.html');
-  }
-
-  // --- render & template ---
-
-  /**
-   * Shortcut for common page initialization.
-   */
-  pageCommon() {
-    return this
-      .initPage()
-      .permalinks()
-      .frontmatter()
-      .slugish()
-      .asHtml()
-      ;
-  }
-
-  /**
-   * Shortcut for common asset initialization.
-   */
-  assetCommon() {
-    return this
-      .initAsset()
-      .slugish()
-      ;
-  }
-
-  /**
-   * Renders a file using render engine determined by its extension.
-   */
-  render() {
-    return this.use((file) => {
-
-      if (!micromatch.isMatch(file.path, SpigConfig.dev.render)) {
-        return;
-      }
-
-      const ext = Path.extname(file.path);
-      switch (ext) {
-        case '.njk':
-          fn_render_nunjucks(file);
-          break;
-        case '.md':
-          fn_render_markdown(file);
-          break;
-      }
-    });
-  }
-
-  /**
-   * Applies a template using template engine determined by layout extension.
-   */
-  applyTemplate() {
-    return this.use((file) => {
-      const layout = LayoutResolver(file);
-
-      const ext = Path.extname(layout);
-      switch (ext) {
-        case '.njk':
-          fn_template_nunjucks(file, layout);
-          break;
-        default:
-          throw new Error("Unknown template engine for " + ext);
-      }
-    });
-  }
-
-  /**
-   * Minifies the HTML content.
-   * @see fn_htmlMinify
-   */
-  htmlMinify(options) {
-    if (!SpigConfig.site.production) {
-      return this;
-    }
-    return this.use(file => fn_htmlMinify(file, options));
-  }
-
-  /**
-   * Reads summary.
-   */
-  summary() {
-    return this.use(file => fn_excerpt(file));
-  }
-
-  /**
-   * Adds reading time information in the `readingTime` attribute.
-   */
-  readingTime() {
-    return this.use(file => fn_readingtime(file));
-  }
-
-
   static run() {
-    const taskRunner = new TaskRunner(this.phases());
-    let taskName = undefined;
-
-    const args = process.argv.slice(2);
-    if (args.length !== 0) {
-      taskName = args[0];
-    }
-    taskRunner.runTask(taskName);
+    new TaskRunner().runTask(ctx.ARGS.taskName);
   }
+
+  /**
+   * Default SPIG "HELLO" phase.
+   */
+  static hello() {
+    if (TaskRunner.isShortTask(ctx.ARGS.taskName)) {
+      return;
+    }
+    const hello = require('./hello');
+    hello.static();
+    hello.sass();
+    hello.images();
+    hello.js();
+  };
 
 }
 

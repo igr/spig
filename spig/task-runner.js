@@ -1,29 +1,17 @@
 "use strict";
 
 const taskClean = require("./tasks/clean");
-const taskStatic = require("./tasks/static");
-const watchStatic = require("./tasks/static").watch;
-const taskSass = require("./tasks/sass");
-const watchSass = require("./tasks/sass").watch;
-const taskScripts = require("./tasks/scripts");
-const watchScripts = require("./tasks/scripts").watch;
-const taskImages = require("./tasks/images");
-const watchImages = require("./tasks/images").watch;
-const taskSite = require("./tasks/site");
+const taskBuild = require("./tasks/build");
 const taskServe = require("./tasks/serve");
 const taskWatch = require("./tasks/watch");
+const log = require("./log");
 
 function createTasks(tr) {
   return {
-    "clean" : taskClean,
-    "static": taskStatic,
-    "sass": taskSass,
-    "js": taskScripts,
-    "images": taskImages,
-    "site": taskSite,
+    "clean": taskClean,
+    "build": taskBuild,
     "serve": taskServe,
-    "watch": () => taskWatch([watchSass, watchStatic, watchScripts, watchImages]),
-    "build": () => tr._parallel(["static", "sass", "js", "site", "images"]),
+    "watch": taskWatch,
     "serve+watch": () => tr._parallel(["serve", "watch"]),
     "dev": () => tr._serial(["build", "serve+watch"])
   };
@@ -31,23 +19,28 @@ function createTasks(tr) {
 
 class TaskRunner {
 
-  constructor(phases) {
-    this.ctx = {
-      phases: phases
-    };
+  /**
+   * Short tasks don't require the SPIG definition loaded.
+   * todo Make this better.
+   */
+  static isShortTask(taskname) {
+    if (taskname === 'build' || taskname === 'watch' || taskname === 'dev') {
+      return false;
+    }
+    return true;
+  }
+
+  constructor() {
     this.tasks = createTasks(this);
   }
 
   runTask(taskName) {
-    if (!taskName) {
-      taskName = "build";
-    }
     const taskFunction = this.tasks[taskName];
 
     if (!taskFunction) {
       throw new Error("Task not defined: " + taskName)
     }
-    taskFunction(this.ctx);
+    taskFunction();
   }
 
   /**
@@ -68,13 +61,17 @@ class TaskRunner {
 
       for (const t of taskNames) {
         allPromises.push(
-          new Promise((resolve) => {
-            this.runTask(t);
-            resolve();
+          new Promise((resolve, reject) => {
+            try {
+              this.runTask(t);
+              resolve();
+            } catch (e) {
+              reject(e);
+            }
           })
         );
       }
-      await Promise.all(allPromises);
+      await Promise.all(allPromises).catch(e => log.error(e));
     })();
   }
 
