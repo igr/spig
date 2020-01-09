@@ -127,7 +127,7 @@ const toJSON = function (object, objectMaxDepth, arrayMaxLength, indent) {
               if (e.message)
                 subKey = e.message;
               else
-                subKey = "access denied";
+                subKey = 'access denied';
             }
           }
         }
@@ -138,11 +138,11 @@ const toJSON = function (object, objectMaxDepth, arrayMaxLength, indent) {
           // Remove trailing comma
           result = result.slice(0, result.length - 2) + "\n";
         }
-        result += cumulativeIndent + "}";
+        result += cumulativeIndent + '}';
         return result;
       }
       default:
-        return "null";
+        return 'null';
     }
   }
 
@@ -152,7 +152,7 @@ const toJSON = function (object, objectMaxDepth, arrayMaxLength, indent) {
     objectMaxDepth = 0;
   if (arrayMaxLength === undefined)
     arrayMaxLength = 50;
-  return toString("root", object, "", 0);
+  return toString('root', object, "", 0);
 };
 
 

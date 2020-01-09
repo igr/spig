@@ -83,14 +83,14 @@ module.exports.initData = () => {
   const dev = SpigConfig.dev;
   log.pair('Reading', dev.dir.data);
 
-  const dataRoot = dev.srcDir + dev.dir.data + "/";
-  const dataFiles = glob.sync(dataRoot + "**!/!*.json");
+  const dataRoot = dev.srcDir + dev.dir.data + '/';
+  const dataFiles = glob.sync(dataRoot + '**!/!*.json');
   for (const f of dataFiles) {
     let target = site.data;
     const file = f.substr(dataRoot.length);
-    const chunks = file.split("/");
+    const chunks = file.split('/');
     for (const chunk of chunks) {
-      if (chunk.endsWith(".json")) {
+      if (chunk.endsWith('.json')) {
         // file located
         const dataJson = JSON.parse(fs.readFileSync(dataRoot + file));
         target[chunk.substr(0, chunk.length - 5)] = dataJson;

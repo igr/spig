@@ -1,5 +1,12 @@
 "use strict";
 
 module.exports = () => {
-  return {};
+  return {
+    render: {
+      extensions: [
+        '*.md',
+        '*.njk'
+      ]
+    }
+  };
 };
