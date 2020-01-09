@@ -1,5 +1,6 @@
 "use strict";
 
+const SpigConfig = require('../spig-config');
 const SpigOperation = require('../spig-operation');
 const imagemin = require('imagemin');
 const imageminMozjpeg = require("imagemin-mozjpeg");
@@ -7,41 +8,29 @@ const imageminPngquant = require('imagemin-pngquant/index');
 const imageminOptipng = require('imagemin-optipng');
 const imageminGifsicle = require('imagemin-gifsicle');
 
-const jpgOptionsDefaults = {
-  quality: 85
-};
-const pngOptionsDefaults = {
-  quality: [0.5, 0.8],
-  speed: 4
-};
-const optipngOptionsDefaults = {
-  optimizationLevel: 3
-};
-const gifOptionsDefaults = {
-  optimizationLevel: 3
-};
-
 /**
  * Minimizes images.
  */
-function invoke(buffer, options = {}) {
+function process(buffer, options = {}) {
+  const defaults = SpigConfig.ops.imageMinify;
+
   const jpegOptions = {
-    ...jpgOptionsDefaults,
+    ...defaults.jpeg,
     ...options.jpeg
   };
 
   const pngOptions = {
-    ...pngOptionsDefaults,
+    ...defaults.png,
     ...options.png
   };
 
   const optipngOptions = {
-    ...optipngOptionsDefaults,
+    ...defaults.optipng,
     ...options.optipng
   };
 
   const gifOptions = {
-    ...gifOptionsDefaults,
+    ...defaults.gif,
     ...options.gif
   };
 
@@ -59,7 +48,7 @@ module.exports.operation = (options) => {
   return SpigOperation
     .named('minify images')
     .onFile((fileRef) => {
-      return invoke(fileRef.buffer(), options)
+      return process(fileRef.buffer(), options)
         .then(buffer => {
           fileRef.buffer(buffer);
         });

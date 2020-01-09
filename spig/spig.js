@@ -2,6 +2,7 @@
 
 const ctx = require('./ctx');
 const SpigConfig = require('./spig-config');
+const SpigInit = require('./spig-init');
 const SpigFiles = require('./spig-files');
 const SpigOps = require('./spig-ops');
 const TaskRunner = require('./task-runner');
@@ -13,7 +14,12 @@ require('events').EventEmitter.prototype._maxListeners = 100;
 
 // start
 
-SpigConfig.configureEngines();
+SpigInit.initDevConfig();
+SpigInit.initSiteConfig();
+SpigInit.initOpsConfig();
+SpigInit.initData();
+SpigInit.initProductionMode();
+SpigInit.initEngines();   // todo when not rapid task only?
 
 /**
  * SPIG folders.
@@ -155,7 +161,7 @@ class Spig {
    * Default SPIG "HELLO" phase.
    */
   static hello() {
-    if (TaskRunner.isShortTask(ctx.ARGS.taskName)) {
+    if (TaskRunner.isRapidTask(ctx.ARGS.taskName)) {
       return;
     }
     const hello = require('./hello');

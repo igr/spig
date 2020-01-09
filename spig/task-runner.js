@@ -23,7 +23,7 @@ class TaskRunner {
    * Short tasks don't require the SPIG definition loaded.
    * todo Make this better.
    */
-  static isShortTask(taskname) {
+  static isRapidTask(taskname) {
     if (taskname === 'build' || taskname === 'watch' || taskname === 'dev') {
       return false;
     }

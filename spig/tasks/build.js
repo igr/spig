@@ -1,12 +1,12 @@
 "use strict";
 
-const Spig = require('../spig');
+const ctx = require('../ctx');
+const SpigRunner = require('../spig-runner');
 const SpigConfig = require('../spig-config');
 const SpigFiles = require('../spig-files');
 const log = require('../log');
 const fs = require('fs');
 const Path = require('path');
-
 
 /**
  * Resets all metadata and configuration to avoid accumulation on reloading.
@@ -124,6 +124,8 @@ const writeAllFiles = () => {
 let counter = 0;
 
 module.exports = () => {
+  log.task("build");
+
   if (counter > 0) {
     reset();
   }
@@ -132,9 +134,8 @@ module.exports = () => {
 
 //  readAllFiles();
 
-  Spig.build(() => {
-    //siteUpdate();
-  });
+  new SpigRunner(ctx.SPIGS, ctx.PHASES, ctx.OPS).run().catch(e => log.error(e));
+
 
 //  writeAllFiles();
 

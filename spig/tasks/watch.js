@@ -1,6 +1,6 @@
 "use strict";
 
-const dev = require('../spig-config').dev;
+const SpigConfig = require('../spig-config');
 const bs = require('browser-sync').create();
 const log = require('../log');
 const ctx = require('../ctx');
@@ -8,6 +8,8 @@ const SpigRunner = require('../spig-runner');
 
 module.exports = () => {
   log.task("watch");
+
+  const dev = SpigConfig.dev;
 
   bs.init({
     server: dev.outDir,

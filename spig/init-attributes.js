@@ -3,7 +3,7 @@
 const _s = require("underscore.string");
 const Path = require('path');
 const fs = require('fs');
-const dev = require('./spig-config').dev;
+const SpigConfig = require('./spig-config');
 
 const attrFilesCache = {};
 
@@ -25,6 +25,8 @@ function readCached(file) {
  * Reads attributes on path.
  */
 function readAttributesOnPath(file, path, fileBaseName) {
+  const dev = SpigConfig.dev;
+
   let root = dev.srcDir + dev.dirSite;
 
   let attr = {};
@@ -49,7 +51,7 @@ function readAttributesOnPath(file, path, fileBaseName) {
   }
 
   return attr
-};
+}
 
 
 module.exports = (fileRef) => {

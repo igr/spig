@@ -15,6 +15,10 @@ module.exports.phase = (phaseName) => {
   log(chalk.blueBright(`◼ ${phaseName}`));
 };
 
+module.exports.info = (message) => {
+  log(chalk.magentaBright(message));
+};
+
 module.exports.line = () => {
   console.log('-----------------------------------------------------');
 };
@@ -33,6 +37,14 @@ module.exports.operation = (name) => {
   log(chalk.dim('● ' + name));
 };
 
+module.exports.pair = (message, file) => {
+  log(message + ' ' + chalk.magenta(file));
+};
+
+module.exports.env = (value) => {
+  log('Environment: ' + chalk.green(value));
+};
+
 module.exports.fileOut = (fileRef) => {
   let outname = fileRef.spig.def.destDir + fileRef.out;
   if (outname.startsWith('//')) {
@@ -43,10 +55,6 @@ module.exports.fileOut = (fileRef) => {
   } else {
     console.log(chalk.green(outname) + " ⮜ " + chalk.blue(fileRef.root + fileRef.path));
   }
-};
-
-module.exports.info = (message) => {
-  log(chalk.magentaBright(message));
 };
 
 module.exports.notification = (message) => {

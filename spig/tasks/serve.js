@@ -1,6 +1,6 @@
 "use strict";
 
-const dev = require('../spig-config').dev;
+const SpigConfig = require('../spig-config');
 const serveStatic = require('serve-static');
 const http = require('http');
 const connect = require('connect');
@@ -15,6 +15,8 @@ const serverInitFunction = (err) => {
 
 module.exports = () => {
   log.task("serve");
+
+  const dev = SpigConfig.dev;
 
   const app = connect();
   app.use(serveStatic(dev.outDir));

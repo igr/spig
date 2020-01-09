@@ -1,10 +1,12 @@
 "use strict";
 
+const SpigConfig = require('../spig-config');
 const SpigOperation = require('../spig-operation');
-const rExcerpt2 = /<!--+\s*more\s*--+>/i;
 const removeMd = require('remove-markdown');
 
 const excerptBlock = (content) => {
+  const rExcerpt2 = SpigConfig.ops.excerpt.regexp;
+
   const match = rExcerpt2.exec(content);
   if (!match) {
     return;
