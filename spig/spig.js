@@ -28,7 +28,7 @@ class SpigDef {
 
   constructor() {
     this.files = '/**/*';
-    this.srcDir = SpigConfig.dev.dirSite;
+    this.srcDir = SpigConfig.dev.dir.site;
     this.destDir = '/';
   }
 

@@ -10,7 +10,7 @@ module.exports.images = () => {
   Spig
     .of(d => d
       .on('/**/*')
-      .from(SpigConfig.dev.dirImages)
+      .from(SpigConfig.dev.dir.images)
       .to(SpigConfig.dev.dirImagesOut)
     )
     ._('HELLO')
@@ -26,7 +26,7 @@ module.exports.static = () => {
   Spig
     .of(d => d
       .on('/**/*')
-      .from(SpigConfig.dev.dirStatic)
+      .from(SpigConfig.dev.dir.static)
       .to('/')
     )
     ._('HELLO')
@@ -40,7 +40,7 @@ module.exports.sass = () => {
   Spig
     .of(d => d
       .on('/**/*.s?ss')
-      .from(SpigConfig.dev.dirCss)
+      .from(SpigConfig.dev.dir.css)
       .filter(fileRef => !fileRef.basename.startsWith('_'))
       .to(SpigConfig.dev.dirCssOut)
     )
@@ -56,7 +56,7 @@ module.exports.js = () => {
   Spig
     .of(d => d
       .on('/**/*.js')
-      .from(SpigConfig.dev.dirJs)
+      .from(SpigConfig.dev.dir.js)
       .to(SpigConfig.dev.dirJsOut)
     )
     ._('HELLO')

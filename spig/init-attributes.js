@@ -27,7 +27,7 @@ function readCached(file) {
 function readAttributesOnPath(file, path, fileBaseName) {
   const dev = SpigConfig.dev;
 
-  let root = dev.srcDir + dev.dirSite;
+  let root = dev.srcDir + dev.dir.site;
 
   let attr = {};
 

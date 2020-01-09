@@ -81,9 +81,9 @@ module.exports.initOpsConfig = () => {
 
 module.exports.initData = () => {
   const dev = SpigConfig.dev;
-  log.pair('Reading', dev.dirData);
+  log.pair('Reading', dev.dir.data);
 
-  const dataRoot = dev.srcDir + dev.dirData + "/";
+  const dataRoot = dev.srcDir + dev.dir.data + "/";
   const dataFiles = glob.sync(dataRoot + "**!/!*.json");
   for (const f of dataFiles) {
     let target = site.data;

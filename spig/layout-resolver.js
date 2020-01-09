@@ -15,7 +15,7 @@ function resolveLayout(file) {
   const dev = SpigConfig.dev;
   const templateCfg = SpigConfig.ops.template;
 
-  const layoutsDir = Path.normalize(dev.root + dev.srcDir + dev.dirLayouts);
+  const layoutsDir = Path.normalize(dev.root + dev.srcDir + dev.dir.layouts);
 
   const layout = file.attr.layout;
   let layoutFile;

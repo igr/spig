@@ -34,7 +34,7 @@ function initFilters(nunjucksEnv) {
 function configure() {
   const nunjucksEnv = nunjucks.configure(
     [
-      dev.root + dev.srcDir.substr(2) + dev.dirLayouts,
+      dev.root + dev.srcDir.substr(2) + dev.dir.layouts,
       dev.root + "spig/layouts",
     ], {
       autoescape: true,

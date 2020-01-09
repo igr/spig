@@ -48,21 +48,23 @@ module.exports.site = {
 module.exports.dev = {
 
   // source root folder
-  // must be given without the slash prefix, as it is relative!
+  // must be given without the slash prefix, as it is relative from project root
   srcDir: 'src',
 
-  // relative source folders
-  dirSite: '/site',
-  dirImages: '/images',
-  dirJs: '/js',
-  dirData: '/data',
-  dirCss: '/css',
-  dirStatic: '/static',
-  dirLayouts: '/layouts',
-  dirLambda: '/lambda',
-
   // output root folder
-  outDir: './out',
+  // must be given without the slash prefix, as it is relative from project root
+  outDir: 'out',
+
+  // relative source folders
+  dir: {
+    site: '/site',
+    images: '/images',
+    js: '/js',
+    data: '/data',
+    css: '/css',
+    static: '/static',
+    layouts: '/layouts',
+  },
 
   // relative output folders
   dirJsOut: '/js',
