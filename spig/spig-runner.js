@@ -120,22 +120,6 @@ class SpigRunner {
 
     log.line(`${pageCount}/${totalCount}`);
   }
-
-
-  //END
-  // for (const file of SpigFiles.files) {
-  // }
-
-  // const pageCount = SpigConfig.site.pages.length;
-  //
-  // if (pageCount !== 0) {
-  //   logline();
-  // }
-  //
-  // log('Pages: ' + chalk.green(pageCount));
-  // log('Total files: ' + chalk.green(SpigFiles.files.length));
-  // log.line();
-
 }
 
 module.exports = SpigRunner;

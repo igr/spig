@@ -26,7 +26,7 @@ function processFile(spig, fileRef) {
     .use(precss)
     .use(autoprefixer);
 
-  if (SpigConfig.site.production) {
+  if (SpigConfig.site.build.production) {
     p.use(cssnano);
   }
 

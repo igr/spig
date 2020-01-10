@@ -5,7 +5,7 @@ const SpigConfig = require('./spig-config');
 const FileRef = require('./file-reference');
 const Path = require('path');
 const glob = require('glob');
-
+const {UUID} = require('./uuid');
 
 /**
  * Set of files, associated to one Spig instance.
@@ -90,6 +90,7 @@ class SpigFiles {
 
   /**
    * Lookups the file reference by its ID.
+   * todo ID is changed, need to check extensions
    */
   static lookup(id) {
     return ctx.FILES[id];
@@ -112,7 +113,10 @@ function fileRefOf(spig, dir, path, absolutePath) {
   }
 
   const fileRef = new FileRef(dir, path, absolutePath);
+
   fileRef.spig = spig;
+  fileRef.uuid = UUID.generate();
+
   ctx.FILES[fileRef.id] = fileRef;
 
   return fileRef;

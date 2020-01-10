@@ -15,7 +15,7 @@ function processFile(fileRef) {
 
   // uglify
 
-  if (SpigConfig.site.production) {
+  if (SpigConfig.site.build.production) {
     const result = uglify.minify(bundleCode);
     if (result.error) {
       throw new Error(result.error);

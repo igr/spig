@@ -6,9 +6,7 @@ const datetimefmt = require('../filters/datetimefmt');
 const pages = require('../filters/pages');
 const collections = require('../filters/collections');
 
-
 const SpigConfig = require('../spig-config');
-const dev = SpigConfig.dev;
 
 function initFilters(nunjucksEnv) {
   nunjucksEnv
@@ -32,13 +30,15 @@ function initFilters(nunjucksEnv) {
 }
 
 function configure() {
+  const dev = SpigConfig.dev;
+
   const nunjucksEnv = nunjucks.configure(
     [
       dev.root + dev.srcDir + dev.dir.layouts,
       dev.root + 'spig/layouts',
     ], {
       autoescape: true,
-      noCache: !SpigConfig.site.production
+      noCache: !SpigConfig.site.build.production
     }
   );
 

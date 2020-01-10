@@ -11,50 +11,22 @@ module.exports.site = {
   baseURL: 'http://localhost:3000',
   version: '0.0.1',
 
-  // environment
-  env: process.env,
-
-  // production or development mode
-  production: false,
-
-  assets: {},
-
   // data folder
   data: {},
-
-  // list of all pages
-  pages: [],
 
   // collections
   collections: {},
 
   // build related data
   build: {
-    date: new Date()
-  },
-
-  // some spig data
-  spig: {
+    // environment
+    env: process.env,
+    // build date
+    date: new Date(),
+    // production or development mode
+    production: false,
+    // spig version
     version: SpigVersion,
-  },
-
-
-  // some functions
-
-  pageOf: (url) => {
-    for (const page of this.pages) {
-      if (page.url === url) {
-        return page;
-      }
-    }
-  },
-
-  pageOfSrc: (src) => {
-    for (const page of this.pages) {
-      if (page.src === src) {
-        return page;
-      }
-    }
   }
 }
 ;
@@ -142,6 +114,5 @@ module.exports.ops = {
     // extensions to be rendered
     extensions: ['.md']
   },
-
 
 };

@@ -47,39 +47,6 @@ const collectAllPages = () => {
       site.pages.push(SpigFiles.contextOf(file));
     }
   }
-
-  site.pageOf = (url) => {
-    for (const page of site.pages) {
-      if (page.url === url) {
-        return page;
-      }
-    }
-  };
-  site.pageOfSrc = (src) => {
-    for (const page of site.pages) {
-      if (page.src === src) {
-        return page;
-      }
-    }
-  };
-
-};
-
-
-/**
- * Reads all file content.
- */
-const readAllFiles = () => {
-  for (const file of SpigFiles.files) {
-    if (file.src) {
-      if (fs.existsSync(file.src)) {
-        file.contents = fs.readFileSync(file.src);
-        file.plain = file.contents.toString();
-      } else {
-        throw new Error("File not found: " + file.src);
-      }
-    }
-  }
 };
 
 

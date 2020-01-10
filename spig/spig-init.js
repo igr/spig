@@ -1,6 +1,7 @@
 "use strict";
 
 const fs = require("fs");
+const ctx = require('./ctx');
 const SpigConfig = require('./spig-config');
 const log = require('./log');
 const glob = require('glob');
@@ -109,10 +110,10 @@ module.exports.initProductionMode = () => {
   const site = SpigConfig.site;
   const dev = SpigConfig.dev;
 
-  if (site.env.SPIG_PRODUCTION) {
-    site.production = site.env.SPIG_PRODUCTION;
+  if (site.build.env.SPIG_PRODUCTION) {
+    site.build.production = site.build.env.SPIG_PRODUCTION;
   }
-  if (site.production === false) {
+  if (site.build.production === false) {
     log.env('DEVELOPMENT');
     site.baseURL = `http://${dev.server.hostname}:${dev.server.port}`;
   } else {
@@ -166,15 +167,27 @@ function nunjucks(fn) {
 module.exports.initUtilTemplateFunctions = () => {
   const site = SpigConfig.site;
 
+  site.pages = () => {
+    if (!site._pages) {
+      site._pages = [];
+      ctx.forEachFile(fileRef => {
+        if (fileRef.page) {
+          site._pages.push(fileRef.context())
+        }
+      });
+    }
+    return site._pages;
+  };
+
   site.pageOf = (url) => {
-    for (const page of site.pages) {
+    for (const page of site.pages()) {
       if (page.url === url) {
         return page;
       }
     }
   };
   site.pageOfSrc = (src) => {
-    for (const page of site.pages) {
+    for (const page of site.pages()) {
       if (page.src === src) {
         return page;
       }

@@ -68,7 +68,7 @@ class SpigOps {
   }
 
   imageMinify(options) {
-    if (!SpigConfig.site.production) {
+    if (!SpigConfig.site.build.production) {
       return this;
     }
     return this.do(require('./ops/imageMinify').operation(options));
@@ -125,7 +125,7 @@ class SpigOps {
   }
 
   htmlMinify(options) {
-    if (!SpigConfig.site.production) {
+    if (!SpigConfig.build.spig.production) {
       return this;
     }
     return this.do(require('./ops/htmlMinify').operation(options));

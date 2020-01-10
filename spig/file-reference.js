@@ -76,15 +76,16 @@ class FileRef {
     // attributes
     this.attr = {};
 
+    // indicates if file is a page (generates HTML).
+    this.page = false;
+
     // buffers
     this._buffer = undefined;
     this._string = undefined;
-
-    // Spig, will be set later
-    this.spig = undefined;
-
-    // context
     this._context = undefined;
+
+    // Spig that creates the file, will be set later
+    this.spig = undefined;
 
     initAttributes(this);
   }
@@ -103,10 +104,14 @@ class FileRef {
     if (content) {
       this._buffer = content;
       this._string = undefined;
+      this._context = undefined;
       return;
     }
 
     if (!this._buffer) {
+      if (!this.src) {
+        throw new Error("Source N/A for synthetic files.");
+      }
       this._buffer = fs.readFileSync(this.src);
     }
     return this._buffer;
@@ -119,23 +124,22 @@ class FileRef {
     if (content) {
       this._string = content;
       this._buffer = Buffer.from(content);
+      this._context = undefined;
       return;
     }
     if (!this._string) {
-      const b = this.buffer();
-      this._string = typeof b === 'string' ? b : b.toString();
+      this._string = this.buffer().toString();
     }
     return this._string;
   }
 
   // CONTEXT
 
-
   /**
-   * Builds a context of this file.
+   * Builds a context for this file reference.
    */
   context() {
-    if (!this._context) {
+    // if (!this._context) {
       const site = SpigConfig.site;
       const purl = permalink(this.out);
       const fo = {
@@ -148,7 +152,7 @@ class FileRef {
       };
 
       this._context = {...this.attr, ...fo};
-    }
+    // }
     return this._context;
   }
 
