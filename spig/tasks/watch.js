@@ -20,7 +20,7 @@ module.exports = () => {
     }
   });
 
-  ctx.SPIGS.forEach(spig => {
+  ctx.forEachSpig(spig => {
     const filesToWatch = [];
 
     // collect all real, non-synthetic files

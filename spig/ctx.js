@@ -17,12 +17,23 @@ module.exports.OPS = {};
 /**
  * All SPIG instances.
  */
-module.exports.SPIGS = [];
+const SPIGS = [];
+module.exports.SPIGS = SPIGS;
+module.exports.forEachSpig = (spigConsumer) => {
+  SPIGS.forEach(spigConsumer);
+};
 
 /**
  * The map of all files used by Spig (id -> FileRef).
  */
-module.exports.FILES = {};
+const FILES = {};
+module.exports.FILES = FILES;
+module.exports.forEachFile = (fileRefConsumer) => {
+  for (const id in FILES) {
+    const fileRef = FILES[id];
+    fileRefConsumer(fileRef);
+  }
+};
 
 
 /**
