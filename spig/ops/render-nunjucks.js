@@ -1,10 +1,18 @@
 "use strict";
 
 const nunjucksEnv = require('../engines/nunjucks-engine');
+const log = require('../log');
 
 module.exports = fileRef => {
-  let string = fileRef.string();
+  let content = fileRef.string();
 
-  fileRef.string(nunjucksEnv.renderString(string, fileRef.context()));
+  try {
+    content = nunjucksEnv.renderString(content, fileRef.context());
+    fileRef.string(content);
+  } catch (err) {
+    log.error(`Nunjucks Render failed for ${fileRef.path}`);
+    throw err;
+  }
+
 };
 

@@ -5,8 +5,6 @@ const SpigConfig = require('../spig-config');
 const uglify = require('uglify-js');
 const babel = require("@babel/core");
 
-const dev = SpigConfig.dev;
-
 function processFile(fileRef) {
   let bundleCode = fileRef.string();
 
