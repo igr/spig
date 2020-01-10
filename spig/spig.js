@@ -20,7 +20,6 @@ SpigInit.initOpsConfig();
 SpigInit.initData();
 SpigInit.initProductionMode();
 SpigInit.initEngines();   // todo when not rapid task only?
-SpigInit.initUtilTemplateFunctions();
 
 /**
  * SPIG folders.

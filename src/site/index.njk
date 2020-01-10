@@ -2,13 +2,13 @@
 title: "Welcome!"
 ---
 
-<h2>All pages</h2>
+<h2>All pages</h2>!
 
 <ul>
-  {% for f in site.pages | sortBy("url") %}
-  <li>
-    <a href="{{ f.url }}">{{ f.title }}</a> {{ '*' if f.syntethic else '' }}/{{ f.readingTime.minutes }}min
-  </li>
+  {% for f in site.pages() | sortBy("url") %}
+    <li>
+      <a href="{{ f.url }}">{{ f.title }}</a> {{ '*' if f.syntethic else '' }}/{{ f.readingTime.minutes }}min
+    </li>
   {% endfor %}
 </ul>
 
@@ -16,7 +16,7 @@ title: "Welcome!"
 Book from JSON: {{ site.data.books[0].title }}
 
 <hr>
-Production flag: {{ site.production }}
+Production flag: {{ site.build.production }}
 
 <hr>
 Page lookup:

@@ -76,9 +76,6 @@ class FileRef {
     // attributes
     this.attr = {};
 
-    // indicates if file is a page (generates HTML).
-    this.page = false;
-
     // buffers
     this._buffer = undefined;
     this._string = undefined;
@@ -136,7 +133,7 @@ class FileRef {
   // CONTEXT
 
   /**
-   * Builds a context for this file reference.
+   * Builds a context used in templates.
    */
   context() {
     // if (!this._context) {
@@ -152,6 +149,7 @@ class FileRef {
       };
 
       this._context = {...this.attr, ...fo};
+
     // }
     return this._context;
   }

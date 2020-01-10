@@ -37,11 +37,7 @@ class SpigOps {
   }
 
   initPage() {
-    return this.do(fileRef => fileRef.page = true, 'init pages');
-  }
-
-  initAsset() {
-    return this.do(fileRef => fileRef.page = false, 'init assets');
+    return this.do(require('./ops/initPage').operation(this.spig));
   }
 
   permalinks() {
@@ -105,7 +101,6 @@ class SpigOps {
    */
   assetCommon() {
     return this
-      .initAsset()
       .slugish()
       ;
   }
@@ -125,7 +120,7 @@ class SpigOps {
   }
 
   htmlMinify(options) {
-    if (!SpigConfig.build.spig.production) {
+    if (!SpigConfig.site.build.production) {
       return this;
     }
     return this.do(require('./ops/htmlMinify').operation(options));

@@ -27,7 +27,10 @@ module.exports.site = {
     production: false,
     // spig version
     version: SpigVersion,
-  }
+  },
+
+  // all ops (meta) data should be stored in this object
+  _: {}
 }
 ;
 

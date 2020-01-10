@@ -3,10 +3,7 @@
 module.exports = () => {
   return {
     render: {
-      extensions: [
-        '*.md',
-        '*.njk'
-      ]
+      extensions: ['.md', '.njk']
     }
   };
 };

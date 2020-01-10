@@ -1,7 +1,6 @@
 "use strict";
 
 const fs = require("fs");
-const ctx = require('./ctx');
 const SpigConfig = require('./spig-config');
 const log = require('./log');
 const glob = require('glob');
@@ -160,37 +159,3 @@ function nunjucks(fn) {
     fn(nunjucksEnv);
   }
 }
-
-/**
- * Some utility template functions.
- */
-module.exports.initUtilTemplateFunctions = () => {
-  const site = SpigConfig.site;
-
-  site.pages = () => {
-    if (!site._pages) {
-      site._pages = [];
-      ctx.forEachFile(fileRef => {
-        if (fileRef.page) {
-          site._pages.push(fileRef.context())
-        }
-      });
-    }
-    return site._pages;
-  };
-
-  site.pageOf = (url) => {
-    for (const page of site.pages()) {
-      if (page.url === url) {
-        return page;
-      }
-    }
-  };
-  site.pageOfSrc = (src) => {
-    for (const page of site.pages()) {
-      if (page.src === src) {
-        return page;
-      }
-    }
-  };
-};
