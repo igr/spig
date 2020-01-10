@@ -8,7 +8,11 @@ module.exports.debug = (message) => {
 };
 
 module.exports.error = (error) => {
-  log.error(chalk.red(error.stack));
+  if (error.stack) {
+    log.error(chalk.red(error.stack));
+  } else {
+    log.error(chalk.red(error));
+  }
 };
 
 module.exports.phase = (phaseName) => {
@@ -25,7 +29,7 @@ module.exports.line = (msg) => {
   } else {
     msg = '';
   }
-  console.log(`---${msg}--------------------------------------------------`.substr(0, 50));
+  console.log(chalk.dim(`---${msg}--------------------------------------------------`.substr(0, 50)));
 };
 
 module.exports.banner = (version) => {
