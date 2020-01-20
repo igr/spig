@@ -22,10 +22,5 @@ function processFile(fileRef: FileRef): void {
 }
 
 export function operation(): SpigOperation {
-  return new (class extends SpigOperation {
-    constructor() {
-      super('permalinks');
-      super.onFile = processFile;
-    }
-  })();
+  return SpigOperation.of('permalinks', processFile);
 }

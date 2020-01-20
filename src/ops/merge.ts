@@ -3,6 +3,37 @@ import { FileRef } from '../file-reference';
 
 type Spig = import('../spig').Spig;
 
+let bundles: { [k: string]: string } = {};
+
+function processFile(spig: Spig, fileRef: FileRef, bundleAggregatorFn: (fileRef: FileRef) => string | undefined): void {
+  const bundleFileName = bundleAggregatorFn(fileRef);
+  if (!bundleFileName) {
+    return;
+  }
+
+  let bundleContent = bundles[bundleFileName];
+  if (!bundleContent) {
+    bundleContent = '';
+  }
+
+  bundleContent += fileRef.string;
+
+  bundles[bundleFileName] = bundleContent;
+
+  spig.removeFile(fileRef);
+}
+
+function start(): void {
+  bundles = {};
+}
+
+function end(spig: Spig): void {
+  Object.keys(bundles).forEach(bundleName => {
+    const bundleContent = bundles[bundleName];
+    spig.addFile(bundleName, bundleContent);
+  });
+}
+
 /**
  * Merges several files into one.
  * Provided `bundleAggregatorFn` must return result bundle name from given
@@ -10,37 +41,13 @@ type Spig = import('../spig').Spig;
  * with merged content of all bundled files.
  */
 export function operation(spig: Spig, bundleAggregatorFn: (fileRef: FileRef) => string | undefined): SpigOperation {
-  return new (class extends SpigOperation {
-    private bundles: { [k: string]: string } = {};
-
-    constructor() {
-      super('merge');
-      super.onStart = () => {
-        this.bundles = {};
-      };
-      super.onFile = (fileRef: FileRef) => {
-        const bundleFileName = bundleAggregatorFn(fileRef);
-        if (!bundleFileName) {
-          return;
-        }
-
-        let bundleContent = this.bundles[bundleFileName];
-        if (!bundleContent) {
-          bundleContent = '';
-        }
-
-        bundleContent += fileRef.string;
-
-        this.bundles[bundleFileName] = bundleContent;
-
-        spig.removeFile(fileRef);
-      };
-      super.onEnd = () => {
-        Object.keys(this.bundles).forEach(bundleName => {
-          const bundleContent = this.bundles[bundleName];
-          spig.addFile(bundleName, bundleContent);
-        });
-      };
-    }
-  })();
+  return new SpigOperation(
+    'merge',
+    fileRef => {
+      processFile(spig, fileRef, bundleAggregatorFn);
+      return Promise.resolve(fileRef);
+    },
+    () => start(),
+    () => end(spig)
+  );
 }

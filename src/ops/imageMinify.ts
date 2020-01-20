@@ -45,15 +45,10 @@ function process(buffer: Buffer, options: object): Promise<Buffer> {
 }
 
 export function operation(options: object): SpigOperation {
-  return new (class extends SpigOperation {
-    constructor() {
-      super('minify images');
-      super.onFile = fileRef => {
-        return process(fileRef.buffer, options).then((buffer: Buffer) => {
-          fileRef.buffer = buffer;
-          return fileRef;
-        });
-      };
-    }
-  })();
+  return new SpigOperation('minify images', fileRef => {
+    return process(fileRef.buffer, options).then((buffer: Buffer) => {
+      fileRef.buffer = buffer;
+      return fileRef;
+    });
+  });
 }

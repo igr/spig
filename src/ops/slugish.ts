@@ -67,10 +67,5 @@ function processFile(fileRef: FileRef): void {
 }
 
 export function operation(): SpigOperation {
-  return new (class extends SpigOperation {
-    constructor() {
-      super('slugish');
-      super.onFile = processFile;
-    }
-  })();
+  return SpigOperation.of('slugish', processFile);
 }

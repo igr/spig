@@ -30,10 +30,5 @@ function processFile(fileRef: FileRef, renameFn: (parsedPath: PathElements) => v
 }
 
 export function operation(renameFn: (parsedPath: PathElements) => void): SpigOperation {
-  return new (class extends SpigOperation {
-    constructor() {
-      super('rename');
-      super.onFile = fileRef => processFile(fileRef, renameFn);
-    }
-  })();
+  return SpigOperation.of('rename', fileRef => processFile(fileRef, renameFn));
 }

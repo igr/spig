@@ -50,13 +50,7 @@ export class SpigOps {
    * Defines single operation as a fileref consumer function.
    */
   do(name: string, operation: (fileRef: FileRef) => void): SpigOps {
-    const op = new (class extends SpigOperation {
-      constructor() {
-        super(name);
-        super.onFile = operation;
-      }
-    })();
-    return this.op(op);
+    return this.op(SpigOperation.of(name, operation));
   }
 
   // functions

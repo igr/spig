@@ -1,14 +1,13 @@
-type FileRef = import('./file-reference').FileRef;
+import { FileRef } from './file-reference';
 
-export abstract class SpigOperation {
+export class SpigOperation {
   protected readonly _name: string;
 
-  private _onStart: () => void;
+  private readonly _onStart: () => void;
 
-  // todo remove void and replace with Promise.resolve
-  private _onFile: (fileRef: FileRef) => Promise<FileRef> | void;
+  private readonly _onFile: (fileRef: FileRef) => Promise<FileRef>;
 
-  private _onEnd: () => void;
+  private readonly _onEnd: () => void;
 
   get name(): string {
     return this._name;
@@ -18,30 +17,30 @@ export abstract class SpigOperation {
     return this._onStart;
   }
 
-  set onStart(value: () => void) {
-    this._onStart = value;
-  }
-
-  get onFile(): (fileRef: FileRef) => Promise<FileRef> | void {
+  get onFile(): (fileRef: FileRef) => Promise<FileRef> {
     return this._onFile;
-  }
-
-  set onFile(value: (fileRef: FileRef) => Promise<FileRef> | void) {
-    this._onFile = value;
   }
 
   get onEnd(): () => void {
     return this._onEnd;
   }
 
-  set onEnd(value: () => void) {
-    this._onEnd = value;
+  static of(name: string, onFile: (fileRef: FileRef) => void): SpigOperation {
+    return new SpigOperation(name, fileRef => {
+      onFile(fileRef);
+      return Promise.resolve(fileRef);
+    });
   }
 
-  protected constructor(name: string) {
+  constructor(
+    name: string,
+    onFile: (fileRef: FileRef) => Promise<FileRef>,
+    onStart: () => void = () => {},
+    onEnd: () => void = () => {}
+  ) {
     this._name = name;
-    this._onStart = () => {};
-    this._onFile = () => undefined;
-    this._onEnd = () => {};
+    this._onFile = onFile;
+    this._onStart = onStart;
+    this._onEnd = onEnd;
   }
 }

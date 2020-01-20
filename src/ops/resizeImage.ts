@@ -59,10 +59,5 @@ function processFile(spig: Spig, fileRef: FileRef): Promise<FileRef> {
 }
 
 export function operation(spig: Spig): SpigOperation {
-  return new (class extends SpigOperation {
-    constructor() {
-      super('resize images');
-      super.onFile = fileRef => processFile(spig, fileRef);
-    }
-  })();
+  return SpigOperation.of('resize images', fileRef => processFile(spig, fileRef));
 }

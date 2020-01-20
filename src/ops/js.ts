@@ -28,10 +28,5 @@ function processFile(fileRef: FileRef): void {
 }
 
 export function operation(): SpigOperation {
-  return new (class extends SpigOperation {
-    constructor() {
-      super('javascript');
-      super.onFile = processFile;
-    }
-  })();
+  return SpigOperation.of('javascript', processFile);
 }

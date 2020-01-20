@@ -38,10 +38,5 @@ function processFile(fileRef: FileRef): void {
 }
 
 export function operation(): SpigOperation {
-  return new (class extends SpigOperation {
-    constructor() {
-      super('render');
-      super.onFile = processFile;
-    }
-  })();
+  return SpigOperation.of('render', processFile);
 }

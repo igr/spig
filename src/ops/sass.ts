@@ -52,10 +52,5 @@ function processFile(spig: Spig, fileRef: FileRef): Promise<FileRef> {
 }
 
 export function operation(spig: Spig): SpigOperation {
-  return new (class extends SpigOperation {
-    constructor() {
-      super('sass');
-      super.onFile = (fileRef: FileRef) => processFile(spig, fileRef);
-    }
-  })();
+  return SpigOperation.of('sass', (fileRef: FileRef) => processFile(spig, fileRef));
 }

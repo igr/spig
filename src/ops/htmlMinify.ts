@@ -14,10 +14,5 @@ function processFile(fileRef: FileRef, options = {}): void {
 }
 
 export function operation(): SpigOperation {
-  return new (class extends SpigOperation {
-    constructor() {
-      super('minify html');
-      super.onFile = processFile;
-    }
-  })();
+  return SpigOperation.of('minify html', processFile);
 }

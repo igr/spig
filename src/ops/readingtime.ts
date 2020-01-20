@@ -21,10 +21,5 @@ function processFile(fileRef: FileRef): void {
 }
 
 export function operation(): SpigOperation {
-  return new (class extends SpigOperation {
-    constructor() {
-      super('reading time');
-      super.onFile = processFile;
-    }
-  })();
+  return SpigOperation.of('reading time', processFile);
 }
