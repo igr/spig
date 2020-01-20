@@ -46,7 +46,10 @@ export class Spig {
   /**
    * Creates new Spig on given file set and default folders.
    */
-  static on(files: string[]): Spig {
+  static on(files: string[] | string): Spig {
+    if (!Array.isArray(files)) {
+      files = [files];
+    }
     return new Spig(new SpigDef().on(files));
   }
 

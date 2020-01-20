@@ -4,21 +4,21 @@ Spig.hello();
 
 // PAGES
 
-// Spig
-//   .on('/**/*.{md,njk}')
-//
-//   ._('PREPARE')
-//   .pageCommon()
-//   .collect("tags")
-//   .collectAttr('menu')
-//   .readingTime()
-//
-//   ._("RENDER")
-//   .summary()
-//   .render()
-//   .applyTemplate()
-//   .htmlMinify()
-// ;
+Spig
+  .on('/**/*.{md,njk}')
+
+  ._('PREPARE')
+  .pageCommon()
+  .collect('tags')
+  .collectAttr('menu')
+  .readingTime()
+
+  ._('RENDER')
+  .summary()
+  .render()
+  .applyTemplate()
+  .htmlMinify()
+;
 
 // Spig
 //   .on()

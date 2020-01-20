@@ -1,5 +1,5 @@
 import uglify from 'uglify-js';
-import babel from '@babel/core';
+import * as babel from '@babel/core';
 import * as SpigConfig from '../spig-config';
 import { SpigOperation } from '../spig-operation';
 import { FileRef } from '../file-reference';

@@ -1,28 +1,28 @@
 import * as nunjucks from 'nunjucks';
-import * as datetimefmt from '../filters/datetimefmt';
-import * as pages from '../filters/pages';
-import * as collections from '../filters/collections';
+import * as filtersOut from '../filters/out';
+import * as filtersDatetimefmt from '../filters/datetimefmt';
+import * as filtersPages from '../filters/pages';
+import * as filtersCollection from '../filters/collections';
 import * as SpigConfig from '../spig-config';
 import { RenderEngine } from './render-engine';
 
 function initFilters(nunjucksEnv: nunjucks.Environment): void {
   nunjucksEnv
-    // todo
-    // .addFilter('out', require('../filters/out'))
+    .addFilter('out', filtersOut.out)
 
-    .addFilter('dateDisplay', datetimefmt.dateDisplay)
-    .addFilter('dateISO', datetimefmt.dateISO)
-    .addFilter('dateUTC', datetimefmt.dateUTC)
+    .addFilter('dateDisplay', filtersDatetimefmt.dateDisplay)
+    .addFilter('dateISO', filtersDatetimefmt.dateISO)
+    .addFilter('dateUTC', filtersDatetimefmt.dateUTC)
 
-    .addFilter('pagesWithin', pages.pagesWithin)
+    .addFilter('pagesWithin', filtersPages.pagesWithin)
 
-    .addFilter('keys', collections.keys)
-    .addFilter('reverse', collections.reverse)
-    .addFilter('sortBy', collections.sortBy)
-    .addFilter('groupBy', collections.groupBy)
-    .addFilter('groupByYear', collections.groupByDateYear)
-    .addFilter('lastN', collections.lastN)
-    .addFilter('firstN', collections.firstN);
+    .addFilter('keys', filtersCollection.keys)
+    .addFilter('reverse', filtersCollection.reverse)
+    .addFilter('sortBy', filtersCollection.sortBy)
+    .addFilter('groupBy', filtersCollection.groupBy)
+    .addFilter('groupByYear', filtersCollection.groupByDateYear)
+    .addFilter('lastN', filtersCollection.lastN)
+    .addFilter('firstN', filtersCollection.firstN);
 }
 
 function initNunjucks(): nunjucks.Environment {
