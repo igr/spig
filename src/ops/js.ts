@@ -1,9 +1,7 @@
 import uglify from 'uglify-js';
-import * as babel from '@babel/core';
+import babel from '@babel/core';
 import * as SpigConfig from '../spig-config';
-
 import { SpigOperation } from '../spig-operation';
-
 import { FileRef } from '../file-reference';
 
 function processFile(fileRef: FileRef): void {

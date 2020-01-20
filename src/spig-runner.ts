@@ -71,8 +71,7 @@ export class SpigRunner {
     for (const phase of this.phases) {
       phasePromises.push(this.runPhase(phase));
     }
-
-    console.log(`-----> ${this.phases.length} ${phasePromises.length}`);
+    
     await Promise.all(phasePromises);
 
     log.buildTime(performance.now() - t0);
