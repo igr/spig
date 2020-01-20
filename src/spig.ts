@@ -138,16 +138,12 @@ export class Spig {
     if (TaskRunner.isRapidTask(ctx.ARGS.taskName)) {
       return;
     }
-
-    // todo ASYNC!
-    (async function runHello() {
-      // eslint-disable-next-line import/no-cycle
-      const hello = await import('./hello');
-      hello.statics();
-      hello.sass();
-      hello.images();
-      hello.js();
-      hello.jsBundles();
-    })();
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const hello = require('./hello');
+    hello.statics();
+    hello.sass();
+    hello.images();
+    hello.js();
+    hello.jsBundles();
   }
 }

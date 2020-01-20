@@ -10,7 +10,6 @@ import * as SpigConfig from './spig-config';
  * Loads external Javascript module.
  */
 export function load(moduleName: string): any {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
   return require(SpigConfig.dev.root + moduleName);
 }
 

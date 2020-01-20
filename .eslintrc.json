@@ -20,23 +20,53 @@
     "SharedArrayBuffer": "readonly"
     },
   "rules": {
-    "semi": ["error", "always"],
-    "quotes": ["error", "single"],
+    "semi": [
+      "error",
+      "always"
+    ],
+    "quotes": [
+      "error",
+      "single"
+    ],
     "global-require": "off",
     "no-param-reassign": "off",
     "prefer-template": "off",
     "no-console": "off",
-    "no-underscore-dangle": ["error", { "allowAfterThis": true }],
+    "no-underscore-dangle": [
+      "error",
+      {
+        "allowAfterThis": true
+      }
+    ],
     "prefer-destructuring": "off",
-    "no-constant-condition": ["error", { "checkLoops": false }],
-    "no-restricted-syntax": ["error", "ForInStatement", "LabeledStatement", "WithStatement"],
+    "no-constant-condition": [
+      "error",
+      {
+        "checkLoops": false
+      }
+    ],
+    "no-restricted-syntax": [
+      "error",
+      "ForInStatement",
+      "LabeledStatement",
+      "WithStatement"
+    ],
+    "no-plusplus": [
+      "error",
+      {
+        "allowForLoopAfterthoughts": true
+      }
+    ],
     "import/prefer-default-export": "off",
     "import/no-dynamic-require": "off",
     "@typescript-eslint/no-explicit-any": 1,
     "@typescript-eslint/no-unused-vars": "warn",
-    "@typescript-eslint/explicit-function-return-type": ["error", {
-      "allowExpressions": true
-    }],
-    "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }]
+    "@typescript-eslint/no-var-requires": "off",
+    "@typescript-eslint/explicit-function-return-type": [
+      "error",
+      {
+        "allowExpressions": true
+      }
+    ]
   }
 }

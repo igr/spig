@@ -1,9 +1,9 @@
-import * as Path from 'path';
-import * as sass from 'node-sass';
-import * as cssnano from 'cssnano';
+import Path from 'path';
+import sass from 'node-sass';
+import cssnano from 'cssnano';
 import postcss from 'postcss';
 import precss from 'precss';
-import * as autoprefixer from 'autoprefixer';
+import autoprefixer from 'autoprefixer';
 import * as SpigConfig from '../spig-config';
 import { FileRef } from '../file-reference';
 import { SpigOperation } from '../spig-operation';
