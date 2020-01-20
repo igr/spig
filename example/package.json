@@ -1,0 +1,12 @@
+{
+  "name": "spig-example",
+  "version": "0.0.1",
+  "description": "Spig example",
+  "license": "BSD-2-Clause",
+  "scripts": {
+    "clean": "node spig.js clean",
+    "dev": "node spig.js dev",
+    "build": "node spig.js",
+    "build:lambda": "cd netlify && build.sh"
+  }
+}

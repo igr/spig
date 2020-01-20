@@ -2,13 +2,13 @@
 
 ![](src/images/spig.png)
 
-Static website generator lightweight _framework_ using just Gulp and no-surprise JavaScript. **Spig** uses regular Gulp tasks for assets and provides a developer-friendly extension for the web static generation.
+Lightweight static website generator _framework_ in pure JavaScript.
 
-Since **Spig** is a framework, it is very extensible and configurable.
+**Spig** is a framework; very extensible and configurable.
 
 ## Try it out!
 
-Just clone/download this repo and run:
+Just clone/download this repo and run following in root:
 
 ```shell
 yarn install
@@ -16,13 +16,10 @@ yarn dev
 open localhost:3000
 ```
 
-NOTE: don't run anything in `/spig` folder.
-
 ## Documentation
 
 ### Intro
 
-+ [Show Cases](doc/ShowCases.md) - real world examples
 + [Install](doc/Install.md)
 + [Develop and Build with Spig](doc/BuildWithSpig.md)
 
@@ -33,6 +30,8 @@ NOTE: don't run anything in `/spig` folder.
 + [Rules and conventions](doc/Rules.md)
 
 ## Spig Features
+
++ [Show Cases](doc/ShowCases.md) - real world examples
 
 + node v12
 + javascript minify
