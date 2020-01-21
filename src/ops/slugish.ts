@@ -1,5 +1,5 @@
-import * as Path from 'path';
-import * as _s from 'underscore.string';
+import Path from 'path';
+import _s from 'underscore.string';
 import * as Mustache from 'mustache';
 import { SpigOperation } from '../spig-operation';
 import { FileRef } from '../file-reference';

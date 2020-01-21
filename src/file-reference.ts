@@ -1,5 +1,5 @@
-import * as fs from 'fs';
-import * as Path from 'path';
+import fs from 'fs';
+import Path from 'path';
 import * as UUID from './uuid';
 import * as SpigConfig from './spig-config';
 import { initAttributes } from './init-attributes';
@@ -17,6 +17,8 @@ function permalink(link: string): string {
  * File reference.
  */
 export class FileRef {
+  private _change = false;
+
   private _active: boolean;
 
   private _synthetic: boolean;
@@ -92,6 +94,7 @@ export class FileRef {
 
   set out(value: string) {
     this._out = value;
+    this._change = true;
   }
 
   get src(): string | undefined {
@@ -213,10 +216,12 @@ export class FileRef {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   setAttr(key: string, value: any): void {
     this._attr[key] = value;
+    this._change = true;
   }
 
   setAttrs(attrs: object): void {
     Object.assign(this._attr, attrs);
+    this._change = true;
   }
 
   hasAttr(key: string): boolean {
@@ -229,6 +234,7 @@ export class FileRef {
   set buffer(content: Buffer) {
     this._buffer = content;
     this._string = undefined;
+    this._change = true;
   }
 
   /**
@@ -250,6 +256,7 @@ export class FileRef {
   set string(content: string) {
     this._string = content;
     this._buffer = Buffer.from(content);
+    this._change = true;
   }
 
   get string(): string {
@@ -265,12 +272,16 @@ export class FileRef {
    * Builds a context used in templates.
    */
   context(): {} {
-    Object.assign(this._attr, {
-      site: SpigConfig.site,
-      link: SpigConfig.site.baseURL + permalink(this._out),
-      url: permalink(this._out),
-      src: this.dir + this.name,
-    });
+    if (this._change) {
+      Object.assign(this._attr, {
+        site: SpigConfig.site,
+        link: SpigConfig.site.baseURL + permalink(this._out),
+        url: permalink(this._out),
+        src: this.dir + this.name,
+        content: this.string,
+      });
+      this._change = false;
+    }
 
     return this._attr;
   }

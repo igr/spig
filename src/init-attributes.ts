@@ -1,6 +1,6 @@
-import * as fs from 'fs';
-import * as Path from 'path';
-import * as _s from 'underscore.string';
+import fs from 'fs';
+import Path from 'path';
+import _s from 'underscore.string';
 import * as SpigConfig from './spig-config';
 import { load } from './load';
 

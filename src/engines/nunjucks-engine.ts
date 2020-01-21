@@ -1,4 +1,4 @@
-import * as nunjucks from 'nunjucks';
+import nunjucks from 'nunjucks';
 import * as filtersOut from '../filters/out';
 import * as filtersDatetimefmt from '../filters/datetimefmt';
 import * as filtersPages from '../filters/pages';
@@ -28,10 +28,13 @@ function initFilters(nunjucksEnv: nunjucks.Environment): void {
 function initNunjucks(): nunjucks.Environment {
   const dev = SpigConfig.dev;
 
-  const nunjucksEnv = nunjucks.configure([dev.root + dev.srcDir + dev.dir.layouts, dev.root + 'spig/layouts'], {
-    autoescape: true,
-    noCache: !SpigConfig.site.build.production,
-  });
+  const nunjucksEnv = nunjucks.configure(
+    [dev.root + dev.srcDir + dev.dir.layouts, dev.root + 'node_modules/spignite/layouts'],
+    {
+      autoescape: true,
+      noCache: !SpigConfig.site.build.production,
+    }
+  );
 
   initFilters(nunjucksEnv);
 

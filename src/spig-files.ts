@@ -1,5 +1,5 @@
-import * as Path from 'path';
-import * as glob from 'glob';
+import Path from 'path';
+import glob from 'glob';
 import * as ctx from './ctx';
 import * as SpigConfig from './spig-config';
 import { FileRef } from './file-reference';
@@ -82,7 +82,6 @@ export class SpigFiles {
     const fileRef = fileRefOf(this.spig, this.root, file, absolutePath);
 
     if (content) {
-      // todo check all typeof and replace with this
       if (content instanceof Buffer) {
         fileRef.buffer = content;
       } else {

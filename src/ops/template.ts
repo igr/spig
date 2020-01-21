@@ -1,4 +1,4 @@
-import * as Path from 'path';
+import Path from 'path';
 import { SpigOperation } from '../spig-operation';
 import { FileRef } from '../file-reference';
 import { templateNunjucks } from './template-nunjucks';

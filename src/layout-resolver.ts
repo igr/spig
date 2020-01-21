@@ -1,5 +1,5 @@
-import * as fs from 'fs';
-import * as Path from 'path';
+import fs from 'fs';
+import Path from 'path';
 import * as SpigConfig from './spig-config';
 import { FileRef } from './file-reference';
 

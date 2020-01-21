@@ -1,4 +1,4 @@
-import * as _s from 'underscore.string';
+import _s from 'underscore.string';
 import { Spig } from './spig';
 import * as SpigConfig from './spig-config';
 

@@ -1,5 +1,5 @@
-import * as fs from 'fs';
-import * as Path from 'path';
+import fs from 'fs';
+import Path from 'path';
 import { performance } from 'perf_hooks';
 import * as log from './log';
 import * as SpigConfig from './spig-config';
@@ -122,11 +122,7 @@ export class SpigRunner {
     files
       .filter(fileRef => fileRef.active)
       .forEach(fileRef => {
-        let promise = op.onFile(fileRef);
-        if (!promise) {
-          promise = Promise.resolve(fileRef);
-        }
-        promises.push(promise);
+        promises.push(op.onFile(fileRef));
       });
 
     op.onEnd();
