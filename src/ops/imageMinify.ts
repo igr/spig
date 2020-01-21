@@ -11,27 +11,27 @@ import { SpigOperation } from '../spig-operation';
 /**
  * Minimizes images.
  */
-function process(buffer: Buffer, options: object): Promise<Buffer> {
+function process(buffer: Buffer, options: any): Promise<Buffer> {
   const defaults = SpigConfig.ops.imageMinify;
 
   const jpegOptions = {
     ...defaults.jpeg,
-    ...(options as any).jpeg,
+    ...options.jpeg,
   };
 
   const pngOptions = {
     ...defaults.png,
-    ...(options as any).png,
+    ...options.png,
   };
 
   const optipngOptions = {
     ...defaults.optipng,
-    ...(options as any).optipng,
+    ...options.optipng,
   };
 
   const gifOptions = {
     ...defaults.gif,
-    ...(options as any).gif,
+    ...options.gif,
   };
 
   return imagemin.buffer(buffer, {
@@ -44,11 +44,11 @@ function process(buffer: Buffer, options: object): Promise<Buffer> {
   });
 }
 
-export function operation(options: object): SpigOperation {
+export const operation: (options: object) => SpigOperation = (options: object) => {
   return new SpigOperation('minify images', fileRef => {
     return process(fileRef.buffer, options).then((buffer: Buffer) => {
       fileRef.buffer = buffer;
       return fileRef;
     });
   });
-}
+};

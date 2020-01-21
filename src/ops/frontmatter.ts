@@ -15,6 +15,6 @@ function processFile(fileRef: FileRef, attributes = {}): void {
   fileRef.setAttrs(attributes);
 }
 
-export function operation(): SpigOperation {
+export const operation: () => SpigOperation = () => {
   return SpigOperation.of('frontmatter', processFile);
-}
+};

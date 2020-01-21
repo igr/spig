@@ -40,7 +40,11 @@ function end(spig: Spig): void {
  * file reference. Each bundle name will be added as bundle file to spig
  * with merged content of all bundled files.
  */
-export function operation(spig: Spig, bundleAggregatorFn: (fileRef: FileRef) => string | undefined): SpigOperation {
+
+export const operation: (spig: Spig, bundleAggregatorFn: (fileRef: FileRef) => string | undefined) => SpigOperation = (
+  spig: Spig,
+  bundleAggregatorFn: (fileRef: FileRef) => string | undefined
+) => {
   return new SpigOperation(
     'merge',
     fileRef => {
@@ -50,4 +54,4 @@ export function operation(spig: Spig, bundleAggregatorFn: (fileRef: FileRef) => 
     () => start(),
     () => end(spig)
   );
-}
+};

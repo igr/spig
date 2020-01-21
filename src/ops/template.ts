@@ -17,6 +17,6 @@ function processFile(fileRef: FileRef): void {
   }
 }
 
-export function operation(): SpigOperation {
+export const operation: () => SpigOperation = () => {
   return SpigOperation.of('template', processFile);
-}
+};

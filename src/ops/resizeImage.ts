@@ -58,6 +58,6 @@ function processFile(spig: Spig, fileRef: FileRef): Promise<FileRef> {
   return Promise.all(promises).then(() => fileRef);
 }
 
-export function operation(spig: Spig): SpigOperation {
+export const operation: (spig: Spig) => SpigOperation = (spig: Spig) => {
   return SpigOperation.of('resize images', fileRef => processFile(spig, fileRef));
-}
+};

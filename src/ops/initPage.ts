@@ -39,9 +39,9 @@ function addPageMethodsToSite(site: any): void {
   };
 }
 
-export function operation(): SpigOperation {
+export const operation: () => SpigOperation = () => {
   addPageMethodsToSite(SpigConfig.site);
   return SpigOperation.of('init page', (fileRef: FileRef) => {
     fileRef.setAttr('page', true);
   });
-}
+};

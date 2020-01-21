@@ -20,6 +20,6 @@ function processFile(fileRef: FileRef): void {
   fileRef.setAttr('readingTime', result);
 }
 
-export function operation(): SpigOperation {
+export const operation: () => SpigOperation = () => {
   return SpigOperation.of('reading time', processFile);
-}
+};

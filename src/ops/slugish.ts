@@ -66,6 +66,6 @@ function processFile(fileRef: FileRef): void {
   fileRef.out = out + slug + '/' + Path.basename(fileRef.out);
 }
 
-export function operation(): SpigOperation {
+export const operation: () => SpigOperation = () => {
   return SpigOperation.of('slugish', processFile);
-}
+};

@@ -34,6 +34,6 @@ function processFile(fileRef: FileRef): void {
   fileRef.setAttr('summary', s);
 }
 
-export function operation(): SpigOperation {
+export const operation: () => SpigOperation = () => {
   return SpigOperation.of('summary', processFile);
-}
+};

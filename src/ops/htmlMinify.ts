@@ -13,6 +13,6 @@ function processFile(fileRef: FileRef, options = {}): void {
   fileRef.string = minify(fileRef.string, { ...defaults, ...options });
 }
 
-export function operation(): SpigOperation {
+export const operation: () => SpigOperation = () => {
   return SpigOperation.of('minify html', processFile);
-}
+};

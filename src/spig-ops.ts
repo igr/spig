@@ -1,25 +1,125 @@
-// eslint-disable-next-line max-classes-per-file
-import { SpigOperation } from './spig-operation';
 import * as SpigConfig from './spig-config';
-
+import { SpigOperation } from './spig-operation';
 import { collect } from './ops/collect';
-import { operation as excerpt } from './ops/excerpt';
-import { operation as frontmatter } from './ops/frontmatter';
-import { operation as htmlMinify } from './ops/htmlMinify';
-import { operation as imageMinify } from './ops/imageMinify';
-import { operation as initPage } from './ops/initPage';
-import { operation as js } from './ops/js';
-import { operation as merge } from './ops/merge';
-import { operation as permalinks } from './ops/permalinks';
-import { operation as readingtime } from './ops/readingtime';
-import { operation as rename, PathElements } from './ops/rename';
-import { operation as render } from './ops/render';
-import { operation as resizeImage } from './ops/resizeImage';
-import { operation as sass } from './ops/sass';
-import { operation as slugish } from './ops/slugish';
 
 type Spig = import('./spig').Spig;
 type FileRef = import('./file-reference').FileRef;
+
+// OPERATIONS are loaded lazy
+
+let opExcerpt: () => SpigOperation;
+function excerpt(): SpigOperation {
+  if (!opExcerpt) {
+    opExcerpt = require('./ops/excerpt').operation;
+  }
+  return opExcerpt();
+}
+
+let opFrontmatter: () => SpigOperation;
+function frontmatter(): SpigOperation {
+  if (!opFrontmatter) {
+    opFrontmatter = require('./ops/frontmatter').operation;
+  }
+  return opFrontmatter();
+}
+
+let opHtmlMinify: () => SpigOperation;
+function htmlMinify(): SpigOperation {
+  if (!opHtmlMinify) {
+    opHtmlMinify = require('./ops/htmlMinify').operation;
+  }
+  return opHtmlMinify();
+}
+
+let opImageMinify: (options: object) => SpigOperation;
+function imageMinify(options: object): SpigOperation {
+  if (!opImageMinify) {
+    opImageMinify = require('./ops/imageMinify').operation;
+  }
+  return opImageMinify(options);
+}
+
+let opInitPage: () => SpigOperation;
+function initPage(): SpigOperation {
+  if (!opInitPage) {
+    opInitPage = require('./ops/initPage').operation;
+  }
+  return opInitPage();
+}
+
+let opJs: () => SpigOperation;
+function js(): SpigOperation {
+  if (!opJs) {
+    opJs = require('./ops/js').operation;
+  }
+  return opJs();
+}
+
+let opMerge: (spig: Spig, bundleAggregatorFn: (fileRef: FileRef) => string | undefined) => SpigOperation;
+function merge(spig: Spig, bundleAggregatorFn: (fileRef: FileRef) => string | undefined): SpigOperation {
+  if (!opMerge) {
+    opMerge = require('./ops/merge').operation;
+  }
+  return opMerge(spig, bundleAggregatorFn);
+}
+
+let opPermalinks: () => SpigOperation;
+function permalinks(): SpigOperation {
+  if (!opPermalinks) {
+    opPermalinks = require('./ops/permalinks').operation;
+  }
+  return opPermalinks();
+}
+
+let opReadingtime: () => SpigOperation;
+function readingtime(): SpigOperation {
+  if (!opReadingtime) {
+    opReadingtime = require('./ops/readingtime').operation;
+  }
+  return opReadingtime();
+}
+
+let opRename: (renameFn: (parsedPath: PathElements) => void) => SpigOperation;
+type PathElements = import('./ops/rename').PathElements;
+function rename(renameFn: (parsedPath: PathElements) => void): SpigOperation {
+  if (!opRename) {
+    opRename = require('./ops/rename').operation;
+  }
+  return opRename(renameFn);
+}
+
+let opRender: () => SpigOperation;
+function render(): SpigOperation {
+  if (!opRender) {
+    opRender = require('./ops/render').operation;
+  }
+  return opRender();
+}
+
+let opResizeImage: (spig: Spig) => SpigOperation;
+function resizeImage(spig: Spig): SpigOperation {
+  if (!opResizeImage) {
+    opResizeImage = require('./ops/resizeImage').operation;
+  }
+  return opResizeImage(spig);
+}
+
+let opSass: (spig: Spig) => SpigOperation;
+function sass(spig: Spig): SpigOperation {
+  if (!opSass) {
+    opSass = require('./ops/sass').operation;
+  }
+  return opSass(spig);
+}
+
+let opSlugish: () => SpigOperation;
+function slugish(): SpigOperation {
+  if (!opSlugish) {
+    opSlugish = require('./ops/slugish').operation;
+  }
+  return opSlugish();
+}
+
 
 export class SpigOps {
   private readonly registerPhaseOp: (op: SpigOperation) => void;

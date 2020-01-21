@@ -27,6 +27,6 @@ function processFile(fileRef: FileRef): void {
   fileRef.string = bundleCode;
 }
 
-export function operation(): SpigOperation {
+export const operation: () => SpigOperation = () => {
   return SpigOperation.of('javascript', processFile);
-}
+};

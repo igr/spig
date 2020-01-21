@@ -51,6 +51,6 @@ function processFile(spig: Spig, fileRef: FileRef): Promise<FileRef> {
     });
 }
 
-export function operation(spig: Spig): SpigOperation {
+export const operation: (spig: Spig) => SpigOperation = (spig: Spig) => {
   return SpigOperation.of('sass', (fileRef: FileRef) => processFile(spig, fileRef));
-}
+};
