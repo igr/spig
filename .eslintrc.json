@@ -29,6 +29,8 @@
       "single"
     ],
     "global-require": "off",
+    "class-methods-use-this": "off",
+    "max-classes-per-file": "off",
     "no-param-reassign": "off",
     "prefer-template": "off",
     "no-console": "off",

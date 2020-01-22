@@ -62,49 +62,46 @@ export class SpigRunner {
   /**
    * Runs it all.
    */
-  async run(): Promise<void> {
-    const phasePromises = [];
+  run(): Promise<void> {
+    let phasePromise: Promise<string> = Promise.resolve('');
 
-    for (const phase of this.phases) {
-      phasePromises.push(this.runPhase(phase));
-    }
+    this.phases.forEach(phase => {
+      // phases are executed sequentially
+      phasePromise = phasePromise.then(() => this.runPhase(phase));
+    });
 
-    await Promise.all(phasePromises);
-
-    await this.writeAllFiles();
+    return phasePromise.then(() => this.writeAllFiles()).then(() => {});
   }
 
   /**
    * Runs all operations of a single phase.
    * Returns a promise of the phase execution.
    */
-  async runPhase(phaseName: string): Promise<FileRef[][]> {
+  private runPhase(phaseName: string): Promise<string> {
     log.phase(phaseName);
 
     const ops = this.ops[phaseName];
     if (!ops) {
-      return Promise.resolve([]);
+      return Promise.resolve(phaseName);
     }
 
-    const p = ops
+    const opsPromises: Promise<FileRef[]>[] = [];
+    ops
       .filter(op => {
         // execute only ops for given SPIGs
         return this.spigs.indexOf(op[0]) !== -1;
       })
-      .map(op => {
-        // each operation of a phase is executed sequentially
-        return SpigRunner.runOperation(op[0], op[1]);
+      .forEach(op => {
+        opsPromises.push(this.runOperation(op[0], op[1]));
       });
 
-    return Promise.all(p);
+    return Promise.all(opsPromises).then(() => phaseName);
   }
 
   /**
    * Runs single operation on a Spig that defines it.
    */
-  static runOperation(spig: Spig, op: SpigOperation): Promise<FileRef[]> {
-    const promises: Promise<FileRef>[] = [];
-
+  private runOperation(spig: Spig, op: SpigOperation): Promise<FileRef[]> {
     log.operation(op.name);
 
     op.onStart();
@@ -112,13 +109,14 @@ export class SpigRunner {
     const files: FileRef[] = [];
     spig.forEachFile(f => files.push(f));
 
-    files
+    const promises: Promise<FileRef>[] = files
       .filter(fileRef => fileRef.active)
-      .forEach(fileRef => {
-        promises.push(op.onFile(fileRef));
+      .map(fileRef => {
+        return op.onFile(fileRef).then(fr => {
+          op.onEnd();
+          return fr;
+        });
       });
-
-    op.onEnd();
 
     return Promise.all(promises);
   }
@@ -126,7 +124,7 @@ export class SpigRunner {
   /**
    * Writes all files.
    */
-  writeAllFiles(): Promise<void[]> {
+  private writeAllFiles(): Promise<FileRef[]> {
     const files: FileRef[] = [];
     this.spigs.forEach(spig => {
       spig.forEachFile(fileRef => files.push(fileRef));
@@ -149,26 +147,27 @@ export class SpigRunner {
 
     let pageCount = 0;
     let totalCount = 0;
-    const promises: Promise<void>[] = [];
 
     function incTotalCount(): void {
       totalCount += 1;
     }
+
     function incPageCount(): void {
       pageCount += 1;
     }
 
-    files
+    const promises: Promise<FileRef>[] = files
       .filter(fileRef => fileRef.active)
-      .forEach(fileRef => {
+      .map(fileRef => {
         incTotalCount();
         if (fileRef.hasAttr('page')) {
           incPageCount();
         }
-        promises.push(write(fileRef.spig.def.destDir, fileRef));
+        return write(fileRef.spig.def.destDir, fileRef).then(() => fileRef);
       });
 
     log.line(`${pageCount}/${totalCount}`);
+
     return Promise.all(promises);
   }
 }

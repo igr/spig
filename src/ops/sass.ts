@@ -20,7 +20,7 @@ function processFile(spig: Spig, fileRef: FileRef): Promise<FileRef> {
     sourceMap: true,
   });
 
-  const content = cssResult.css;
+  const content: Buffer = cssResult.css;
 
   // POSTCSS
 
@@ -33,7 +33,7 @@ function processFile(spig: Spig, fileRef: FileRef): Promise<FileRef> {
   }
 
   return p
-    .process(content, {
+    .process(content.toString(), {
       from: fileRef.name,
       map: {
         inline: false,
@@ -41,16 +41,17 @@ function processFile(spig: Spig, fileRef: FileRef): Promise<FileRef> {
       },
     })
     .then(result => {
-      fileRef.outExt('css');
+      fileRef.outExt = 'css';
       fileRef.string = result.css;
 
       if (result.map) {
         spig.addFile(fileRef.out + '.map', result.map.toString());
       }
+
       return fileRef;
     });
 }
 
 export const operation: (spig: Spig) => SpigOperation = (spig: Spig) => {
-  return SpigOperation.of('sass', (fileRef: FileRef) => processFile(spig, fileRef));
+  return new SpigOperation('sass', (fileRef: FileRef) => processFile(spig, fileRef));
 };

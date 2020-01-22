@@ -25,9 +25,17 @@ export class SpigOperation {
     return this._onEnd;
   }
 
+  /**
+   * Shortcut for SpigOperation for sync operations.
+   */
   static of(name: string, onFile: (fileRef: FileRef) => void): SpigOperation {
     return new SpigOperation(name, fileRef => {
-      onFile(fileRef);
+      const mustBeVoid: any = onFile(fileRef);
+      if (mustBeVoid) {
+        throw new Error(
+          `Internal error! Operation '${name}' is defined with "SpigOperation.of()" method. It probably should be defined with constructor instead.`
+        );
+      }
       return Promise.resolve(fileRef);
     });
   }

@@ -59,5 +59,5 @@ function processFile(spig: Spig, fileRef: FileRef): Promise<FileRef> {
 }
 
 export const operation: (spig: Spig) => SpigOperation = (spig: Spig) => {
-  return SpigOperation.of('resize images', fileRef => processFile(spig, fileRef));
+  return new SpigOperation('resize images', fileRef => processFile(spig, fileRef));
 };

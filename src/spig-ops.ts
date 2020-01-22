@@ -39,12 +39,12 @@ function imageMinify(options: object): SpigOperation {
   return opImageMinify(options);
 }
 
-let opInitPage: () => SpigOperation;
-function initPage(): SpigOperation {
-  if (!opInitPage) {
-    opInitPage = require('./ops/initPage').operation;
+let opGather: (singular: string, plural: string) => SpigOperation;
+function gather(singular: string, plural: string): SpigOperation {
+  if (!opGather) {
+    opGather = require('./ops/gather').operation;
   }
-  return opInitPage();
+  return opGather(singular, plural);
 }
 
 let opJs: () => SpigOperation;
@@ -120,7 +120,6 @@ function slugish(): SpigOperation {
   return opSlugish();
 }
 
-
 export class SpigOps {
   private readonly registerPhaseOp: (op: SpigOperation) => void;
 
@@ -153,7 +152,7 @@ export class SpigOps {
     return this.op(SpigOperation.of(name, operation));
   }
 
-  // functions
+  // operations
   // todo svima napravi options
 
   frontmatter(): SpigOps {
@@ -161,7 +160,11 @@ export class SpigOps {
   }
 
   initPage(): SpigOps {
-    return this.op(initPage());
+    return this.op(gather('page', 'pages'));
+  }
+
+  gather(singular: string, plural: string): SpigOps {
+    return this.op(gather(singular, plural));
   }
 
   permalinks(): SpigOps {
