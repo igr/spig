@@ -91,7 +91,7 @@ export function totalTime(name: string, elapsedMilliseconds: number): void {
 
 export function configTime(elapsedMilliseconds: number): void {
   const { sec, ms } = millisToSeconds(elapsedMilliseconds);
-  log(chalk.white(`Configured in ${sec}.${ms}s.`));
+  log(chalk.white(`Up in ${sec}.${ms}s.`));
 }
 
 export function hello(): void {
