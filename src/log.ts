@@ -82,7 +82,7 @@ export function notification(message: string): void {
 
 export function buildTime(elapsedMilliseconds: number): void {
   const { sec, ms } = millisToSeconds(elapsedMilliseconds);
-  log(chalk.white(`🔥 Site built in ${sec}.${ms}s.`));
+  log.info(chalk.whiteBright(`🔥 Site built in ${sec}.${ms}s.`));
 }
 
 export function totalTime(elapsedMilliseconds: number): void {
@@ -92,5 +92,9 @@ export function totalTime(elapsedMilliseconds: number): void {
 
 export function configTime(elapsedMilliseconds: number): void {
   const { sec, ms } = millisToSeconds(elapsedMilliseconds);
-  log(chalk.white(`🧰 Configured in ${sec}.${ms}s.`));
+  log(chalk.white(`Configured in ${sec}.${ms}s.`));
+}
+
+export function hello(): void {
+  log.info('👋 Booting up...');
 }

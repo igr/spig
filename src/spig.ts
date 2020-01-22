@@ -146,6 +146,7 @@ export class Spig {
     if (TaskRunner.isRapidTask(ctx.ARGS.taskName)) {
       return;
     }
+    log.hello();
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     const hello = require('./hello');
     hello.statics();
