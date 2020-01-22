@@ -1,5 +1,7 @@
+import { performance } from 'perf_hooks';
 import * as ctx from './ctx';
 import * as SpigInit from './spig-init';
+import * as log from './log';
 import { SpigDef } from './spig-def';
 import { SpigFiles } from './spig-files';
 import { SpigOps } from './spig-ops';
@@ -7,6 +9,8 @@ import { TaskRunner } from './task-runner';
 
 type SpigOperation = import('./spig-operation').SpigOperation;
 type FileRef = import('./file-reference').FileRef;
+
+const t0 = performance.now();
 
 // system debug errors
 
@@ -131,6 +135,7 @@ export class Spig {
    * Runs all SPIG tasks :)
    */
   static run(): void {
+    log.configTime(performance.now() - t0);
     new TaskRunner().runTask(ctx.ARGS.taskName);
   }
 

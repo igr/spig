@@ -46,7 +46,7 @@ export function line(msg?: string): void {
 
 export function banner(version: string): void {
   console.log();
-  console.log(chalk.bgHex('0xF74B00').black(` -=[Spig v${version}]=- `));
+  console.log(chalk.bgHex('0xF74B00').black(` -=[Spignite v${version}]=- `));
   console.log();
 }
 
@@ -88,4 +88,9 @@ export function buildTime(elapsedMilliseconds: number): void {
 export function totalTime(elapsedMilliseconds: number): void {
   const { sec, ms } = millisToSeconds(elapsedMilliseconds);
   log(chalk.white(`✅ All done. Total time ${sec}.${ms}s.`));
+}
+
+export function configTime(elapsedMilliseconds: number): void {
+  const { sec, ms } = millisToSeconds(elapsedMilliseconds);
+  log(chalk.white(`🧰 Configured in ${sec}.${ms}s.`));
 }
