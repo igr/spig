@@ -1,8 +1,13 @@
 import del from 'del';
-import * as log from '../log';
 import * as SpigConfig from '../spig-config';
+import { Task } from '../task';
 
-export function taskClean(): Promise<string[]> {
-  log.task('clean');
-  return del([SpigConfig.dev.outDir + '/**/*']);
+export class CleanTask extends Task {
+  constructor() {
+    super('clean', true, true);
+  }
+
+  run(): void {
+    del([SpigConfig.dev.outDir + '/**/*']);
+  }
 }

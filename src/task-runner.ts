@@ -1,82 +1,50 @@
-import { performance } from 'perf_hooks';
-import * as log from './log';
-import { taskClean } from './tasks/clean';
-import { taskServe } from './tasks/serve';
-import { taskBuild } from './tasks/build';
-import { taskWatch } from './tasks/watch';
+import { Task } from './task';
+import { CleanTask } from './tasks/clean';
+import { ServeTask } from './tasks/serve';
+import { BuildTask } from './tasks/build';
+import { WatchTask } from './tasks/watch';
+import { ParallelTasks, SerialTasks } from './tasks/tasks';
 
-function createTasks(tr: TaskRunner): { [taskName: string]: () => void } {
+function createTasks(): { [taskName: string]: Task } {
+  const clean = new CleanTask();
+  const build = new BuildTask();
+  const serve = new ServeTask();
+  const watch = new WatchTask();
+  const serveWatch = new ParallelTasks('serve+watch', [serve, watch]);
+  const dev = new SerialTasks('dev', [build, serveWatch]);
+
   return {
-    clean: taskClean,
-    build: taskBuild,
-    serve: taskServe,
-    watch: taskWatch,
-    'serve+watch': () => tr.parallel(['serve', 'watch']),
-    dev: () => tr.serial(['build', 'serve+watch']),
+    clean,
+    build,
+    serve,
+    watch,
+    serveWatch,
+    dev,
   };
 }
 
-export class TaskRunner {
-  private readonly tasks: { [taskName: string]: any } = {};
+const tasks: { [taskName: string]: Task } = createTasks();
 
+export class TaskRunner {
   /**
    * Short tasks don't require the SPIG definition loaded.
-   * todo Make this better.
+   * todo Rename!
    */
-  static isRapidTask(taskname: string): boolean {
-    if (taskname === 'build' || taskname === 'watch' || taskname === 'dev') {
-      return false;
+  static isRapidTask(taskName: string): boolean {
+    const task: Task = tasks[taskName];
+    if (!task) {
+      throw new Error('Task not defined: ' + taskName);
     }
-    return true;
-  }
-
-  constructor() {
-    this.tasks = createTasks(this);
+    return task.noBuildRequired;
   }
 
   runTask(taskName: string): void {
-    const t0 = performance.now();
+    const task: Task = tasks[taskName];
 
-    const taskFunction = this.tasks[taskName];
-
-    if (!taskFunction) {
+    if (!task) {
       throw new Error('Task not defined: ' + taskName);
     }
 
-    taskFunction();
-
-    log.totalTime(taskName, performance.now() - t0);
-  }
-
-  /**
-   * Runs list of tasks in serial manner.
-   */
-  serial(taskNames: string[]): void {
-    for (const t of taskNames) {
-      this.runTask(t);
-    }
-  }
-
-  /**
-   * Runs list of tasks in parallel manner.
-   */
-  parallel(taskNames: string[]): void {
-    (async () => {
-      const allPromises = [];
-
-      for (const t of taskNames) {
-        allPromises.push(
-          new Promise((resolve, reject) => {
-            try {
-              this.runTask(t);
-              resolve();
-            } catch (e) {
-              reject(e);
-            }
-          })
-        );
-      }
-      await Promise.all(allPromises).catch(e => log.error(e));
-    })();
+    task.invoke();
   }
 }
