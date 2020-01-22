@@ -80,14 +80,13 @@ export function notification(message: string): void {
   log(chalk.cyan(message));
 }
 
-export function buildTime(elapsedMilliseconds: number): void {
+export function totalTime(name: string, elapsedMilliseconds: number): void {
   const { sec, ms } = millisToSeconds(elapsedMilliseconds);
-  log.info(chalk.whiteBright(`🔥 Site built in ${sec}.${ms}s.`));
-}
-
-export function totalTime(elapsedMilliseconds: number): void {
-  const { sec, ms } = millisToSeconds(elapsedMilliseconds);
-  log(chalk.white(`✅ All done. Total time ${sec}.${ms}s.`));
+  log(
+    chalk.whiteBright('🔥 Task ') +
+      chalk.yellowBright(`'${name}'`) +
+      chalk.whiteBright(` done. Total time ${sec}.${ms}s.`)
+  );
 }
 
 export function configTime(elapsedMilliseconds: number): void {

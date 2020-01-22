@@ -1,6 +1,5 @@
 import fs from 'fs';
 import Path from 'path';
-import { performance } from 'perf_hooks';
 import * as log from './log';
 import * as SpigConfig from './spig-config';
 import { FileRef } from './file-reference';
@@ -64,8 +63,6 @@ export class SpigRunner {
    * Runs it all.
    */
   async run(): Promise<void> {
-    const t0 = performance.now();
-
     const phasePromises = [];
 
     for (const phase of this.phases) {
@@ -74,11 +71,7 @@ export class SpigRunner {
 
     await Promise.all(phasePromises);
 
-    log.buildTime(performance.now() - t0);
-
     await this.writeAllFiles();
-
-    log.totalTime(performance.now() - t0);
   }
 
   /**

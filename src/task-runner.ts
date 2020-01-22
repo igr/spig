@@ -1,3 +1,4 @@
+import { performance } from 'perf_hooks';
 import * as log from './log';
 import { taskClean } from './tasks/clean';
 import { taskServe } from './tasks/serve';
@@ -34,6 +35,8 @@ export class TaskRunner {
   }
 
   runTask(taskName: string): void {
+    const t0 = performance.now();
+
     const taskFunction = this.tasks[taskName];
 
     if (!taskFunction) {
@@ -41,6 +44,8 @@ export class TaskRunner {
     }
 
     taskFunction();
+
+    log.totalTime(taskName, performance.now() - t0);
   }
 
   /**
