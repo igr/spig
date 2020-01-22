@@ -4,6 +4,7 @@ import * as log from './log';
 import * as SpigConfig from './spig-config';
 import { FileRef } from './file-reference';
 import { SpigOperation } from './spig-operation';
+import { SpigOpPair } from './ctx';
 
 type Spig = import('./spig').Spig;
 
@@ -51,9 +52,9 @@ export class SpigRunner {
 
   private readonly phases: string[];
 
-  private readonly ops: { [phaseName: string]: [Spig, SpigOperation][] };
+  private readonly ops: { [phaseName: string]: { [spigId: string]: SpigOpPair[] } };
 
-  constructor(spigs: Spig[], phases: string[], ops: { [phaseName: string]: [Spig, SpigOperation][] }) {
+  constructor(spigs: Spig[], phases: string[], ops: { [phaseName: string]: { [spigId: string]: SpigOpPair[] } }) {
     this.spigs = spigs;
     this.phases = phases;
     this.ops = ops;
@@ -66,7 +67,7 @@ export class SpigRunner {
     let phasePromise: Promise<string> = Promise.resolve('');
 
     this.phases.forEach(phase => {
-      // phases are executed sequentially
+      // phases are executed sequentially!
       phasePromise = phasePromise.then(() => this.runPhase(phase));
     });
 
@@ -80,22 +81,43 @@ export class SpigRunner {
   private runPhase(phaseName: string): Promise<string> {
     log.phase(phaseName);
 
-    const ops = this.ops[phaseName];
+    const ops: { [p: string]: SpigOpPair[] } = this.ops[phaseName];
     if (!ops) {
       return Promise.resolve(phaseName);
     }
 
-    const opsPromises: Promise<FileRef[]>[] = [];
-    ops
-      .filter(op => {
+    const spigPromises: Promise<string>[] = [];
+
+    Object.keys(ops)
+      .filter(spigId => {
         // execute only ops for given SPIGs
-        return this.spigs.indexOf(op[0]) !== -1;
+        return this.spigs.filter(s => spigId === s.id).length > 0;
       })
-      .forEach(op => {
-        opsPromises.push(this.runOperation(op[0], op[1]));
+      .forEach(spigId => {
+        // run Spigs of phase parallel
+        const opsPerSpig = ops[spigId];
+        spigPromises.push(this.runSpig(spigId, opsPerSpig));
       });
 
-    return Promise.all(opsPromises).then(() => phaseName);
+    return Promise.all(spigPromises).then(() => phaseName);
+  }
+
+  /**
+   * Runs all operations of single Spig in given phase.
+   * All operations are executed sequentially.
+   */
+  private runSpig(spigId: string, ops: SpigOpPair[]): Promise<string> {
+    const empty: FileRef[] = [];
+    let p = Promise.resolve(empty);
+
+    ops.forEach(it => {
+      if (it.spig.id !== spigId) {
+        throw new Error('Internal error! Executing Spig on ');
+      }
+      p = p.then(() => this.runOperation(it.spig, it.op));
+    });
+
+    return p.then(() => spigId);
   }
 
   /**
@@ -145,28 +167,20 @@ export class SpigRunner {
 
     log.line();
 
-    let pageCount = 0;
     let totalCount = 0;
 
     function incTotalCount(): void {
       totalCount += 1;
     }
 
-    function incPageCount(): void {
-      pageCount += 1;
-    }
-
     const promises: Promise<FileRef>[] = files
       .filter(fileRef => fileRef.active)
       .map(fileRef => {
         incTotalCount();
-        if (fileRef.hasAttr('page')) {
-          incPageCount();
-        }
         return write(fileRef.spig.def.destDir, fileRef).then(() => fileRef);
       });
 
-    log.line(`${pageCount}/${totalCount}`);
+    log.line(`${totalCount}`);
 
     return Promise.all(promises);
   }

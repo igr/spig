@@ -12,9 +12,10 @@ type SpigOperation = import('./spig-operation').SpigOperation;
 export const PHASES: string[] = [];
 
 /**
- * Operations per phases. Each phase defines an array of operations.
+ * Operations per phases. Each phase defines an array of operations per SPIG!.
  */
-export const OPS: { [phaseName: string]: [Spig, SpigOperation][] } = {};
+export type SpigOpPair = { spig: Spig; op: SpigOperation };
+export const OPS: { [phaseName: string]: { [spigId: string]: SpigOpPair[] } } = {};
 
 /**
  * All SPIG instances.

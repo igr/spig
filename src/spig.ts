@@ -28,15 +28,30 @@ SpigInit.initProductionMode();
 // todo when not rapid task only?
 SpigInit.initEngines();
 
+let spigCount = 0;
+function generateSpigId(): string {
+  spigCount += 1;
+  return `Spig-${spigCount}`;
+}
+
 /**
  * Spig defines operations on one set of files. Simple as that.
  * Operations are grouped and executed in phases, allowing
  * synchronization between different parts of the process.
  */
 export class Spig {
+  private readonly _id: string;
+
   private readonly _def: SpigDef;
 
   private _files: SpigFiles;
+
+  /**
+   * Returns unique SPIG id.
+   */
+  get id(): string {
+    return this._id;
+  }
 
   /**
    * Creates new Spig with given SPIG definition.
@@ -68,6 +83,7 @@ export class Spig {
   }
 
   constructor(spigDef: SpigDef) {
+    this._id = generateSpigId();
     this._def = spigDef;
     this._files = new SpigFiles(this);
     ctx.SPIGS.push(this);
@@ -91,11 +107,23 @@ export class Spig {
    */
   _(phaseName: string): SpigOps {
     if (!ctx.OPS[phaseName]) {
-      ctx.OPS[phaseName] = [];
+      // register new phase
+      ctx.OPS[phaseName] = {};
       ctx.PHASES.push(phaseName);
     }
+
+    const opsPerPhase: { [spigId: string]: ctx.SpigOpPair[] } = ctx.OPS[phaseName];
+
+    if (!opsPerPhase[this.id]) {
+      // register new Spig per phase
+      opsPerPhase[this.id] = [];
+    }
+
+    const opsPerPhaseAndSpig: ctx.SpigOpPair[] = opsPerPhase[this.id];
+
     return new SpigOps(this, (op: SpigOperation) => {
-      ctx.OPS[phaseName].push([this, op]);
+      // register operation withing this phase and spig.
+      opsPerPhaseAndSpig.push({ spig: this, op });
     });
   }
 
