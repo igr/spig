@@ -77,11 +77,12 @@ export class SpigRunner {
   /**
    * Runs all operations of a single phase.
    * Returns a promise of the phase execution.
+   * PHASE RUNS ALL IT'S SPIGS IN PARALLEL.
    */
   private runPhase(phaseName: string): Promise<string> {
     log.phase(phaseName);
 
-    const ops: { [p: string]: SpigOpPair[] } = this.ops[phaseName];
+    const ops: { [spigId: string]: SpigOpPair[] } = this.ops[phaseName];
     if (!ops) {
       return Promise.resolve(phaseName);
     }
@@ -105,6 +106,7 @@ export class SpigRunner {
   /**
    * Runs all operations of single Spig in given phase.
    * All operations are executed sequentially.
+   * SPIG RUNS ITS OPERATIONS SEQUENTIALLY.
    */
   private runSpig(spigId: string, ops: SpigOpPair[]): Promise<string> {
     const empty: FileRef[] = [];
@@ -122,6 +124,7 @@ export class SpigRunner {
 
   /**
    * Runs single operation on a Spig that defines it.
+   * OPERATION RUNS ALL ITS onFile IN PARALLEL.
    */
   private runOperation(spig: Spig, op: SpigOperation): Promise<FileRef[]> {
     log.operation(op.name);
@@ -134,13 +137,13 @@ export class SpigRunner {
     const promises: Promise<FileRef>[] = files
       .filter(fileRef => fileRef.active)
       .map(fileRef => {
-        return op.onFile(fileRef).then(fr => {
-          op.onEnd();
-          return fr;
-        });
+        return op.onFile(fileRef);
       });
 
-    return Promise.all(promises);
+    return Promise.all(promises).then(frs => {
+      op.onEnd();
+      return frs;
+    });
   }
 
   /**

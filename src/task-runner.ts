@@ -10,7 +10,7 @@ function createTasks(): { [taskName: string]: Task } {
   const build = new BuildTask();
   const serve = new ServeTask();
   const watch = new WatchTask();
-  const serveWatch = new ParallelTasks('serve+watch', [serve, watch]);
+  const serveWatch = new ParallelTasks('serve+watch', [serve, watch], false);
   const dev = new SerialTasks('dev', [build, serveWatch]);
 
   return {
