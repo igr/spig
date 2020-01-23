@@ -12,7 +12,7 @@ function serverInitFunction(): void {
 
 export class ServeTask extends Task {
   constructor() {
-    super('serve');
+    super('serve', false);
   }
 
   run(): void {

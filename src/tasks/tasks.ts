@@ -19,8 +19,8 @@ export class SerialTasks extends Task {
 export class ParallelTasks extends Task {
   private tasks: Task[];
 
-  constructor(name: string, tasks: Task[]) {
-    super(name);
+  constructor(name: string, tasks: Task[], logTasks = true) {
+    super(name, logTasks);
     this.tasks = tasks;
   }
 

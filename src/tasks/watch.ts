@@ -24,7 +24,7 @@ export class WatchTask extends Task {
   }
 
   run(): void {
-    ctx.forEachSpig(spig => {
+    ctx.SPIGS.forEach(spig => {
       // collect all real, non-synthetic files
       spig.forEachFile(fr => {
         if (!fr.synthetic && fr.src) {
