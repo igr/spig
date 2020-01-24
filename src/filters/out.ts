@@ -40,7 +40,7 @@ function toJSON(object: object, objectMaxDepth: number, arrayMaxLength: number, 
     if (escapable.test(string)) {
       escaped = string.replace(escapable, a => {
         const replacement = replacements[a];
-        if (typeof replacement === 'string') return replacement;
+        if (replacement) return replacement;
         // Pad the unicode representation with leading zeros, up to 4 characters.
         return '\\u' + ('0000' + a.charCodeAt(0).toString(16)).slice(-4);
       });
@@ -139,6 +139,6 @@ function toJSON(object: object, objectMaxDepth: number, arrayMaxLength: number, 
  * Safe, single-level dump.
  */
 export function out(obj: object, depth = 2): string {
-  // return JSON.stringify(obj, function (k, v) { return k ? "" + v : v; });
+  // return JSON.stringify(obj, (k, v) => (k ? '' + v : v));
   return toJSON(obj, depth, 10, '  ');
 }
