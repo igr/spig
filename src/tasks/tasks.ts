@@ -1,4 +1,3 @@
-import * as log from '../log';
 import { Task } from '../task';
 
 export class SerialTasks extends Task {
@@ -28,8 +27,6 @@ export class ParallelTasks extends Task {
 
   run(): Promise<Task> {
     const allPromises = this.tasks.map(t => t.invoke());
-    return Promise.all(allPromises)
-      .catch(e => log.error(e))
-      .then(() => this);
+    return Promise.all(allPromises).then(() => this);
   }
 }

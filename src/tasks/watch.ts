@@ -13,8 +13,7 @@ function onChange(spig: Spig) {
   return () => {
     log.notification('Change detected, rebuilding...');
     spig.reset();
-    new SpigRunner([spig], ctx.PHASES, ctx.OPS).run().catch(e => log.error(e));
-    bs.reload();
+    new SpigRunner([spig], ctx.PHASES, ctx.OPS).run().then(() => bs.reload()).catch(e => log.error(e));
   };
 }
 

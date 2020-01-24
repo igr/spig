@@ -164,8 +164,12 @@ export class Spig {
    */
   static run(): Promise<TaskRunner> {
     log.configTime(performance.now() - t0);
+
     const taskRunner = new TaskRunner();
-    return taskRunner.runTask(ctx.ARGS.taskName).then(() => taskRunner);
+    return taskRunner
+      .runTask(ctx.ARGS.taskName)
+      .catch(e => log.error(e))
+      .then(() => taskRunner);
   }
 
   /**
