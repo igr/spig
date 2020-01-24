@@ -1,4 +1,5 @@
 import nunjucks from 'nunjucks';
+import slugify from 'slugify';
 import * as filtersOut from '../filters/out';
 import * as filtersDatetimefmt from '../filters/datetimefmt';
 import * as filtersPages from '../filters/pages';
@@ -9,6 +10,7 @@ import { RenderEngine } from './render-engine';
 function initFilters(nunjucksEnv: nunjucks.Environment): void {
   nunjucksEnv
     .addFilter('out', filtersOut.out)
+    .addFilter('slugify', slugify)
 
     .addFilter('dateDisplay', filtersDatetimefmt.dateDisplay)
     .addFilter('dateISO', filtersDatetimefmt.dateISO)
