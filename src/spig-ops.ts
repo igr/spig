@@ -166,10 +166,6 @@ export class SpigOps {
     return this.op(frontmatter());
   }
 
-  initPage(): SpigOps {
-    return this.mark('page');
-  }
-
   mark(attrName: string): SpigOps {
     return this.do(`mark: ${attrName}`, fileRef => fileRef.setAttr(attrName, true));
   }
