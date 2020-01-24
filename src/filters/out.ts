@@ -61,7 +61,13 @@ function toJSON(object: object, objectMaxDepth: number, arrayMaxLength: number, 
    * in JSON (e.g. infinite numbers).
    */
   function toString(path: string, value: any, cumulativeIndent: string, depth: number): string {
+    if (value && value._) {
+      // special case, remove cache!
+      value._ = {};
+    }
     switch (typeof value) {
+      case 'function':
+        return '"fn()"';
       case 'string':
         return quote(value);
       case 'number': {

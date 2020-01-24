@@ -53,9 +53,6 @@ export const site = {
   // data folder
   data: {},
 
-  // collections
-  collections: {},
-
   // build related data
   build: {
     // environment
