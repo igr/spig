@@ -1,6 +1,6 @@
+import slugify from 'slugify';
 import * as SpigConfig from './spig-config';
 import { SpigOperation } from './spig-operation';
-import { collect } from './ops/collect';
 
 type Spig = import('./spig').Spig;
 type FileRef = import('./file-reference').FileRef;
@@ -39,12 +39,20 @@ function imageMinify(options: object): SpigOperation {
   return opImageMinify(options);
 }
 
-let opGather: (singular: string, plural: string) => SpigOperation;
-function gather(singular: string, plural: string): SpigOperation {
-  if (!opGather) {
-    opGather = require('./ops/gather').operation;
+let opCollect: (singular: string, plural: string) => SpigOperation;
+function collect(singular: string, plural: string): SpigOperation {
+  if (!opCollect) {
+    opCollect = require('./ops/collect').operation;
   }
-  return opGather(singular, plural);
+  return opCollect(singular, plural);
+}
+
+let opGroup: (attrName: string, attrsOf: (attrValue: string, files: FileRef[]) => object) => SpigOperation;
+function group(attrName: string, attrsOf: (attrValue: string, files: FileRef[]) => object): SpigOperation {
+  if (!opGroup) {
+    opGroup = require('./ops/group').operation;
+  }
+  return opGroup(attrName, attrsOf);
 }
 
 let opJs: () => SpigOperation;
@@ -153,18 +161,25 @@ export class SpigOps {
   }
 
   // operations
-  // todo svima napravi options
 
   frontmatter(): SpigOps {
     return this.op(frontmatter());
   }
 
   initPage(): SpigOps {
-    return this.op(gather('page', 'pages'));
+    return this.mark('page');
   }
 
-  gather(singular: string, plural: string): SpigOps {
-    return this.op(gather(singular, plural));
+  mark(attrName: string): SpigOps {
+    return this.do(`mark: ${attrName}`, fileRef => fileRef.setAttr(attrName, true));
+  }
+
+  collect(singular: string, plural?: string): SpigOps {
+    return this.op(collect(singular, plural ?? `${singular}s`));
+  }
+
+  group(attrName: string, attrsOf: (attrValue: string, files: FileRef[]) => object): SpigOps {
+    return this.op(group(attrName, attrsOf));
   }
 
   permalinks(): SpigOps {
@@ -176,18 +191,26 @@ export class SpigOps {
   }
 
   /**
-   * Collects pages by given attribute name and create page per attribute.
+   * Collects and group tags.
    */
-  collect(attribute: string): SpigOps {
-    return this.do('collect pages', fileRef => collect(this.spig, fileRef, attribute, true));
-  }
+  tags(): SpigOps {
+    return this.group('tag', (attrValue, files: FileRef[]) => {
+      const attrName = 'tag';
 
-  /**
-   *
-   * Collects pages by given attribute name, but don't generate pages per attributes.
-   */
-  collectAttr(attribute: string): SpigOps {
-    return this.do('collect pages', fileRef => collect(this.spig, fileRef, attribute, false));
+      const fileName = `/${slugify(attrName)}/${slugify(String(attrValue))}/index.html`;
+      const attrFile = this.spig.addFile(fileName, attrValue);
+
+      const result = {
+        page: true,
+        title: `${attrName}: ${attrValue}`,
+        layout: attrName,
+        group: files.map(fileRef => fileRef.context()),
+      };
+
+      attrFile.setAttrsFrom(result);
+
+      return result;
+    });
   }
 
   imageMinify(options = {}): SpigOps {
@@ -215,7 +238,8 @@ export class SpigOps {
    * Shortcut for common page initialization.
    */
   pageCommon(): SpigOps {
-    return this.initPage()
+    return this.mark('page')
+      .collect('page')
       .permalinks()
       .frontmatter()
       .slugish()

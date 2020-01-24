@@ -12,7 +12,7 @@ function processFile(fileRef: FileRef, attributes = {}): void {
 
   attributes = { ...fm.data, ...attributes };
 
-  fileRef.setAttrs(attributes);
+  fileRef.setAttrsFrom(attributes);
 }
 
 export const operation: () => SpigOperation = () => {

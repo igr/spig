@@ -1,64 +1,54 @@
-import slugify from 'slugify';
+import * as ctx from '../ctx';
 import * as SpigConfig from '../spig-config';
-import { FileRef } from '../file-reference';
-import { SpigFiles } from '../spig-files';
+import { SpigOperation } from '../spig-operation';
 
-type Spig = import('../spig').Spig;
+function returnAllPages(plural: string, singular: string) {
+  return () => {
+    const site: any = SpigConfig.site;
+    if (!site._[plural]) {
+      site._[plural] = [];
+      ctx.files(fileRef => fileRef.hasAttr(singular)).forEach(fileRef => site._[plural].push(fileRef.context()));
+    }
+    return site._[plural];
+  };
+}
 
-export function collect(spig: Spig, fileRef: FileRef, attrName: string, createFile: boolean): void {
-  if (!fileRef.hasAttr(attrName)) {
-    return;
-  }
-
-  let values = fileRef.attr(attrName);
-
-  if (!Array.isArray(values)) {
-    values = [values];
-  }
-
-  const site = SpigConfig.site as any;
-  let map = site.collections[attrName];
-
-  if (!map) {
-    // store new collection
-    map = {};
-    site.collections[attrName] = map;
-
-    site.pageOfCollection = (collName: string, name: string) => {
-      const fileName = `/${slugify(collName)}/${slugify(String(name))}/`;
-      return site.pageOf(fileName);
-    };
-  }
-
-  for (const v of values) {
-    let attrFile;
-
-    if (!map[v]) {
-      // first time collection is used
-      map[v] = [];
-
-      if (!site[attrName]) {
-        site[attrName] = [];
-      }
-      site[attrName].push(v);
-
-      const fileName = `/${slugify(attrName)}/${slugify(String(v))}/index.html`;
-
-      if (createFile) {
-        attrFile = spig.addFile(fileName, v);
-
-        attrFile.setAttr('page', true);
-        attrFile.setAttr('title', `${attrName}: ${v}`);
-        attrFile.setAttr('layout', attrName);
-      }
-    } else {
-      const id = `/${slugify(attrName)}/${slugify(String(v))}/index`;
-
-      if (createFile) {
-        attrFile = SpigFiles.lookup(id);
+function returnPageForGivenUrl(plural: string) {
+  return (url: string) => {
+    const site: any = SpigConfig.site;
+    for (const page of site[plural]()) {
+      if (page.url === url) {
+        return page;
       }
     }
-
-    map[v].push(fileRef.context());
-  }
+    return undefined;
+  };
 }
+
+function returnPageForGivenSrc(plural: string) {
+  return (src: string) => {
+    const site: any = SpigConfig.site;
+    for (const page of site[plural]()) {
+      if (page.src === src) {
+        return page;
+      }
+    }
+    return undefined;
+  };
+}
+
+function addMethodsToSite(singular: string, plural: string): void {
+  const site: any = SpigConfig.site;
+  site[plural] = returnAllPages(plural, singular);
+  site[singular + 'Of'] = returnPageForGivenUrl(plural);
+  site[singular + 'OfSrc'] = returnPageForGivenSrc(plural);
+}
+
+export const operation: (singular: string, plural: string) => SpigOperation = (singular: string, plural: string) => {
+  return new SpigOperation(
+    `collect: ${plural}`,
+    fileRef => Promise.resolve(fileRef),
+    () => {},
+    () => addMethodsToSite(singular, plural)
+  );
+};

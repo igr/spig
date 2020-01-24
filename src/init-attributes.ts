@@ -81,5 +81,5 @@ export function initAttributes(fileRef: FileRef): void {
   }
 
   // update attributes for file reference
-  fileRef.setAttrs(attr);
+  fileRef.setAttrsFrom(attr);
 }

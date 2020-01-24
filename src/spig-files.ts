@@ -116,7 +116,6 @@ export class SpigFiles {
 
   /**
    * Lookups the file reference by its ID.
-   * todo ID is changed???, need to check extensions
    */
   static lookup(id: string): FileRef {
     return ctx.FILES[id];

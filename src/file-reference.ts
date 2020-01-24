@@ -204,8 +204,8 @@ export class FileRef {
   /**
    * Sets the OUT extension.
    */
-  outExt(ext: string): void {
-    this._out = Path.join(Path.dirname(this._out), Path.basename(this._out, Path.extname(this._out)) + '.' + ext);
+  set outExt(ext: string) {
+    this.out = Path.join(Path.dirname(this._out), Path.basename(this._out, Path.extname(this._out)) + '.' + ext);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -219,7 +219,7 @@ export class FileRef {
     this._change = true;
   }
 
-  setAttrs(attrs: object): void {
+  setAttrsFrom(attrs: object): void {
     Object.assign(this._attr, attrs);
     this._change = true;
   }

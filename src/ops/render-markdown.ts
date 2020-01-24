@@ -11,7 +11,7 @@ const markdownInline: (text?: string) => string = (text?: string) => {
 export function renderMarkdown(fileRef: FileRef): void {
   fileRef.string = MarkdownEngine.render(fileRef.string);
 
-  fileRef.setAttrs({
+  fileRef.setAttrsFrom({
     markdown,
     markdownInline,
   });
