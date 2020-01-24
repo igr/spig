@@ -117,7 +117,11 @@ export class SpigFiles {
   /**
    * Lookups the file reference by its ID.
    */
-  static lookup(id: string): FileRef {
+  static lookup(id: string): FileRef | undefined {
     return ctx.FILES[id];
+  }
+
+  static lookupSite(path: string): FileRef | undefined {
+    return ctx.FILES[SpigConfig.dev.dir.site + path];
   }
 }
