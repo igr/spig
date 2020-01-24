@@ -178,7 +178,12 @@ export class SpigOps {
     return this.op(collect(singular, plural ?? `${singular}s`));
   }
 
-  group(attrName: string, attrsOf: (attrValue: string, files: FileRef[]) => object): SpigOps {
+  group(
+    attrName: string,
+    attrsOf: (attrValue: string, files: FileRef[]) => object = () => {
+      return {};
+    }
+  ): SpigOps {
     return this.op(group(attrName, attrsOf));
   }
 

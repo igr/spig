@@ -16,8 +16,8 @@ function readCached(file: string): object {
   attrFilesCache[file] = {};
 
   if (fs.existsSync(file)) {
-    const buffer = fs.readFileSync(file);
-    attrFilesCache[file] = buffer.toJSON();
+    const buffer = fs.readFileSync(file, 'utf8');
+    attrFilesCache[file] = JSON.parse(buffer);
   }
   return attrFilesCache[file];
 }

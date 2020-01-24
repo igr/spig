@@ -162,14 +162,10 @@ export class Spig {
   /**
    * Runs all SPIG tasks :)
    */
-  static run(): Promise<TaskRunner> {
+  static run(): void {
     log.configTime(performance.now() - t0);
 
-    const taskRunner = new TaskRunner();
-    return taskRunner
-      .runTask(ctx.ARGS.taskName)
-      .catch(e => log.error(e))
-      .then(() => taskRunner);
+    new TaskRunner().runTask(ctx.ARGS.taskName).catch(e => log.error(e));
   }
 
   /**

@@ -33,7 +33,7 @@ export function loadJsonOrJs(nameNoExt: string): {} {
 
   if (fs.existsSync(jsonFile)) {
     log.pair('Reading', Path.basename(jsonFile));
-    const json = fs.readFileSync(jsonFile).toJSON();
+    const json = JSON.parse(fs.readFileSync(jsonFile, 'utf8'));
 
     obj = { ...obj, ...json };
   }

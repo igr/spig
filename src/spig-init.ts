@@ -36,10 +36,10 @@ export function initOpsConfig(): void {
 
 export function initData(): void {
   const dev = SpigConfig.dev;
-  log.pair('Reading', dev.dir.data);
-
   const dataRoot = dev.srcDir + dev.dir.data + '/';
-  const dataFiles = glob.sync(dataRoot + '**!/!*.json');
+
+  log.pair('Reading', dev.dir.data);
+  const dataFiles = glob.sync(`${dataRoot}**/*.json`);
 
   for (const f of dataFiles) {
     let target = SpigConfig.site.data as any;
@@ -48,7 +48,7 @@ export function initData(): void {
     for (const chunk of chunks) {
       if (chunk.endsWith('.json')) {
         // file located
-        const dataJson = fs.readFileSync(dataRoot + file).toJSON();
+        const dataJson = JSON.parse(fs.readFileSync(dataRoot + file, 'utf8'));
         target[chunk.substr(0, chunk.length - 5)] = dataJson;
       } else {
         // go one folder deeper

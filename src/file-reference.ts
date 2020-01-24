@@ -255,7 +255,7 @@ export class FileRef {
    */
   set string(content: string) {
     this._string = content;
-    this._buffer = Buffer.from(content);
+    this._buffer = Buffer.from(content, 'utf8');
     this._change = true;
   }
 
