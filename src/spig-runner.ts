@@ -17,12 +17,7 @@ function ensureFilesDirectoryExists(filePath: string): boolean {
   return false;
 }
 
-function logFileOut(fileRef: FileRef): void {
-  let outname = fileRef.spig.def.destDir + fileRef.out;
-  if (outname.startsWith('//')) {
-    outname = outname.substr(1);
-  }
-
+function logFileOut(fileRef: FileRef, outname: string): void {
   log.fromTo(outname, fileRef.hasAttr('page'), fileRef.synthetic ? undefined : fileRef.root + fileRef.path);
 }
 
@@ -36,7 +31,6 @@ function write(outDir: string, fileRef: FileRef): Promise<void> {
   ensureFilesDirectoryExists(dest);
 
   return new Promise((resolve, reject) => {
-    logFileOut(fileRef);
     fs.writeFile(dest, fileRef.buffer, err => {
       if (err) reject(err);
       else resolve();
@@ -146,6 +140,14 @@ export class SpigRunner {
     });
   }
 
+  private outname(fileRef: FileRef): string {
+    let outname = fileRef.spig.def.destDir + fileRef.out;
+    if (outname.startsWith('//')) {
+      outname = outname.substr(1);
+    }
+    return outname;
+  }
+
   /**
    * Writes all files.
    */
@@ -154,36 +156,31 @@ export class SpigRunner {
     this.spigs.forEach(spig => {
       spig.forEachFile(fileRef => files.push(fileRef));
     });
-
     files.sort((a, b) => {
-      if (a.out > b.out) {
-        return a.out < b.out ? -1 : 1;
+      const aout = this.outname(a);
+      const bout = this.outname(b);
+
+      if (aout > bout) {
+        return 1;
       }
-      return a.out < b.out ? -1 : 0;
+      return aout < bout ? -1 : 0;
     });
 
-    const filesLength = files.length;
+    const filesCount = files.length;
 
-    if (filesLength === 0) {
+    if (filesCount === 0) {
       return Promise.resolve([]);
     }
 
     log.line();
 
-    let totalCount = 0;
-
-    function incTotalCount(): void {
-      totalCount += 1;
-    }
-
     const promises: Promise<FileRef>[] = files
       .filter(fileRef => fileRef.active)
       .map(fileRef => {
-        incTotalCount();
+        logFileOut(fileRef, this.outname(fileRef));
         return write(fileRef.spig.def.destDir, fileRef).then(() => fileRef);
       });
-
-    log.line(`${totalCount}`);
+    log.line(`${filesCount}`);
 
     return Promise.all(promises);
   }

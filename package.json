@@ -4,10 +4,11 @@
   "description": "Spig - static web generator framework",
   "main": "./lib/",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && npm run copy:assets",
     "clean": "rm -rf lib",
     "purge": "rm -rf node_modules",
-    "lint": "eslint src/** --ext .ts,.tsx"
+    "lint": "eslint src/** --ext .ts,.tsx",
+    "copy:assets": "cpx 'src/**/*.njk' 'lib/'"
   },
   "repository": {
     "type": "git",
@@ -30,6 +31,7 @@
     "browser-sync": "^2.26.7",
     "chalk": "^3.0.0",
     "clean-css": "^4.2.1",
+    "cpx": "^1.5.0",
     "cssnano": "^4.1.10",
     "del": "^5.1.0",
     "encoding": "^0.1.12",

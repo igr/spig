@@ -37,7 +37,7 @@ function findLayout(layoutsDir: string, path: string, layout: string): string | 
  * The order is the following:
  * + use attribute `layout`,
  * + use file's basename,
- * + returns default template
+ * + returns default template file name
  */
 export function resolveLayout(fileRef: FileRef): string {
   const dev = SpigConfig.dev;

@@ -31,7 +31,7 @@ function initNunjucks(): nunjucks.Environment {
   const dev = SpigConfig.dev;
 
   const nunjucksEnv = nunjucks.configure(
-    [dev.root + dev.srcDir + dev.dir.layouts, dev.root + 'node_modules/spignite/layouts'],
+    [dev.root + dev.srcDir + dev.dir.layouts, dev.root + 'node_modules/spignite/lib/layouts'],
     {
       autoescape: true,
       noCache: !SpigConfig.site.build.production,
