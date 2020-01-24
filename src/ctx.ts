@@ -22,19 +22,16 @@ export const OPS: { [phaseName: string]: { [spigId: string]: SpigOpPair[] } } = 
  */
 export const SPIGS: Spig[] = [];
 
-export function forEachSpig(spigConsumer: (spig: Spig) => void): void {
-  SPIGS.forEach(spigConsumer);
-}
-
 /**
  * The map of all files used by Spig.
  */
 export const FILES: { [id: string]: FileRef } = {};
 
-export function forEachFile(fileRefConsumer: (fileRef: FileRef) => void): void {
-  Object.keys(FILES).forEach(id => {
-    fileRefConsumer(FILES[id]);
-  });
+/**
+ * Returns files that matches given predicate.
+ */
+export function files(fileRefPredicate: (fileRef: FileRef) => boolean = () => true): FileRef[] {
+  return Object.values(FILES).filter(fileRefPredicate);
 }
 
 /**
