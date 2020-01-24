@@ -15,7 +15,7 @@ export class ServeTask extends Task {
     super('serve', false);
   }
 
-  run(): void {
+  run(): Promise<Task> {
     const dev = SpigConfig.dev;
 
     const app = express();
@@ -23,5 +23,7 @@ export class ServeTask extends Task {
     app.use(serveStatic(dev.outDir));
 
     app.listen(dev.server.port, dev.server.hostname, serverInitFunction);
+
+    return Promise.resolve(this);
   }
 }

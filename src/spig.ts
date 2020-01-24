@@ -82,7 +82,7 @@ export class Spig {
     phasesArray.forEach(phase => ctx.PHASES.push(phase));
   }
 
-  constructor(spigDef: SpigDef) {
+  private constructor(spigDef: SpigDef) {
     this._id = generateSpigId();
     this._def = spigDef;
     this._files = new SpigFiles(this);
@@ -162,9 +162,10 @@ export class Spig {
   /**
    * Runs all SPIG tasks :)
    */
-  static run(): void {
+  static run(): Promise<TaskRunner> {
     log.configTime(performance.now() - t0);
-    new TaskRunner().runTask(ctx.ARGS.taskName);
+    const taskRunner = new TaskRunner();
+    return taskRunner.runTask(ctx.ARGS.taskName).then(() => taskRunner);
   }
 
   /**

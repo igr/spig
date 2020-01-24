@@ -23,7 +23,7 @@ export class WatchTask extends Task {
     super('watch', false);
   }
 
-  run(): void {
+  run(): Promise<Task> {
     ctx.SPIGS.forEach(spig => {
       // collect all real, non-synthetic files
       spig.forEachFile(fr => {
@@ -43,5 +43,7 @@ export class WatchTask extends Task {
     });
 
     log.info('👀 Watching for changes...');
+
+    return Promise.resolve(this);
   }
 }

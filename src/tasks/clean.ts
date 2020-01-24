@@ -7,7 +7,7 @@ export class CleanTask extends Task {
     super('clean', true, true);
   }
 
-  run(): void {
-    del([SpigConfig.dev.outDir + '/**/*']);
+  run(): Promise<Task> {
+    return del([SpigConfig.dev.outDir + '/**/*']).then(() => this);
   }
 }

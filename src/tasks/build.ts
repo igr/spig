@@ -8,7 +8,10 @@ export class BuildTask extends Task {
     super('build');
   }
 
-  run(): void {
-    new SpigRunner(ctx.SPIGS, ctx.PHASES, ctx.OPS).run().catch(e => log.error(e));
+  run(): Promise<Task> {
+    return new SpigRunner(ctx.SPIGS, ctx.PHASES, ctx.OPS)
+      .run()
+      .catch(e => log.error(e))
+      .then(() => this);
   }
 }

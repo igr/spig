@@ -9,10 +9,12 @@ export class SerialTasks extends Task {
     this.tasks = tasks;
   }
 
-  run(): void {
+  run(): Promise<Task> {
+    let p: Promise<Task> = Promise.resolve(this);
     this.tasks.forEach(t => {
-      t.invoke();
+      p = p.then(() => t.invoke());
     });
+    return p;
   }
 }
 
@@ -24,19 +26,10 @@ export class ParallelTasks extends Task {
     this.tasks = tasks;
   }
 
-  run(): void {
-    (async () => {
-      const allPromises = this.tasks.map(t => {
-        return new Promise((resolve, reject) => {
-          try {
-            t.invoke();
-            resolve(t);
-          } catch (e) {
-            reject(e);
-          }
-        });
-      });
-      await Promise.all(allPromises).catch(e => log.error(e));
-    })();
+  run(): Promise<Task> {
+    const allPromises = this.tasks.map(t => t.invoke());
+    return Promise.all(allPromises)
+      .catch(e => log.error(e))
+      .then(() => this);
   }
 }

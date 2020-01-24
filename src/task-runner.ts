@@ -38,13 +38,13 @@ export class TaskRunner {
     return task.noBuildRequired;
   }
 
-  runTask(taskName: string): void {
+  runTask(taskName: string): Promise<Task> {
     const task: Task = tasks[taskName];
 
     if (!task) {
       throw new Error('Task not defined: ' + taskName);
     }
 
-    task.invoke();
+    return task.invoke();
   }
 }

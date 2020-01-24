@@ -17,7 +17,7 @@ export abstract class Task {
     this.startTime = performance.now();
   }
 
-  abstract run(): void;
+  abstract run(): Promise<Task>;
 
   end(): void {
     if (this.logTask) {
@@ -25,9 +25,10 @@ export abstract class Task {
     }
   }
 
-  invoke() {
+  invoke(): Promise<Task> {
     this.start();
-    this.run();
-    this.end();
+    return this.run()
+      .then(() => this.end())
+      .then(() => this);
   }
 }
