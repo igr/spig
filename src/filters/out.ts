@@ -1,3 +1,5 @@
+import * as SpigConfig from '../spig-config';
+
 /**
  * Returns the JSON representation of an object.
  *
@@ -8,6 +10,14 @@
  * @return {string} the JSON representation
  */
 function toJSON(object: object, objectMaxDepth: number, arrayMaxLength: number, indent: string): string {
+  if (object === SpigConfig.site) {
+    object = { ...object };
+    delete (object as any)._;
+    delete (object as any).build.env;
+  } else if (object === SpigConfig.dev) {
+    object = { ...object };
+  }
+
   // The path of an object in the JSON object, with indexes corresponding to entries in the
   // "values" variable.
   const paths: string[] = [];
@@ -61,10 +71,6 @@ function toJSON(object: object, objectMaxDepth: number, arrayMaxLength: number, 
    * in JSON (e.g. infinite numbers).
    */
   function toString(path: string, value: any, cumulativeIndent: string, depth: number): string {
-    if (value && value._) {
-      // special case, remove cache!
-      value._ = {};
-    }
     switch (typeof value) {
       case 'function':
         return '"fn()"';
