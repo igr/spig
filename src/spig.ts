@@ -5,6 +5,7 @@ import { SpigDef } from './spig-def';
 import { SpigFiles } from './spig-files';
 import { SpigOps } from './spig-ops';
 import { TaskRunner } from './task-runner';
+import * as hello from './hello';
 
 // noinspection JSUnusedGlobalSymbols
 export { site as SpigSite } from './spig-config';
@@ -171,16 +172,12 @@ export class Spig {
    * Default SPIG "HELLO" phase.
    */
   static hello(): void {
-    if (TaskRunner.isRapidTask(ctx.ARGS.taskName)) {
-      return;
-    }
     log.hello();
 
-    const hello = require('./hello');
-    hello.statics();
-    hello.sass();
-    hello.images();
-    hello.js();
-    hello.jsBundles();
+    hello.statics(Spig.of);
+    hello.sass(Spig.of);
+    hello.images(Spig.of);
+    hello.js(Spig.of);
+    hello.jsBundles(Spig.of);
   }
 }

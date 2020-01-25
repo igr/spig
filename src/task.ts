@@ -4,11 +4,7 @@ import * as log from './log';
 export abstract class Task {
   private startTime = 0;
 
-  protected constructor(
-    readonly name: string,
-    readonly logTask: boolean = true,
-    readonly noBuildRequired: boolean = false
-  ) {}
+  protected constructor(readonly name: string, readonly logTask: boolean = true) {}
 
   start(): void {
     if (this.logTask) {

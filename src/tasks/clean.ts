@@ -4,7 +4,7 @@ import { Task } from '../task';
 
 export class CleanTask extends Task {
   constructor() {
-    super('clean', true, true);
+    super('clean');
   }
 
   run(): Promise<Task> {

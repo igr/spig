@@ -1,16 +1,15 @@
 import _s from 'underscore.string';
-import { Spig } from './spig';
+import { SpigDef } from './spig-def';
 import * as SpigConfig from './spig-config';
 
-// This module is used in Spig, hence we have cyclic dependencies.
-// It's harmless because Spig is already initialized and these functions
-// are called only from a static method.
+type Spig = import('./spig').Spig;
+type SpigDefConsumer = (spigDefConsumer: (spigDef: SpigDef) => void) => Spig;
 
 /**
  * IMAGES.
  */
-export function images(): void {
-  Spig.of(d =>
+export function images(SpigOf: SpigDefConsumer): void {
+  SpigOf(d =>
     d
       .on(['/**/*'])
       .from(SpigConfig.dev.dir.images)
@@ -24,8 +23,8 @@ export function images(): void {
 /**
  * STATIC.
  */
-export function statics(): void {
-  Spig.of(d =>
+export function statics(SpigOf: SpigDefConsumer): void {
+  SpigOf(d =>
     d
       .on(['/**/*'])
       .from(SpigConfig.dev.dir.static)
@@ -36,8 +35,8 @@ export function statics(): void {
 /**
  * SASS
  */
-export function sass(): void {
-  Spig.of(d =>
+export function sass(SpigOf: SpigDefConsumer): void {
+  SpigOf(d =>
     d
       .on(['/**/*.s?ss'])
       .from(SpigConfig.dev.dir.css)
@@ -51,8 +50,8 @@ export function sass(): void {
 /**
  * JS
  */
-export function js(): void {
-  Spig.of(d =>
+export function js(SpigOf: SpigDefConsumer): void {
+  SpigOf(d =>
     d
       .on(['/**/*.js'])
       .from(SpigConfig.dev.dir.js)
@@ -64,8 +63,8 @@ export function js(): void {
     .js();
 }
 
-export function jsBundles(): void {
-  Spig.of(d =>
+export function jsBundles(SpigOf: SpigDefConsumer): void {
+  SpigOf(d =>
     d
       .on(['/*_js/**/*.js'])
       .from(SpigConfig.dev.dir.js)

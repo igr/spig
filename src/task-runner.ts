@@ -26,18 +26,6 @@ function createTasks(): { [taskName: string]: Task } {
 const tasks: { [taskName: string]: Task } = createTasks();
 
 export class TaskRunner {
-  /**
-   * Short tasks don't require the SPIG definition loaded.
-   * todo Rename!
-   */
-  static isRapidTask(taskName: string): boolean {
-    const task: Task = tasks[taskName];
-    if (!task) {
-      throw new Error('Task not defined: ' + taskName);
-    }
-    return task.noBuildRequired;
-  }
-
   runTask(taskName: string): Promise<Task> {
     const task: Task = tasks[taskName];
 
