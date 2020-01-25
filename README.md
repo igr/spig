@@ -1,4 +1,7 @@
-# Spignite v2.0.1
+# Spignite
+
+![npm](https://img.shields.io/npm/v/spignite)
+![NPM](https://img.shields.io/npm/l/spignite)
 
 ![](src/images/spig.png)
 
