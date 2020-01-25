@@ -1,6 +1,6 @@
 {
   "name": "spignite",
-  "version": "2.0.0",
+  "version": "1.6.0",
   "description": "Spig - static web generator framework",
   "main": "./lib/",
   "scripts": {
@@ -8,7 +8,8 @@
     "clean": "rm -rf lib",
     "purge": "rm -rf node_modules",
     "lint": "npx eslint --ext .ts,.tsx \"src/**\"",
-    "copy:assets": "cpx 'src/**/*.njk' 'lib/'"
+    "copy:assets": "cpx 'src/**/*.njk' 'lib/'",
+    "test": "echo \"No test specified...yet\""
   },
   "repository": {
     "type": "git",
