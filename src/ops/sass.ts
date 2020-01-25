@@ -13,7 +13,6 @@ type Spig = import('../spig').Spig;
 function processFile(spig: Spig, fileRef: FileRef): Promise<FileRef> {
   // SASS -> CSS
 
-  // todo '??' oeprator svuda
   const cssResult = sass.renderSync({
     data: fileRef.string,
     includePaths: [Path.dirname(fileRef.src ?? '.')],

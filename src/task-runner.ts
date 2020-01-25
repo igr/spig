@@ -23,11 +23,15 @@ function createTasks(): { [taskName: string]: Task } {
   };
 }
 
-const tasks: { [taskName: string]: Task } = createTasks();
-
 export class TaskRunner {
+  private readonly tasks: { [taskName: string]: Task };
+
+  constructor() {
+    this.tasks = createTasks();
+  }
+
   runTask(taskName: string): Promise<Task> {
-    const task: Task = tasks[taskName];
+    const task: Task = this.tasks[taskName];
 
     if (!task) {
       throw new Error('Task not defined: ' + taskName);

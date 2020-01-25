@@ -39,6 +39,10 @@ export const dev = {
     port: 3000,
     hostname: 'localhost',
   },
+
+  state: {
+    isUp: false,
+  },
 };
 
 /**

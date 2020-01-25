@@ -1,6 +1,7 @@
 import * as ctx from './ctx';
 import * as SpigInit from './spig-init';
 import * as log from './log';
+import * as SpigConfig from './spig-config';
 import { SpigDef } from './spig-def';
 import { SpigFiles } from './spig-files';
 import { SpigOps } from './spig-ops';
@@ -26,7 +27,6 @@ SpigInit.initSiteConfig();
 SpigInit.initOpsConfig();
 SpigInit.initData();
 SpigInit.initProductionMode();
-// todo when not rapid task only?
 SpigInit.initEngines();
 
 let spigCount = 0;
@@ -46,6 +46,8 @@ export class Spig {
   private readonly _def: SpigDef;
 
   private _files: SpigFiles;
+
+  private _watchPatterns?: string;
 
   /**
    * Returns unique SPIG id.
@@ -93,16 +95,32 @@ export class Spig {
     ctx.SPIGS.push(this);
   }
 
+  /**
+   * Returns Spig definition.
+   */
   get def(): SpigDef {
     return this._def;
   }
 
   /**
    * Resets all the files in this SPIG.
+   * todo check if reset clears it all.
    */
   reset(): void {
     this._files.removeAllFiles();
     this._files = new SpigFiles(this);
+  }
+
+  watch(patterns: string): Spig {
+    this._watchPatterns = patterns;
+    return this;
+  }
+
+  /**
+   * Returns watch patterns if defined.
+   */
+  get watchPatterns(): string | undefined {
+    return this._watchPatterns;
   }
 
   /**
@@ -165,7 +183,12 @@ export class Spig {
    * Runs all SPIG tasks :)
    */
   static run(): void {
-    new TaskRunner().runTask(ctx.ARGS.taskName).catch(e => log.error(e));
+    new TaskRunner()
+      .runTask(ctx.ARGS.taskName)
+      .catch(e => log.error(e))
+      .then(() => {
+        SpigConfig.dev.state.isUp = true;
+      });
   }
 
   /**

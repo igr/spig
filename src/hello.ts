@@ -9,12 +9,15 @@ type SpigDefConsumer = (spigDefConsumer: (spigDef: SpigDef) => void) => Spig;
  * IMAGES.
  */
 export function images(SpigOf: SpigDefConsumer): void {
+  const devDir = SpigConfig.dev.dir;
+
   SpigOf(d =>
     d
       .on(['/**/*'])
-      .from(SpigConfig.dev.dir.images)
-      .to(SpigConfig.dev.dir.imagesOut)
+      .from(devDir.images)
+      .to(devDir.imagesOut)
   )
+    .watch(devDir.images + '/**/*')
     ._('HELLO')
     .resizeImage()
     .imageMinify();
@@ -24,25 +27,32 @@ export function images(SpigOf: SpigDefConsumer): void {
  * STATIC.
  */
 export function statics(SpigOf: SpigDefConsumer): void {
+  const devDir = SpigConfig.dev.dir;
+
   SpigOf(d =>
     d
       .on(['/**/*'])
-      .from(SpigConfig.dev.dir.static)
+      .from(devDir.static)
       .to('/')
-  )._('HELLO');
+  )
+    .watch(devDir.static + '/**/*')
+    ._('HELLO');
 }
 
 /**
  * SASS
  */
 export function sass(SpigOf: SpigDefConsumer): void {
+  const devDir = SpigConfig.dev.dir;
+
   SpigOf(d =>
     d
       .on(['/**/*.s?ss'])
-      .from(SpigConfig.dev.dir.css)
+      .from(devDir.css)
       .filter(fileRef => !fileRef.basename.startsWith('_'))
-      .to(SpigConfig.dev.dir.cssOut)
+      .to(devDir.cssOut)
   )
+    .watch(devDir.css + '/**/*')
     ._('HELLO')
     .sass();
 }
@@ -51,25 +61,31 @@ export function sass(SpigOf: SpigDefConsumer): void {
  * JS
  */
 export function js(SpigOf: SpigDefConsumer): void {
+  const devDir = SpigConfig.dev.dir;
+
   SpigOf(d =>
     d
       .on(['/**/*.js'])
-      .from(SpigConfig.dev.dir.js)
+      .from(devDir.js)
       // skip bundles
       .filter(fileRef => !_s.contains(fileRef.path, '_js/'))
-      .to(SpigConfig.dev.dir.jsOut)
+      .to(devDir.jsOut)
   )
+    .watch(devDir.js + '/**/*')
     ._('HELLO')
     .js();
 }
 
 export function jsBundles(SpigOf: SpigDefConsumer): void {
+  const devDir = SpigConfig.dev.dir;
+
   SpigOf(d =>
     d
       .on(['/*_js/**/*.js'])
-      .from(SpigConfig.dev.dir.js)
-      .to(SpigConfig.dev.dir.jsOut)
+      .from(devDir.js)
+      .to(devDir.jsOut)
   )
+    .watch(devDir.js + '/**/*')
     ._('HELLO')
     .merge(fileRef => {
       const slashNdx = fileRef.path.indexOf('/', 1);
