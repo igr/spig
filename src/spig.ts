@@ -6,6 +6,7 @@ import { SpigFiles } from './spig-files';
 import { SpigOps } from './spig-ops';
 import { TaskRunner } from './task-runner';
 
+// noinspection JSUnusedGlobalSymbols
 export { site as SpigSite } from './spig-config';
 
 type SpigOperation = import('./spig-operation').SpigOperation;
@@ -121,11 +122,9 @@ export class Spig {
       opsPerPhase[this.id] = [];
     }
 
-    const opsPerPhaseAndSpig: ctx.SpigOpPair[] = opsPerPhase[this.id];
-
     return new SpigOps(this, (op: SpigOperation) => {
       // register operation withing this phase and spig.
-      opsPerPhaseAndSpig.push({ spig: this, op });
+      opsPerPhase[this.id].push({ spig: this, op });
     });
   }
 
