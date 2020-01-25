@@ -1,19 +1,24 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+// These functions are executed by Nunjucks engine as filters and the input
+// type is unknown, i.e. it's `any`.
+
 /**
  * Utility method that resolves a value from a map using property name.
  */
-function val(map: any, name: string): any {
+function val(map: any, name: string): any | undefined {
   const names = name.split('.');
   let result = map;
   for (const n of names) {
     result = result[n];
     if (!result) {
-      break;
+      return undefined;
     }
   }
   return result;
 }
 
-function groupByDatePart(pages: any[], attr: string, dateconsumer: (date: Date) => number): {} {
+function groupByDatePart(pages: any[], attr: string, dateconsumer: (date: Date) => number): object {
   const result = new Map();
 
   for (const p of pages) {

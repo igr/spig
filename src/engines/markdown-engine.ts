@@ -1,4 +1,5 @@
 import MarkdownIt from 'markdown-it';
+import Token from 'markdown-it/lib/token';
 import * as hljs from 'highlight.js';
 import attrs from 'markdown-it-attrs';
 import mila from 'markdown-it-link-attributes';
@@ -31,7 +32,7 @@ function initMd(): MarkdownIt {
       validate: (params: string) => {
         return params.trim() === name || params.trim().startsWith(`${name} `);
       },
-      render: (tokens: any[], idx: number, _options: object, _env: object, self: any) => {
+      render: (tokens: Token[], idx: number, _options: object, _env: object, self: any) => {
         tokens[idx].tag = name;
         return self.renderToken(tokens, idx, _options);
       },
