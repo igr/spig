@@ -82,11 +82,7 @@ export function notification(message: string): void {
 
 export function totalTime(name: string, elapsedMilliseconds: number): void {
   const { sec, ms } = millisToSeconds(elapsedMilliseconds);
-  log(
-    chalk.whiteBright('🔥 Task ') +
-      chalk.yellowBright(`'${name}'`) +
-      chalk.whiteBright(` done. Total time ${sec}.${ms}s.`)
-  );
+  log(chalk.whiteBright('🔥 Task ') + chalk.yellowBright(`'${name}'`) + chalk.whiteBright(` done in ${sec}.${ms}s.`));
 }
 
 export function configTime(elapsedMilliseconds: number): void {

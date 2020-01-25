@@ -1,1 +1,1 @@
-module.exports = require("./spig");
+module.exports = require('./spig');

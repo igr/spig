@@ -1,8 +1,8 @@
+import { minify } from 'html-minifier';
 import * as SpigConfig from '../spig-config';
 import { SpigOperation } from '../spig-operation';
-import { FileRef } from '../file-reference';
 
-const minify = require('html-minifier').minify;
+import { FileRef } from '../file-reference';
 
 /**
  * Minifies HTML.

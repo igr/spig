@@ -4,7 +4,6 @@ import * as log from './log';
 import * as SpigConfig from './spig-config';
 
 // This is the only place where `require` is used.
-// todo check ovo gore
 
 /**
  * Loads external Javascript module.

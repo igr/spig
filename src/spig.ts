@@ -7,6 +7,8 @@ import { SpigFiles } from './spig-files';
 import { SpigOps } from './spig-ops';
 import { TaskRunner } from './task-runner';
 
+export { site as SpigSite } from './spig-config';
+
 type SpigOperation = import('./spig-operation').SpigOperation;
 type FileRef = import('./file-reference').FileRef;
 
@@ -65,7 +67,10 @@ export class Spig {
   /**
    * Creates new Spig on given file set and default folders.
    */
-  static on(files: string[] | string): Spig {
+  static on(files: string[] | string | undefined): Spig {
+    if (!files) {
+      files = [];
+    }
     if (!Array.isArray(files)) {
       files = [files];
     }
@@ -176,7 +181,7 @@ export class Spig {
       return;
     }
     log.hello();
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
+
     const hello = require('./hello');
     hello.statics();
     hello.sass();

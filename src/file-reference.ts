@@ -208,12 +208,10 @@ export class FileRef {
     this.out = Path.join(Path.dirname(this._out), Path.basename(this._out, Path.extname(this._out)) + '.' + ext);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   attr(key: string): any {
     return this._attr[key];
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   setAttr(key: string, value: any): void {
     this._attr[key] = value;
     this._change = true;
