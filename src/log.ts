@@ -85,10 +85,10 @@ export function totalTime(name: string, elapsedMilliseconds: number): void {
   log(chalk.whiteBright('🔥 Task ') + chalk.yellowBright(`'${name}'`) + chalk.whiteBright(` done in ${sec}.${ms}s.`));
 }
 
-export function configTime(elapsedMilliseconds: number): void {
-  const { sec, ms } = millisToSeconds(elapsedMilliseconds);
-  log(chalk.white(`Up in ${sec}.${ms}s.`));
-}
+// export function configTime(elapsedMilliseconds: number): void {
+//   const { sec, ms } = millisToSeconds(elapsedMilliseconds);
+//   log(chalk.white(`Up in ${sec}.${ms}s.`));
+// }
 
 export function hello(): void {
   log.info('👋 Booting up...');
