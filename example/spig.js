@@ -1,4 +1,4 @@
-const { Spig } = require('spignite');
+const { Spig, SpigSite } = require('spignite');
 
 Spig.hello();
 
@@ -7,10 +7,10 @@ Spig.hello();
 Spig
   .on('/**/*.{md,njk}')
 
-  ._('PREPARE')
+  ._('PAGES')
   .pageCommon()
-  .collect('tags')
-  .collectAttr('menu')
+  .tags()
+  .group('menu')
   .readingTime()
 
   ._('RENDER')
@@ -20,46 +20,44 @@ Spig
   .htmlMinify()
 ;
 
-// Spig
-//   .on()
-//   .with((s) => {
-//     const site = s.config().site;
-//     for (const k in site.data.authors) {
-//       const po = s.addFile('/a/' + k, JSON.stringify(site.data.authors[k]));
-//       po.attr['title'] = k;
-//     }
-//   })
-//   ._("PREPARE")
-//   .pageCommon()
-//
-//   ._("RENDER")
-//   .summary()
-//   .render()
-//   .applyTemplate()
-//   .htmlMinify()
-// ;
-//
-//
-// // IMAGES
-//
-// Spig
-//   .on('/**/*.{png,jpg,gif}')
-//
-//   ._("PREPARE")
-//   .assetCommon()
-//
-//   ._("ASSETS")
-//   .imageMinify()
-// ;
-//
-// // SITEMAP
-//
-// Spig
-//   .on(['/index.xml', '/sitemap.xml'])
-//   ._("POST_RENDER")
-//   .frontmatter()
-//   .applyTemplate()
-// ;
-//
+Spig
+  .on()
+  .with((s) => {
+    for (const k in SpigSite.data.authors) {
+      const file = s.addFile('/a/' + k, JSON.stringify(SpigSite.data.authors[k]));
+      file.setAttr('title', k);
+      file.setAttr('page', true);
+    }
+  })
+  ._('PREPARE')
+  .pageCommon()
+
+  ._('RENDER')
+  .summary()
+  .render()
+  .applyTemplate()
+  .htmlMinify()
+;
+
+
+// IMAGES
+
+Spig
+  .on('/**/*.{png,jpg,gif}')
+
+  ._('ASSETS')
+  .assetCommon()
+  .imageMinify()
+;
+
+// SITEMAP
+
+Spig
+  .on(['/index.xml', '/sitemap.xml'])
+  ._("SITEMAP")
+  .frontmatter()
+  .applyTemplate()
+;
+
 
 Spig.run();

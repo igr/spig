@@ -1,7 +1,7 @@
 ---
 title: 'Post 2'
 menu: 2
-tags:
+tag:
   - tag1
   - tag2
 ---

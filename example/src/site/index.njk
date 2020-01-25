@@ -2,7 +2,7 @@
 title: "Welcome!"
 ---
 
-<h2>All pages</h2>!
+<h2>All pages</h2>
 
 <ul>
   {% for f in site.pages() | sortBy("url") %}
@@ -26,4 +26,4 @@ Page lookup:
 </ul>
 
 <hr>
-Menus: {{ site.menu | out }}
+Menus: {% for m in site.menus() %}{{ m.name }},{% endfor %}

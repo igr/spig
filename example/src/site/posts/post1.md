@@ -1,6 +1,6 @@
 ---
 title: "Post 1"
-tags:
+tag:
   - tag1
 slug: hello
 ---

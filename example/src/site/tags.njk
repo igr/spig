@@ -3,13 +3,11 @@ title: "All Tags"
 ---
 
 <ul>
-  {% for tag in site.tags %}
+  {% for tag in site.tags() %}
     <li>
-      {% set t = site.pageOfCollection('tags', tag) %}
-
-      <a href="{{ t.url }}">{{ tag }}</a>
+        <a href="/tag/{{ tag.name | slugify}}">{{ tag.name }}</a>
       <ul>
-        {% for tagPage in site.collections.tags[tag] %}
+        {% for tagPage in tag.group %}
           <li><a href="{{ tagPage.url }}">{{ tagPage.title }}</a></li>
         {% endfor %}
       </ul>

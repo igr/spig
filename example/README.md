@@ -18,5 +18,5 @@ npm link spignite
 ## Build site
 
 ```sh
-yarn build
+build.sh
 ```
