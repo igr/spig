@@ -3,6 +3,7 @@
 ![npm](https://img.shields.io/npm/v/spignite)
 ![NPM](https://img.shields.io/npm/l/spignite)
 
-![](src/images/spig.png)
+> Lightweight static website generator: low-ceremony generic files processor with proven javascript tools.
 
-Lightweight static website generator in pure JavaScript.
+![](example/src/images/spig__w400__h1000.png)
+

@@ -27,21 +27,24 @@ export class WatchTask extends Task {
 
   run(): Promise<Task> {
     ctx.SPIGS.forEach(spig => {
-      if (spig.watchPatterns) {
-        // watch patterns
-        bs.watch(SpigConfig.dev.root + SpigConfig.dev.srcDir + spig.watchPatterns, {}, (event: string) => {
-          switch (event) {
-            // todo ADD is working too much in the beginning
-            // case 'add':
-            case 'change':
-            case 'unlink':
-              if (SpigConfig.dev.state.isUp) {
-                onChange(spig)();
-              }
-              break;
-            default:
-              break;
-          }
+      if (spig.watchPatterns.length > 0) {
+        spig.watchPatterns.forEach(pattern => {
+          // watch patterns
+          bs.watch(SpigConfig.dev.root + SpigConfig.dev.srcDir + pattern, {}, (event: string) => {
+            switch (event) {
+              // todo ADD is working too much in the beginning
+              // case 'add':
+              case 'change':
+              case 'unlink':
+                if (SpigConfig.dev.state.isUp) {
+                  onChange(spig)();
+                }
+                break;
+              default:
+                break;
+            }
+          });
+
         });
       } else {
         // watch all real, non-synthetic files

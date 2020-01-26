@@ -9,3 +9,5 @@ lib/*
 /src/types/
 # layouts
 **/*.njk
+# example
+/example

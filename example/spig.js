@@ -6,6 +6,7 @@ Spig.hello();
 
 Spig
   .on('/**/*.{md,njk}')
+  .watchSite()
 
   ._('PAGES')
   .pageCommon()

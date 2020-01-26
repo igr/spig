@@ -1,6 +1,6 @@
 import * as log from './log';
 
-export const spigVersion = '2.0.0';
+export const spigVersion = '2.0.2';
 
 log.banner(spigVersion);
 
