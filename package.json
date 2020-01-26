@@ -1,6 +1,6 @@
 {
   "name": "spignite",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Spig - static web generator framework",
   "main": "./lib/",
   "files": [
