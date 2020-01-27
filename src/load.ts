@@ -13,9 +13,20 @@ export function load(moduleName: string): any {
 }
 
 /**
+ * Loads external Javascript module or returns undefined if not found.
+ */
+export function loadJs(moduleName: string): any | undefined {
+  try {
+    return require(SpigConfig.dev.root + moduleName);
+  } catch (err) {
+    return undefined;
+  }
+}
+
+/**
  * Loads a JSON file or JS file that returns an object.
  */
-export function loadJsonOrJs(nameNoExt: string): {} {
+export function loadJsonOrJs(nameNoExt: string): object {
   let obj = {};
 
   const jsFile = nameNoExt + '.js';

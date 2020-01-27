@@ -2,7 +2,9 @@ import fs from 'fs';
 import glob from 'glob';
 import * as log from './log';
 import * as SpigConfig from './spig-config';
-import { loadJsonOrJs } from './load';
+import { loadJs, loadJsonOrJs } from './load';
+import { MarkdownEngine } from './engines/markdown-engine';
+import { NunjucksEngine } from './engines/nunjucks-engine';
 
 /**
  * Reads and update development configuration.
@@ -78,32 +80,19 @@ export function initProductionMode(): void {
 
 /**
  * Configure all engines from source folder.
- * todo implement this
  */
 export function initEngines(): void {
-  /*
   const dev = SpigConfig.dev;
 
-  if (fs.existsSync(dev.srcDir + '/markdown.js')) {
-    log.pair('Reading', 'markdown.json');
-    const jsonFile = '../' + dev.srcDir + '/markdown';
-    markdown(require(jsonFile));
+  const md = loadJs(dev.srcDir + '/markdown');
+  if (md) {
+    log.pair('Reading', 'markdown.js');
+    MarkdownEngine.configure(md);
   }
 
-  if (fs.existsSync(dev.srcDir + '/nunjucks.js')) {
-    log.pair('Reading', 'nunjucks.json');
-    nunjucks(require('../' + dev.srcDir + '/nunjucks'));
+  const nunjucks = loadJs(dev.srcDir + '/nunjucks');
+  if (nunjucks) {
+    log.pair('Reading', 'nunjucks.js');
+    NunjucksEngine.configure(nunjucks);
   }
-  */
 }
-
-/*
-function markdown(fn: (engine: MarkdownIt) => void = () => {}): void {
-  log.pair('Configuring', 'markdown');
-  MarkdownEngine.configure(fn);
-}
-function nunjucks(fn: (engine: nunjucks.Environment) => void = () => {}): void {
-  log.pair('Configuring', 'nunjucks');
-  NunjucksEngine.configure(fn);
-}
-*/
