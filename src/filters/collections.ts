@@ -36,10 +36,14 @@ function groupByDatePart(pages: any[], attr: string, dateconsumer: (date: Date) 
   return result;
 }
 
+export const testables = {
+  val,
+};
+
 /**
  * Returns object's keys.
  */
-export function keys(object: {}): any[] {
+export function keys(object: object): any[] {
   return Object.keys(object);
 }
 
@@ -72,16 +76,16 @@ export function sortBy(list: any[], attr: string): any[] {
 /**
  * Groups list of objects by given attribute(s) values.
  */
-export function groupBy(list: any[], attr: string): {} {
-  const result = new Map();
+export function groupBy(list: any[], attr: string): object {
+  const result: any = {};
 
   for (const p of list) {
     const key = val(p, attr);
-    let value = result.get(key);
+    let value = result[key];
 
     if (!value) {
       value = [];
-      result.set(key, value);
+      result[key] = value;
     }
 
     value.push(p);
@@ -100,7 +104,7 @@ export function groupByDateYear(list: any[], attr: string): {} {
 }
 
 /**
- * Returns last N elements of a list.
+ * Returns last N elements of the list.
  */
 export function lastN(list: any[], count: number): any[] {
   if (list.length <= count) {
@@ -109,6 +113,9 @@ export function lastN(list: any[], count: number): any[] {
   return list.slice(list.length - count);
 }
 
+/**
+ * Returns first N elements of the list.
+ */
 export function firstN(list: any[], count: number): any[] {
   if (list.length <= count) {
     return list;
