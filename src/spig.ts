@@ -150,7 +150,7 @@ export class Spig {
    */
   _(phaseName: string): SpigOps {
     if (!ctx.OPS[phaseName]) {
-      if (phaseName.indexOf('^')) {
+      if (phaseName.indexOf('^') !== -1) {
         throw Error(`Invalid phase name (before/after): ${phaseName}`);
       }
       // register new phase, and add pre/post phases!

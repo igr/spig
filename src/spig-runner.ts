@@ -79,8 +79,6 @@ export class SpigRunner {
       return Promise.resolve(phaseName);
     }
 
-    log.phase(phaseName);
-
     const spigPromises: Promise<string>[] = [];
 
     Object.keys(ops)
@@ -93,6 +91,10 @@ export class SpigRunner {
         const opsPerSpig = ops[spigId];
         spigPromises.push(this.runSpig(spigId, opsPerSpig));
       });
+
+    if (spigPromises.length > 0) {
+      log.phase(phaseName);
+    }
 
     return Promise.all(spigPromises).then(() => phaseName);
   }
