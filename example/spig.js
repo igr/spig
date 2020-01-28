@@ -9,7 +9,8 @@ Spig
   .watchSite()
 
   ._('PAGES')
-  .pageCommon()
+  .pageMeta()
+  .pageLinks()
   .tags()
   .group('menu')
   .readingTime()
@@ -31,7 +32,8 @@ Spig
     }
   })
   ._('PREPARE')
-  .pageCommon()
+  .pageMeta()
+  .pageLinks()
 
   ._('RENDER')
   .summary()
@@ -46,8 +48,10 @@ Spig
 Spig
   .on('/**/*.{png,jpg,gif}')
 
+  ._('RENDER^BEFORE')
+  .assetLinks()
+
   ._('ASSETS')
-  .assetCommon()
   .imageMinify()
 ;
 
