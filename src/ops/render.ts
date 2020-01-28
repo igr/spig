@@ -3,6 +3,7 @@ import { SpigOperation } from '../spig-operation';
 import { FileRef } from '../file-reference';
 import { renderNunjucks } from './render-nunjucks';
 import { renderMarkdown } from './render-markdown';
+import { renderPug } from './render-pug';
 
 function processFile(fileRef: FileRef): void {
   const renderCfg = SpigConfig.ops.render;
@@ -31,6 +32,9 @@ function processFile(fileRef: FileRef): void {
       break;
     case '.md':
       renderMarkdown(fileRef);
+      break;
+    case '.pug':
+      renderPug(fileRef);
       break;
     default:
       throw new Error(`No render engine for ${ext}.`);

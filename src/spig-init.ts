@@ -5,6 +5,7 @@ import * as SpigConfig from './spig-config';
 import { loadJs, loadJsonOrJs } from './load';
 import { MarkdownEngine } from './engines/markdown-engine';
 import { NunjucksEngine } from './engines/nunjucks-engine';
+import { PugEngine } from './engines/pug-engine';
 
 /**
  * Reads and update development configuration.
@@ -94,5 +95,11 @@ export function initEngines(): void {
   if (nunjucks) {
     log.pair('Reading', 'nunjucks.js');
     NunjucksEngine.configure(nunjucks);
+  }
+
+  const pug = loadJs(dev.srcDir + '/pug');
+  if (pug) {
+    log.pair('Reading', 'pug.js');
+    PugEngine.configure(pug);
   }
 }
