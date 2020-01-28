@@ -227,6 +227,17 @@ export class FileRef {
   }
 
   /**
+   * Returns buffers input size in bytes.
+   */
+  bufferInputSize(): number {
+    if (!this.src) {
+      return 0;
+    }
+    const stats = fs.statSync(this.src);
+    return stats.size;
+  }
+
+  /**
    * Sets file's buffer.
    */
   set buffer(content: Buffer) {

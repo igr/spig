@@ -92,6 +92,7 @@ export const ops = {
   },
 
   imageMinify: {
+    maxFileSize: 1048576,
     jpeg: {
       quality: 85,
     },

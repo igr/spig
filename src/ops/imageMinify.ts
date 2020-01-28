@@ -3,15 +3,15 @@ import imageminMozjpeg from 'imagemin-mozjpeg';
 import imageminOptipng from 'imagemin-optipng';
 import imageminPngquant from 'imagemin-pngquant/index';
 import imageminGifsicle from 'imagemin-gifsicle';
-
+import * as log from '../log';
 import * as SpigConfig from '../spig-config';
-
 import { SpigOperation } from '../spig-operation';
+import { FileRef } from '../file-reference';
 
 /**
  * Minimizes images.
  */
-function process(buffer: Buffer, options: any): Promise<Buffer> {
+function process(fileRef: FileRef, options: any): Promise<Buffer> {
   const defaults = SpigConfig.ops.imageMinify;
 
   const jpegOptions = {
@@ -34,7 +34,7 @@ function process(buffer: Buffer, options: any): Promise<Buffer> {
     ...options.gif,
   };
 
-  return imagemin.buffer(buffer, {
+  return imagemin.buffer(fileRef.buffer, {
     plugins: [
       imageminMozjpeg(jpegOptions),
       imageminPngquant(pngOptions),
@@ -46,9 +46,23 @@ function process(buffer: Buffer, options: any): Promise<Buffer> {
 
 export const operation: (options: object) => SpigOperation = (options: object) => {
   return new SpigOperation('minify images', fileRef => {
-    return process(fileRef.buffer, options).then((buffer: Buffer) => {
-      fileRef.buffer = buffer;
-      return fileRef;
-    });
+    const imageMinifyOptions = SpigConfig.ops.imageMinify;
+    const maxFileSize = (imageMinifyOptions as any).maxFileSize;
+
+    if (maxFileSize > 0 && fileRef.bufferInputSize() > maxFileSize) {
+      log.debug(`Skipping minifying image: ${fileRef.id}, too big`);
+      return Promise.resolve(fileRef);
+    }
+
+    return process(fileRef, options).then(
+      (buffer: Buffer) => {
+        fileRef.buffer = buffer;
+        return fileRef;
+      },
+      err => {
+        log.error(`Error minifying image: ${fileRef.id}, skipping. ${err}`);
+        return fileRef;
+      }
+    );
   });
 };
