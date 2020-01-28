@@ -150,9 +150,14 @@ export class Spig {
    */
   _(phaseName: string): SpigOps {
     if (!ctx.OPS[phaseName]) {
-      // register new phase
-      ctx.OPS[phaseName] = {};
-      ctx.PHASES.push(phaseName);
+      if (phaseName.indexOf('^')) {
+        throw Error(`Invalid phase name (before/after): ${phaseName}`);
+      }
+      // register new phase, and add pre/post phases!
+      [`${phaseName}^BEFORE`, phaseName, `${phaseName}^AFTER`].forEach(p => {
+        ctx.OPS[p] = {};
+        ctx.PHASES.push(p);
+      });
     }
 
     const opsPerPhase: { [spigId: string]: ctx.SpigOpPair[] } = ctx.OPS[phaseName];

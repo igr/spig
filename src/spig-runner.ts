@@ -74,12 +74,12 @@ export class SpigRunner {
    * PHASE RUNS ALL IT'S SPIGS IN PARALLEL.
    */
   private runPhase(phaseName: string): Promise<string> {
-    log.phase(phaseName);
-
     const ops: { [spigId: string]: SpigOpPair[] } = this.ops[phaseName];
     if (!ops) {
       return Promise.resolve(phaseName);
     }
+
+    log.phase(phaseName);
 
     const spigPromises: Promise<string>[] = [];
 
