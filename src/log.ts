@@ -44,9 +44,9 @@ export function line(msg?: string): void {
   console.log(chalk.dim(str));
 }
 
-export function banner(version: string): void {
+export function banner(): void {
   console.log();
-  console.log(chalk.bgHex('0xF74B00').black(` -=[Spignite v${version}]=- `));
+  console.log(chalk.bgHex('0xF74B00').black(` -=[Spignite]=- `));
   console.log();
 }
 

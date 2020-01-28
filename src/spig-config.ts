@@ -2,7 +2,7 @@ import * as log from './log';
 
 export const spigVersion = '2';
 
-log.banner(spigVersion);
+log.banner();
 
 /**
  * Development-related configuration. For internal use only.
