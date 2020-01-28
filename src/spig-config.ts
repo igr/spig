@@ -1,6 +1,6 @@
 import * as log from './log';
 
-export const spigVersion = 'v2';
+export const spigVersion = '2';
 
 log.banner(spigVersion);
 
@@ -65,8 +65,6 @@ export const site = {
     date: new Date(),
     // production or development mode
     production: false,
-    // spig version
-    version: spigVersion,
   },
 
   // all ops (meta) data should be stored in this object
