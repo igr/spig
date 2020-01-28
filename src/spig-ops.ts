@@ -131,25 +131,6 @@ export class SpigOps {
   // --- render & template ---
 
   /**
-   * Shortcut for common page initialization.
-   */
-  pageCommon(): SpigOps {
-    return this.mark('page')
-      .collect('page')
-      .permalinks()
-      .frontmatter()
-      .slugish()
-      .asHtml();
-  }
-
-  /**
-   * Shortcut for common asset initialization.
-   */
-  assetCommon(): SpigOps {
-    return this.slugish();
-  }
-
-  /**
    * Renders a file using render engine determined by its extension.
    */
   render(): SpigOps {
@@ -192,5 +173,32 @@ export class SpigOps {
 
   js(): SpigOps {
     return this.op(js());
+  }
+
+  // SHORTCUTS
+
+  /**
+   * Shortcut for reading meta-data from page.
+   */
+  pageMeta(): SpigOps {
+    return this.frontmatter()
+      .mark('page')
+      .collect('page');
+  }
+
+  /**
+   * Setting the links for page.
+   */
+  pageLinks(): SpigOps {
+    return this.permalinks()
+      .slugish()
+      .asHtml();
+  }
+
+  /**
+   * Shortcut for common asset initialization.
+   */
+  assetLinks(): SpigOps {
+    return this.slugish();
   }
 }
