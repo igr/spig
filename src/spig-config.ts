@@ -118,6 +118,6 @@ export const ops = {
 
   render: {
     // extensions to be rendered
-    extensions: ['.md'],
+    extensions: ['.md', '.njk', '.pug'],
   },
 };
