@@ -4,13 +4,22 @@ import * as SpigConfig from '../spig-config';
 import { SpigOperation } from '../spig-operation';
 import { FileRef } from '../file-reference';
 
-function processFile(fileRef: FileRef): void {
+type Spig = import('../spig').Spig;
+
+function processFile(spig: Spig, fileRef: FileRef): Promise<FileRef> {
   let bundleCode = fileRef.string;
 
   let result = babel.transformSync(bundleCode, {
     presets: ['@babel/preset-env', {}],
+    sourceMaps: true,
   });
   bundleCode = result.code;
+
+  // spurce map
+  if (result.map) {
+    result.map.sources = [fileRef.id];
+    spig.addFile(fileRef.out + '.map', JSON.stringify(result.map));
+  }
 
   // uglify
 
@@ -25,8 +34,10 @@ function processFile(fileRef: FileRef): void {
   // update file reference
 
   fileRef.string = bundleCode;
+
+  return Promise.resolve(fileRef);
 }
 
-export const operation: () => SpigOperation = () => {
-  return SpigOperation.of('javascript', processFile);
+export const operation: (spig: Spig) => SpigOperation = (spig: Spig) => {
+  return new SpigOperation('javascript', (fileRef: FileRef) => processFile(spig, fileRef));
 };

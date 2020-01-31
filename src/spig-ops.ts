@@ -177,7 +177,7 @@ export class SpigOps {
   }
 
   js(): SpigOps {
-    return this.op(js());
+    return this.op(js(this.spig));
   }
 
   // SHORTCUTS
