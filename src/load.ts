@@ -3,17 +3,31 @@ import Path from 'path';
 import * as log from './log';
 import * as SpigConfig from './spig-config';
 
-// This is the only place where `require` is used.
+const jsonFilesCache: { [key: string]: object } = {};
+
+function readFile(file: string): object {
+  if (jsonFilesCache[file]) {
+    return jsonFilesCache[file];
+  }
+
+  jsonFilesCache[file] = {};
+
+  if (fs.existsSync(file)) {
+    jsonFilesCache[file] = JSON.parse(fs.readFileSync(file, 'utf8'));
+  }
+
+  return jsonFilesCache[file];
+}
 
 /**
- * Loads external Javascript module.
+ * Loads _existing_ Javascript module. Throws error if missing.
  */
 export function load(moduleName: string): any {
   return require(SpigConfig.dev.root + moduleName);
 }
 
 /**
- * Loads external Javascript module or returns undefined if not found.
+ * Loads Javascript module or returns undefined if not found.
  */
 export function loadJs(moduleName: string): any | undefined {
   try {
@@ -24,7 +38,7 @@ export function loadJs(moduleName: string): any | undefined {
 }
 
 /**
- * Loads a JSON file or JS file that returns an object.
+ * Loads a JSON file or JS file that returns an object when executed.
  */
 export function loadJsonOrJs(nameNoExt: string): object {
   let obj = {};
@@ -48,4 +62,13 @@ export function loadJsonOrJs(nameNoExt: string): object {
     obj = { ...obj, ...json };
   }
   return obj;
+}
+
+/**
+ * Loads JSON file (cached).
+ */
+export function loadJson(nameNoExt: string): object {
+  const jsonFile = nameNoExt + '.json';
+
+  return readFile(jsonFile);
 }
