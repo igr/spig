@@ -37,6 +37,9 @@ export function initOpsConfig(): void {
   Object.assign(SpigConfig.ops, ops);
 }
 
+/**
+ * Reads JSON files from Data folder.
+ */
 export function initData(): void {
   const dev = SpigConfig.dev;
   const dataRoot = dev.srcDir + dev.dir.data + '/';
@@ -85,21 +88,31 @@ export function initProductionMode(): void {
 export function initEngines(): void {
   const dev = SpigConfig.dev;
 
-  const md = loadJs(dev.srcDir + '/markdown');
+  const md = loadJs(dev.srcDir + dev.dir.config + '/markdown');
   if (md) {
     log.pair('Reading', 'markdown.js');
     MarkdownEngine.configure(md);
   }
 
-  const nunjucks = loadJs(dev.srcDir + '/nunjucks');
+  const nunjucks = loadJs(dev.srcDir + dev.dir.config + '/nunjucks');
   if (nunjucks) {
     log.pair('Reading', 'nunjucks.js');
     NunjucksEngine.configure(nunjucks);
   }
 
-  const pug = loadJs(dev.srcDir + '/pug');
+  const pug = loadJs(dev.srcDir + dev.dir.config + '/pug');
   if (pug) {
     log.pair('Reading', 'pug.js');
     PugEngine.configure(pug);
   }
+}
+
+/**
+ * Init various tools.
+ */
+export function initOps(): void {
+  const dev = SpigConfig.dev;
+
+  const cssnano = loadJsonOrJs(dev.srcDir + dev.dir.config + '/cssnano');
+  SpigConfig.config.cssnano = { ...SpigConfig.config.cssnano, ...cssnano };
 }

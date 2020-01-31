@@ -32,6 +32,7 @@ export const dev = {
     cssOut: '/css',
     static: '/static',
     layouts: '/layouts',
+    config: '/config',
   },
 
   // configuration for local development
@@ -65,6 +66,8 @@ export const site = {
     date: new Date(),
     // production or development mode
     production: false,
+    // major Spig version
+    version: spigVersion,
   },
 
   // all ops (meta) data should be stored in this object
@@ -119,5 +122,14 @@ export const ops = {
   render: {
     // extensions to be rendered
     extensions: ['.md', '.njk', '.pug'],
+  },
+};
+
+/**
+ * Configuration for 3rd party libraries.
+ */
+export const config = {
+  cssnano: {
+    zindex: false,
   },
 };
