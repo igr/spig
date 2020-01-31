@@ -41,4 +41,9 @@ describe('loadJsonOrJs', () => {
     const data = l.loadJsonOrJs('test/_fixture/data2');
     expect(data).toStrictEqual({ foo: '123' });
   });
+
+  test('existing JSON with extension', () => {
+    const data = l.loadJsonOrJs('test/_fixture/data2.json');
+    expect(data).toStrictEqual({ foo: '123' });
+  });
 });

@@ -67,8 +67,10 @@ export function loadJsonOrJs(nameNoExt: string): object {
 /**
  * Loads JSON file (cached).
  */
-export function loadJson(nameNoExt: string): object {
-  const jsonFile = nameNoExt + '.json';
+export function loadJson(jsonFile: string): object {
+  if (!jsonFile.endsWith('.json')) {
+    jsonFile += '.json';
+  }
 
   return readFile(jsonFile);
 }
