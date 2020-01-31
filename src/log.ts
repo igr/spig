@@ -46,7 +46,7 @@ export function line(msg?: string): void {
 
 export function banner(): void {
   console.log();
-  console.log(chalk.bgHex('0xF74B00').black(` -=[Spignite]=- `));
+  console.log(chalk.bgHex('0xF74B00').black(' -=[Spignite]=- '));
   console.log();
 }
 

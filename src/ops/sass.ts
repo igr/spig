@@ -2,7 +2,6 @@ import Path from 'path';
 import sass from 'node-sass';
 import cssnano from 'cssnano';
 import postcss from 'postcss';
-import precss from 'precss';
 import autoprefixer from 'autoprefixer';
 import * as SpigConfig from '../spig-config';
 import { FileRef } from '../file-reference';
@@ -23,12 +22,14 @@ function processFile(spig: Spig, fileRef: FileRef): Promise<FileRef> {
 
   // POSTCSS
 
-  const p = postcss()
-    .use(precss)
-    .use(autoprefixer);
+  const p = postcss().use(autoprefixer);
 
   if (SpigConfig.site.build.production) {
-    p.use(cssnano);
+    p.use(
+      cssnano({
+        preset: ['default', SpigConfig.config.cssnano],
+      })
+    );
   }
 
   return p

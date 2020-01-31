@@ -40,7 +40,7 @@ export function statics(SpigOf: SpigDefConsumer): void {
 }
 
 /**
- * SASS
+ * SASS.
  */
 export function sass(SpigOf: SpigDefConsumer): void {
   const devDir = SpigConfig.dev.dir;
@@ -55,6 +55,24 @@ export function sass(SpigOf: SpigDefConsumer): void {
     .watch(devDir.css + '/**/*')
     ._('HELLO')
     .sass();
+}
+
+/**
+ * PRECSS.
+ */
+export function precss(SpigOf: SpigDefConsumer): void {
+  const devDir = SpigConfig.dev.dir;
+
+  SpigOf(d =>
+    d
+      .on(['/**/*.css'])
+      .from(devDir.css)
+      .filter(fileRef => !fileRef.basename.startsWith('_'))
+      .to(devDir.cssOut)
+  )
+    .watch(devDir.css + '/**/*')
+    ._('HELLO')
+    .precss();
 }
 
 /**
