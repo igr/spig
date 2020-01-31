@@ -2,25 +2,9 @@ import fs from 'fs';
 import Path from 'path';
 import _s from 'underscore.string';
 import * as SpigConfig from './spig-config';
-import { load } from './load';
+import { loadJs, loadJson } from './load';
 
 type FileRef = import('./file-reference').FileRef;
-
-const attrFilesCache: { [key: string]: object } = {};
-
-function readCached(file: string): object {
-  if (attrFilesCache[file]) {
-    return attrFilesCache[file];
-  }
-
-  attrFilesCache[file] = {};
-
-  if (fs.existsSync(file)) {
-    const buffer = fs.readFileSync(file, 'utf8');
-    attrFilesCache[file] = JSON.parse(buffer);
-  }
-  return attrFilesCache[file];
-}
 
 /**
  * Reads attributes on path.
@@ -35,7 +19,7 @@ function readAttributesOnPath(file: FileRef, path: string, fileBaseName: string)
   // JSON
 
   const jsonFile = root + path + fileBaseName + '.json';
-  const config = readCached(jsonFile);
+  const config = loadJson(jsonFile);
 
   attr = { ...config, ...attr };
 
@@ -46,7 +30,7 @@ function readAttributesOnPath(file: FileRef, path: string, fileBaseName: string)
   if (fs.existsSync(jsFile)) {
     const jsRelativePath = Path.relative(dev.root, Path.normalize(jsFile));
     const jsRequireModule = jsRelativePath.substr(0, jsRelativePath.length - 3);
-    const jsModuleFn = load(jsRequireModule);
+    const jsModuleFn = loadJs(jsRequireModule);
     const jsConfig = jsModuleFn(file);
 
     attr = { ...jsConfig, ...attr };
