@@ -5,6 +5,12 @@ import * as SpigConfig from './spig-config';
 
 const jsonFilesCache: { [key: string]: object } = {};
 
+let isLogOn = true;
+
+export function setLog(logLoads: boolean): void {
+  isLogOn = logLoads;
+}
+
 function readFile(file: string): object {
   if (jsonFilesCache[file]) {
     return jsonFilesCache[file];
@@ -40,15 +46,18 @@ export function loadJs(moduleName: string): any | undefined {
 /**
  * Loads a JSON file or JS file that returns an object when executed.
  */
-export function loadJsonOrJs(nameNoExt: string): object {
+export function loadJsonOrJs(nameNoExt: string, argument: any = undefined): object {
   let obj = {};
 
   const jsFile = nameNoExt + '.js';
 
   if (fs.existsSync(jsFile)) {
-    log.pair('Reading', Path.basename(jsFile));
+    if (isLogOn) {
+      log.pair('Reading', Path.basename(jsFile));
+    }
     const jsRequireModule = jsFile.substr(0, jsFile.length - 3);
-    const config = load(jsRequireModule)();
+    const jsFn = load(jsRequireModule);
+    const config = argument ? jsFn(argument) : jsFn();
 
     obj = { ...obj, ...config };
   }
@@ -56,7 +65,9 @@ export function loadJsonOrJs(nameNoExt: string): object {
   const jsonFile = nameNoExt + '.json';
 
   if (fs.existsSync(jsonFile)) {
-    log.pair('Reading', Path.basename(jsonFile));
+    if (isLogOn) {
+      log.pair('Reading', Path.basename(jsonFile));
+    }
     const json = JSON.parse(fs.readFileSync(jsonFile, 'utf8'));
 
     obj = { ...obj, ...json };
@@ -72,5 +83,8 @@ export function loadJson(jsonFile: string): object {
     jsonFile += '.json';
   }
 
+  if (isLogOn) {
+    log.pair('Reading', Path.basename(jsonFile));
+  }
   return readFile(jsonFile);
 }
