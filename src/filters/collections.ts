@@ -122,3 +122,23 @@ export function firstN(list: any[], count: number): any[] {
   }
   return list.slice(0, count);
 }
+
+/**
+ * Filters elements and returns only those that have given attribute name.
+ */
+export function hasAttr(list: any[], attrName: string): any[] {
+  return list.filter(e => val(e, attrName) !== undefined);
+}
+
+/**
+ * Filters elements that starts with given prefix
+ */
+export function startsWith(list: any[], attrName: string, prefix: string): any[] {
+  return list.filter(e => {
+    const value = val(e, attrName);
+    if (value === undefined) {
+      return false;
+    }
+    return value.toString().startsWith(prefix);
+  });
+}

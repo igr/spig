@@ -102,3 +102,48 @@ describe('lastN', () => {
     expect(result).toStrictEqual([]);
   });
 });
+
+describe('hasAttr', () => {
+  const hasAttr = collections.hasAttr;
+  const a = {
+    foo: 'a',
+  };
+  const b = {
+    foo: 'b',
+  };
+  const c = {
+    bar: 'c',
+  };
+  const array = [a, b, c];
+
+  test('filter attributes', () => {
+    expect(hasAttr(array, 'bar')).toStrictEqual([c]);
+  });
+  test('empty result', () => {
+    expect(hasAttr(array, 'bar.xxx')).toStrictEqual([]);
+  });
+});
+
+describe('startsWith', () => {
+  const startsWith = collections.startsWith;
+  const a = {
+    foo: 'abc',
+  };
+  const b = {
+    foo: 'abd',
+  };
+  const c = {
+    foo: 'cba',
+  };
+  const array = [a, b, c];
+
+  test('filter starters', () => {
+    expect(startsWith(array, 'foo', 'cb')).toStrictEqual([c]);
+  });
+  test('filter starters again', () => {
+    expect(startsWith(array, 'foo', 'ab')).toStrictEqual([a, b]);
+  });
+  test('filter empty', () => {
+    expect(startsWith(array, 'foo', 'zzz')).toStrictEqual([]);
+  });
+});

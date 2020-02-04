@@ -17,6 +17,7 @@ function initFilters(nunjucksEnv: nunjucks.Environment): void {
     .addFilter('dateUTC', filtersDatetimefmt.dateUTC)
 
     .addFilter('pagesWithin', filtersPages.pagesWithin)
+    .addFilter('pagesWithinSubdirs', filtersPages.pagesWithinSubdirs)
 
     .addFilter('keys', filtersCollection.keys)
     .addFilter('reverse', filtersCollection.reverse)
@@ -24,7 +25,8 @@ function initFilters(nunjucksEnv: nunjucks.Environment): void {
     .addFilter('groupBy', filtersCollection.groupBy)
     .addFilter('groupByYear', filtersCollection.groupByDateYear)
     .addFilter('lastN', filtersCollection.lastN)
-    .addFilter('firstN', filtersCollection.firstN);
+    .addFilter('hasAttr', filtersCollection.hasAttr)
+    .addFilter('startsWith', filtersCollection.startsWith);
 }
 
 function initNunjucks(): nunjucks.Environment {
