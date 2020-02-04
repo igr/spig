@@ -25,6 +25,7 @@ function initFilters(nunjucksEnv: nunjucks.Environment): void {
     .addFilter('groupBy', filtersCollection.groupBy)
     .addFilter('groupByYear', filtersCollection.groupByDateYear)
     .addFilter('lastN', filtersCollection.lastN)
+    .addFilter('firstN', filtersCollection.firstN)
     .addFilter('hasAttr', filtersCollection.hasAttr)
     .addFilter('startsWith', filtersCollection.startsWith);
 }
