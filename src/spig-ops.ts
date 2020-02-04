@@ -2,6 +2,7 @@ import slugify from 'slugify';
 import * as SpigConfig from './spig-config';
 import { SpigOperation } from './spig-operation';
 
+import { operation as attributes } from './ops/attributes';
 import { operation as excerpt } from './ops/excerpt';
 import { operation as frontmatter } from './ops/frontmatter';
 import { operation as htmlMinify } from './ops/htmlMinify';
@@ -60,6 +61,10 @@ export class SpigOps {
 
   frontmatter(): SpigOps {
     return this.op(frontmatter());
+  }
+
+  attributes(): SpigOps {
+    return this.op(attributes());
   }
 
   mark(attrName: string): SpigOps {
@@ -186,7 +191,8 @@ export class SpigOps {
    * Shortcut for reading meta-data from page.
    */
   pageMeta(): SpigOps {
-    return this.frontmatter()
+    return this.attributes()
+      .frontmatter()
       .mark('page')
       .collect('page');
   }
