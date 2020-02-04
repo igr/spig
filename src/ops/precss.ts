@@ -1,7 +1,7 @@
 import cssnano from 'cssnano';
 import postcss from 'postcss';
 import precss from 'precss';
-import cssnext from 'postcss-cssnext';
+import postCSSPresetEnv from 'postcss-preset-env';
 import * as SpigConfig from '../spig-config';
 import { FileRef } from '../file-reference';
 import { SpigOperation } from '../spig-operation';
@@ -14,7 +14,7 @@ function processFile(spig: Spig, fileRef: FileRef): Promise<FileRef> {
   // POSTCSS
   const p = postcss()
     .use(precss())
-    .use(cssnext);
+    .use(postCSSPresetEnv);
 
   if (SpigConfig.site.build.production) {
     p.use(
