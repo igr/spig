@@ -214,8 +214,23 @@ export class FileRef {
     this._change = true;
   }
 
+  /**
+   * Copies the attributes by overwriting existing.
+   */
   setAttrsFrom(attrs: object): void {
     Object.assign(this._attr, attrs);
+    this._change = true;
+  }
+
+  /**
+   * Adds missing attributes.
+   */
+  addAttrsFrom(attrs: object): void {
+    Object.keys(attrs).forEach(key => {
+      if (!this._attr[key]) {
+        this._attr[key] = (attrs as any)[key];
+      }
+    });
     this._change = true;
   }
 
