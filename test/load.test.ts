@@ -1,5 +1,7 @@
 import * as l from '../src/load';
 
+l.setLog(false);
+
 describe('load', () => {
   test('existing module', () => {
     const module = l.load('test/_fixture/module');

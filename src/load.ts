@@ -49,7 +49,7 @@ export function loadJs(moduleName: string): any | undefined {
 export function loadJsonOrJs(nameNoExt: string, argument: any = undefined): object {
   let obj = {};
 
-  const jsFile = nameNoExt + '.js';
+  const jsFile = nameNoExt.endsWith('.js') ? nameNoExt : nameNoExt + '.js';
 
   if (fs.existsSync(jsFile)) {
     if (isLogOn) {
@@ -62,7 +62,7 @@ export function loadJsonOrJs(nameNoExt: string, argument: any = undefined): obje
     obj = { ...obj, ...config };
   }
 
-  const jsonFile = nameNoExt + '.json';
+  const jsonFile = nameNoExt.endsWith('.json') ? nameNoExt : nameNoExt + '.json';
 
   if (fs.existsSync(jsonFile)) {
     if (isLogOn) {
