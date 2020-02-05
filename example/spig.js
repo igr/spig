@@ -5,13 +5,15 @@ Spig.hello();
 // PAGES
 
 Spig
-  .on('/**/*.{md,njk}')
+  .on('/**/*.{md,njk,pug}')
   .watchSite()
 
   ._('PAGES')
   .pageMeta()
   .pageLinks()
   .tags()
+  // repeat attributes reading as we want to read them for tags, too
+  .attributes()
   .group('menu')
   .readingTime()
 
@@ -31,7 +33,7 @@ Spig
       file.setAttr('page', true);
     }
   })
-  ._('PREPARE')
+  ._('PAGES')
   .pageMeta()
   .pageLinks()
 
