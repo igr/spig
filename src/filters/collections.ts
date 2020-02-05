@@ -36,10 +36,6 @@ function groupByDatePart(pages: any[], attr: string, dateconsumer: (date: Date) 
   return result;
 }
 
-export const testables = {
-  val,
-};
-
 /**
  * Returns object's keys.
  */
@@ -142,3 +138,7 @@ export function startsWith(list: any[], attrName: string, prefix: string): any[]
     return value.toString().startsWith(prefix);
   });
 }
+
+export const testables = {
+  val,
+};
