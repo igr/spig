@@ -70,7 +70,7 @@ export class Spig {
   /**
    * Creates new Spig on given file set and default folders.
    */
-  static on(files: string[] | string | undefined): Spig {
+  static on(files?: string[] | string): Spig {
     if (!files) {
       files = [];
     }
