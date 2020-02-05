@@ -1,5 +1,4 @@
 import Path from 'path';
-import _s from 'underscore.string';
 import * as SpigConfig from '../spig-config';
 import { SpigOperation } from '../spig-operation';
 import { FileRef } from '../file-reference';
@@ -28,7 +27,7 @@ function loadAttributes(fileRef: FileRef): object {
       break;
     }
 
-    if (!_s.endsWith(path, '/')) {
+    if (!path.endsWith('/')) {
       path += '/';
     }
   }

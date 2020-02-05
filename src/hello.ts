@@ -108,7 +108,7 @@ export function jsBundles(SpigOf: SpigDefConsumer): void {
     .merge(fileRef => {
       const slashNdx = fileRef.path.indexOf('/', 1);
       const bundleFileName = fileRef.path.substr(1, slashNdx - 1);
-      if (_s.endsWith(bundleFileName, '_js')) {
+      if (bundleFileName.endsWith('_js')) {
         return bundleFileName.replace('_js', '.js');
       }
       return undefined;

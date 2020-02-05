@@ -1,5 +1,4 @@
 import Path from 'path';
-import _s from 'underscore.string';
 import * as Mustache from 'mustache';
 import { SpigOperation } from '../spig-operation';
 import { FileRef } from '../file-reference';
@@ -38,7 +37,7 @@ function resolvePathToFileIncludingSubSlugs(fileRef: FileRef): string {
       out += slug;
     }
 
-    if (!_s.endsWith(out, '/')) {
+    if (!out.endsWith('/')) {
       out += '/';
     }
   }
