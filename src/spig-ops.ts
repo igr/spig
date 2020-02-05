@@ -191,8 +191,8 @@ export class SpigOps {
    * Shortcut for reading meta-data from page.
    */
   pageMeta(): SpigOps {
-    return this.attributes()
-      .frontmatter()
+    return this.frontmatter()
+      .attributes()
       .mark('page')
       .collect('page');
   }

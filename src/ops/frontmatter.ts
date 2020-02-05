@@ -10,8 +10,7 @@ function processFile(fileRef: FileRef, attributes = {}): void {
 
   fileRef.string = fm.content.trim();
 
-  attributes = { ...fm.data, ...attributes };
-
+  fileRef.addAttrsFrom(fm.data);
   fileRef.setAttrsFrom(attributes);
 }
 

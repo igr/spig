@@ -15,7 +15,8 @@ function loadAttributes(fileRef: FileRef): object {
   while (true) {
     const config = loadJsonOrJs(path + '_', fileRef);
 
-    attr = { ...attr, ...config };
+    // as we go deeper, don't overwrite, just add new attributes
+    attr = { ...config, ...attr };
 
     const oldPath = path;
 
@@ -35,42 +36,41 @@ function loadAttributes(fileRef: FileRef): object {
   return attr;
 }
 
-export function processFile(fileRef: FileRef, attributes = {}): void {
+function processFile(fileRef: FileRef, attributes = {}): void {
   let attrs = {};
 
-  if (fileRef.src !== undefined) {
-    // 1) FILE_.json
-
-    const name = SpigConfig.dev.srcDir + fileRef.root + fileRef.dir + fileRef.basename + '_';
-    const data = loadJsonOrJs(name, fileRef);
+  // 1) _.JSON
+  {
+    const data = loadAttributes(fileRef);
 
     attrs = { ...attrs, ...data };
   }
 
+  // 2) __.JSON
   {
-    // 2) __.JSON
-
     const name = SpigConfig.dev.srcDir + fileRef.root + fileRef.dir + '__';
     const data = loadJsonOrJs(name, fileRef);
 
     attrs = { ...attrs, ...data };
   }
 
-  {
-    // 3) _.JSON
-    const data = loadAttributes(fileRef);
+  // 3) FILE_.json
+  if (fileRef.src !== undefined) {
+    const name = SpigConfig.dev.srcDir + fileRef.root + fileRef.dir + fileRef.basename + '_';
+    const data = loadJsonOrJs(name, fileRef);
 
     attrs = { ...attrs, ...data };
   }
 
-  // 4) INPUT ARGS
-
-  attrs = { ...attrs, ...attributes };
-
   // THE END
-  fileRef.setAttrsFrom(attrs);
+  fileRef.addAttrsFrom(attrs);
+  fileRef.setAttrsFrom(attributes);
 }
 
 export const operation: () => SpigOperation = () => {
   return SpigOperation.of('attributes', processFile);
+};
+
+export const testables = {
+  processFile,
 };
