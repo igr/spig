@@ -2,7 +2,6 @@ import fs from 'fs';
 import Path from 'path';
 import * as UUID from './uuid';
 import * as SpigConfig from './spig-config';
-import { initAttributes } from './init-attributes';
 
 type Spig = import('./spig').Spig;
 
@@ -197,8 +196,6 @@ export class FileRef {
     this._string = undefined;
 
     this._spig = spig;
-
-    initAttributes(this);
   }
 
   /**
