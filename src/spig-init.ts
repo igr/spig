@@ -2,10 +2,11 @@ import fs from 'fs';
 import glob from 'glob';
 import * as log from './log';
 import * as SpigConfig from './spig-config';
-import { loadJs, loadJsonOrJs } from './load';
+import { setLog, loadJs, loadJsonOrJs } from './load';
 import { MarkdownEngine } from './engines/markdown-engine';
 import { NunjucksEngine } from './engines/nunjucks-engine';
 import { PugEngine } from './engines/pug-engine';
+
 
 /**
  * Reads and update development configuration.
@@ -115,4 +116,11 @@ export function initOps(): void {
 
   const cssnano = loadJsonOrJs(dev.srcDir + dev.dir.config + '/cssnano');
   SpigConfig.config.cssnano = { ...SpigConfig.config.cssnano, ...cssnano };
+}
+
+/**
+ * Ends the initalization.
+ */
+export function done(): void {
+  setLog(false);
 }

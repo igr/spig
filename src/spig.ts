@@ -29,6 +29,7 @@ SpigInit.initData();
 SpigInit.initProductionMode();
 SpigInit.initEngines();
 SpigInit.initOps();
+SpigInit.done();
 
 let spigCount = 0;
 function generateSpigId(): string {
