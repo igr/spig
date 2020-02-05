@@ -12,7 +12,7 @@
     "purge": "rm -rf node_modules",
     "lint": "npx eslint --ext .ts,.tsx \"src/**\"",
     "copy:assets": "cpx 'src/**/*.njk' 'lib/'",
-    "test": "jest",
+    "test": "jest --runInBand",
     "coverage": "jest --coverage"
   },
   "repository": {
