@@ -45,7 +45,7 @@ function process(fileRef: FileRef, options: any): Promise<Buffer> {
 }
 
 export const operation: (options: object) => SpigOperation = (options: object) => {
-  return new SpigOperation('minify images', fileRef => {
+  return new SpigOperation('minify images', (fileRef) => {
     const imageMinifyOptions = SpigConfig.ops.imageMinify;
     const maxFileSize = (imageMinifyOptions as any).maxFileSize;
 
@@ -59,7 +59,7 @@ export const operation: (options: object) => SpigOperation = (options: object) =
         fileRef.buffer = buffer;
         return fileRef;
       },
-      err => {
+      (err) => {
         log.error(`Error minifying image: ${fileRef.id}, skipping. ${err}`);
         return fileRef;
       }

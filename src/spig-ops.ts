@@ -68,7 +68,7 @@ export class SpigOps {
   }
 
   mark(attrName: string): SpigOps {
-    return this.do(`mark: ${attrName}`, fileRef => fileRef.setAttr(attrName, true));
+    return this.do(`mark: ${attrName}`, (fileRef) => fileRef.setAttr(attrName, true));
   }
 
   collect(singular: string, plural?: string): SpigOps {
@@ -106,7 +106,7 @@ export class SpigOps {
         page: true,
         title: `${attrName}: ${attrValue}`,
         layout: attrName,
-        group: files.map(fileRef => fileRef.context()),
+        group: files.map((fileRef) => fileRef.context()),
       };
 
       attrFile.setAttrsFrom(result);
@@ -129,7 +129,7 @@ export class SpigOps {
   }
 
   asHtml(): SpigOps {
-    return this.rename(path => {
+    return this.rename((path) => {
       path.extname = '.html';
     });
   }
@@ -191,19 +191,14 @@ export class SpigOps {
    * Shortcut for reading meta-data from page.
    */
   pageMeta(): SpigOps {
-    return this.frontmatter()
-      .attributes()
-      .mark('page')
-      .collect('page');
+    return this.frontmatter().attributes().mark('page').collect('page');
   }
 
   /**
    * Setting the links for page.
    */
   pageLinks(): SpigOps {
-    return this.permalinks()
-      .slugish()
-      .asHtml();
+    return this.permalinks().slugish().asHtml();
   }
 
   /**

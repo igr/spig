@@ -12,9 +12,7 @@ function processFile(spig: Spig, fileRef: FileRef): Promise<FileRef> {
   const content: string = fileRef.string;
 
   // POSTCSS
-  const p = postcss()
-    .use(precss())
-    .use(postCSSPresetEnv);
+  const p = postcss().use(precss()).use(postCSSPresetEnv);
 
   if (SpigConfig.site.build.production) {
     p.use(
@@ -32,7 +30,7 @@ function processFile(spig: Spig, fileRef: FileRef): Promise<FileRef> {
         annotation: true,
       },
     })
-    .then(result => {
+    .then((result) => {
       fileRef.string = result.css;
 
       if (result.map) {

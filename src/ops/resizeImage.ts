@@ -21,9 +21,9 @@ function createModsFromFileNameSplit(split: string[]): Modification[] {
     let resizeFn: (buffer: Buffer) => sharp.Sharp;
 
     if (t.startsWith('w')) {
-      resizeFn = buffer => sharp(buffer).resize({ width: parseInt(t.substr(1), 10) });
+      resizeFn = (buffer) => sharp(buffer).resize({ width: parseInt(t.substr(1), 10) });
     } else if (t.startsWith('h')) {
-      resizeFn = buffer => sharp(buffer).resize({ height: parseInt(t.substr(1), 10) });
+      resizeFn = (buffer) => sharp(buffer).resize({ height: parseInt(t.substr(1), 10) });
     } else {
       throw new Error(`Unknown image mod name '${t}'`);
     }
@@ -46,11 +46,11 @@ function processFile(spig: Spig, fileRef: FileRef): Promise<FileRef> {
 
   const mods = createModsFromFileNameSplit(split);
 
-  const promises = mods.map(mod =>
+  const promises = mods.map((mod) =>
     mod
       .resizeFn(buffer)
       .toBuffer()
-      .then(buf => {
+      .then((buf) => {
         return spig.addFile(`${fileRef.dir}${basename}-${mod.name}${fileRef.ext}`, buf);
       })
   );
@@ -59,5 +59,5 @@ function processFile(spig: Spig, fileRef: FileRef): Promise<FileRef> {
 }
 
 export const operation: (spig: Spig) => SpigOperation = (spig: Spig) => {
-  return new SpigOperation('resize images', fileRef => processFile(spig, fileRef));
+  return new SpigOperation('resize images', (fileRef) => processFile(spig, fileRef));
 };

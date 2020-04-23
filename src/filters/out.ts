@@ -48,7 +48,7 @@ function toJSON(object: object, objectMaxDepth: number, arrayMaxLength: number, 
     escapable.lastIndex = 0;
     let escaped;
     if (escapable.test(string)) {
-      escaped = string.replace(escapable, a => {
+      escaped = string.replace(escapable, (a) => {
         const replacement = replacements[a];
         if (replacement) return replacement;
         // Pad the unicode representation with leading zeros, up to 4 characters.

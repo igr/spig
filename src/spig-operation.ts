@@ -29,7 +29,7 @@ export class SpigOperation {
    * Shortcut for SpigOperation for sync operations.
    */
   static of(name: string, onFile: (fileRef: FileRef) => void): SpigOperation {
-    return new SpigOperation(name, fileRef => {
+    return new SpigOperation(name, (fileRef) => {
       const mustBeVoid: any = onFile(fileRef);
       if (mustBeVoid) {
         throw new Error(

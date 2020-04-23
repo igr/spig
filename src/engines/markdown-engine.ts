@@ -25,9 +25,9 @@ const defaults = {
 function initMd(): MarkdownIt {
   const md = new MarkdownIt(defaults);
 
-  const uslugify: (input: string) => string = s => slugify(s);
+  const uslugify: (input: string) => string = (s) => slugify(s);
 
-  ['section', 'figure', 'figcaption', 'header', 'footer'].forEach(name => {
+  ['section', 'figure', 'figcaption', 'header', 'footer'].forEach((name) => {
     md.use(container, name, {
       validate: (params: string) => {
         return params.trim() === name || params.trim().startsWith(`${name} `);

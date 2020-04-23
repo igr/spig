@@ -32,5 +32,5 @@ function processFile(fileRef: FileRef, renameFn: (parsedPath: PathElements) => v
 export const operation: (renameFn: (parsedPath: PathElements) => void) => SpigOperation = (
   renameFn: (parsedPath: PathElements) => void
 ) => {
-  return SpigOperation.of('rename', fileRef => processFile(fileRef, renameFn));
+  return SpigOperation.of('rename', (fileRef) => processFile(fileRef, renameFn));
 };

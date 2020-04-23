@@ -52,12 +52,12 @@ export class SpigFiles {
 
     this._files = [];
 
-    files.forEach(p => {
+    files.forEach((p) => {
       const dir = SpigConfig.dev.srcDir + this.root;
       const pattern = SpigConfig.dev.srcDir + this.root + p;
       const matchedFiles = glob.sync(pattern, { nodir: true });
 
-      matchedFiles.forEach(f => {
+      matchedFiles.forEach((f) => {
         const file = f.substr(dir.length);
         const fileRef = fileRefOf(this.spig, this.root, file, Path.resolve(f));
 
@@ -110,7 +110,7 @@ export class SpigFiles {
   }
 
   removeAllFiles(): void {
-    this._files.forEach(f => delete ctx.FILES[f.id]);
+    this._files.forEach((f) => delete ctx.FILES[f.id]);
     this._files = [];
   }
 

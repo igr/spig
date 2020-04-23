@@ -16,7 +16,7 @@ function onChange(spig: Spig) {
     return new SpigRunner([spig], ctx.PHASES, ctx.OPS)
       .run()
       .then(() => bs.reload())
-      .catch(e => log.error(e));
+      .catch((e) => log.error(e));
   };
 }
 
@@ -26,9 +26,9 @@ export class WatchTask extends Task {
   }
 
   run(): Promise<Task> {
-    ctx.SPIGS.forEach(spig => {
+    ctx.SPIGS.forEach((spig) => {
       if (spig.watchPatterns.length > 0) {
-        spig.watchPatterns.forEach(pattern => {
+        spig.watchPatterns.forEach((pattern) => {
           // watch patterns
           bs.watch(SpigConfig.dev.root + SpigConfig.dev.srcDir + pattern, {}, (event: string) => {
             switch (event) {
@@ -44,11 +44,10 @@ export class WatchTask extends Task {
                 break;
             }
           });
-
         });
       } else {
         // watch all real, non-synthetic files
-        spig.forEachFile(fr => {
+        spig.forEachFile((fr) => {
           if (!fr.synthetic && fr.src) {
             bs.watch(fr.src).on('change', onChange(spig));
           }

@@ -7,7 +7,7 @@ function returnAllPages(plural: string, singular: string) {
     const site: any = SpigConfig.site;
     if (!site._[plural]) {
       site._[plural] = [];
-      ctx.files(fileRef => fileRef.hasAttr(singular)).forEach(fileRef => site._[plural].push(fileRef.context()));
+      ctx.files((fileRef) => fileRef.hasAttr(singular)).forEach((fileRef) => site._[plural].push(fileRef.context()));
     }
     return site._[plural];
   };
@@ -47,7 +47,7 @@ function addMethodsToSite(singular: string, plural: string): void {
 export const operation: (singular: string, plural: string) => SpigOperation = (singular: string, plural: string) => {
   return new SpigOperation(
     `collect: ${plural}`,
-    fileRef => Promise.resolve(fileRef),
+    (fileRef) => Promise.resolve(fileRef),
     () => {},
     () => addMethodsToSite(singular, plural)
   );

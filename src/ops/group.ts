@@ -9,10 +9,10 @@ function returnAllGroups(attrMap: AttrMap, plural: string) {
     const site: any = SpigConfig.site;
     if (!site._[plural]) {
       site._[plural] = [];
-      Object.keys(attrMap).forEach(attrValue => {
+      Object.keys(attrMap).forEach((attrValue) => {
         const attr = {
           name: attrValue,
-          group: attrMap[attrValue].map(fileRef => fileRef.context()),
+          group: attrMap[attrValue].map((fileRef) => fileRef.context()),
         };
         site._[plural].push(attr);
       });
@@ -23,7 +23,7 @@ function returnAllGroups(attrMap: AttrMap, plural: string) {
 
 function returnGroupFiles(attrMap: { [attrValue: string]: FileRef[] }) {
   return (attrValue: string) => {
-    return attrMap[attrValue].map(fileRef => fileRef.context());
+    return attrMap[attrValue].map((fileRef) => fileRef.context());
   };
 }
 
@@ -62,7 +62,7 @@ export const operation: (
     constructor() {
       super(
         `group by: ${attrName}`,
-        fileRef => {
+        (fileRef) => {
           if (fileRef.hasAttr(attrName)) {
             this.groupFilesByAttr(fileRef);
           }
@@ -72,7 +72,7 @@ export const operation: (
           this.attrMap = {};
         },
         () => {
-          Object.keys(this.attrMap).forEach(attrValue => {
+          Object.keys(this.attrMap).forEach((attrValue) => {
             attrsOf(attrValue, this.attrMap[attrValue]);
           });
           this.addMethodsToSite();

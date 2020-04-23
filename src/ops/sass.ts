@@ -40,7 +40,7 @@ function processFile(spig: Spig, fileRef: FileRef): Promise<FileRef> {
         annotation: true,
       },
     })
-    .then(result => {
+    .then((result) => {
       fileRef.outExt = 'css';
       fileRef.string = result.css;
 

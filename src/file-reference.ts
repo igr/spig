@@ -226,7 +226,7 @@ export class FileRef {
    * Adds missing attributes.
    */
   addAttrsFrom(attrs: object): void {
-    Object.keys(attrs).forEach(key => {
+    Object.keys(attrs).forEach((key) => {
       if (!this._attr[key]) {
         this._attr[key] = (attrs as any)[key];
       }

@@ -31,7 +31,7 @@ function write(outDir: string, fileRef: FileRef): Promise<void> {
   ensureFilesDirectoryExists(dest);
 
   return new Promise((resolve, reject) => {
-    fs.writeFile(dest, fileRef.buffer, err => {
+    fs.writeFile(dest, fileRef.buffer, (err) => {
       if (err) reject(err);
       else resolve();
     });
@@ -60,7 +60,7 @@ export class SpigRunner {
   run(): Promise<void> {
     let phasePromise: Promise<string> = Promise.resolve('');
 
-    this.phases.forEach(phase => {
+    this.phases.forEach((phase) => {
       // phases are executed sequentially!
       phasePromise = phasePromise.then(() => this.runPhase(phase));
     });
@@ -82,11 +82,11 @@ export class SpigRunner {
     const spigPromises: Promise<string>[] = [];
 
     Object.keys(ops)
-      .filter(spigId => {
+      .filter((spigId) => {
         // execute only ops for given SPIGs
-        return this.spigs.filter(s => spigId === s.id).length > 0;
+        return this.spigs.filter((s) => spigId === s.id).length > 0;
       })
-      .forEach(spigId => {
+      .forEach((spigId) => {
         // run Spigs of phase parallel
         const opsPerSpig = ops[spigId];
         spigPromises.push(this.runSpig(spigId, opsPerSpig));
@@ -108,7 +108,7 @@ export class SpigRunner {
     const empty: FileRef[] = [];
     let p = Promise.resolve(empty);
 
-    ops.forEach(it => {
+    ops.forEach((it) => {
       if (it.spig.id !== spigId) {
         throw new Error('Internal error! Executing Spig on ');
       }
@@ -128,15 +128,15 @@ export class SpigRunner {
     op.onStart();
 
     const files: FileRef[] = [];
-    spig.forEachFile(f => files.push(f));
+    spig.forEachFile((f) => files.push(f));
 
     const promises: Promise<FileRef>[] = files
-      .filter(fileRef => fileRef.active)
-      .map(fileRef => {
+      .filter((fileRef) => fileRef.active)
+      .map((fileRef) => {
         return op.onFile(fileRef);
       });
 
-    return Promise.all(promises).then(frs => {
+    return Promise.all(promises).then((frs) => {
       op.onEnd();
       return frs;
     });
@@ -155,8 +155,8 @@ export class SpigRunner {
    */
   private writeAllFiles(): Promise<FileRef[]> {
     const files: FileRef[] = [];
-    this.spigs.forEach(spig => {
-      spig.forEachFile(fileRef => files.push(fileRef));
+    this.spigs.forEach((spig) => {
+      spig.forEachFile((fileRef) => files.push(fileRef));
     });
     files.sort((a, b) => {
       const aout = this.outname(a);
@@ -177,8 +177,8 @@ export class SpigRunner {
     log.line();
 
     const promises: Promise<FileRef>[] = files
-      .filter(fileRef => fileRef.active)
-      .map(fileRef => {
+      .filter((fileRef) => fileRef.active)
+      .map((fileRef) => {
         logFileOut(fileRef, this.outname(fileRef));
         return write(fileRef.spig.def.destDir, fileRef).then(() => fileRef);
       });

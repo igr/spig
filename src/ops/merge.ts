@@ -28,7 +28,7 @@ function start(): void {
 }
 
 function end(spig: Spig): void {
-  Object.keys(bundles).forEach(bundleName => {
+  Object.keys(bundles).forEach((bundleName) => {
     const bundleContent = bundles[bundleName];
     spig.addFile(bundleName, bundleContent);
   });
@@ -47,7 +47,7 @@ export const operation: (spig: Spig, bundleAggregatorFn: (fileRef: FileRef) => s
 ) => {
   return new SpigOperation(
     'merge',
-    fileRef => {
+    (fileRef) => {
       processFile(spig, fileRef, bundleAggregatorFn);
       return Promise.resolve(fileRef);
     },
