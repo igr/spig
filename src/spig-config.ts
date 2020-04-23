@@ -52,7 +52,7 @@ export const dev = {
  */
 export const site = {
   name: 'My Awesome Spig Site',
-  baseURL: 'http://localhost:3000',
+  baseURL: 'http://localhost:3000/',
   version: '0.0.1',
 
   // data folder
