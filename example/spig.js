@@ -8,6 +8,7 @@ Spig
   .on('/**/*.{md,njk,pug}')
   .watchSite()
 
+  ._BEFORE('PAGES')
   ._('PAGES')
   .pageMeta()
   .pageLinks()

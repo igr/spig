@@ -16,7 +16,7 @@ type FileRef = import('./file-reference').FileRef;
 
 // system debug errors
 
-process.on('warning', e => console.warn(e.stack));
+process.on('warning', (e) => console.warn(e.stack));
 // eslint-disable-next-line no-underscore-dangle
 require('events').EventEmitter.prototype._maxListeners = 100;
 
@@ -87,7 +87,7 @@ export class Spig {
    * will be appended and executed after these ones.
    */
   static phases(phasesArray: string[]): void {
-    phasesArray.forEach(phase => ctx.PHASES.push(phase));
+    phasesArray.forEach((phase) => ctx.PHASES.push(phase));
   }
 
   private constructor(spigDef: SpigDef) {
@@ -146,17 +146,32 @@ export class Spig {
     return this._watchPatterns;
   }
 
+  _BEFORE(phaseName: string): SpigOps {
+    return this._(`${phaseName}^BEFORE`);
+  }
+
+  _AFTER(phaseName: string): SpigOps {
+    return this._(`${phaseName}^AFTER`);
+  }
+
   /**
    * Starts the phase definition.
    * If phase is not register it will be added to the end of phases!
    */
   _(phaseName: string): SpigOps {
     if (!ctx.OPS[phaseName]) {
-      if (phaseName.indexOf('^') !== -1) {
-        throw Error(`Invalid phase name (before/after): ${phaseName}`);
+      let phaseNameBase = phaseName;
+
+      const ndx = phaseNameBase.indexOf('^');
+      if (ndx !== -1) {
+        phaseNameBase = phaseName.slice(0, ndx);
+        const phaseNameVariant = phaseName.slice(ndx + 1);
+        if (phaseNameVariant !== 'BEFORE' && phaseNameVariant !== 'AFTER') {
+          throw Error(`Invalid phase name variant: ${phaseName}`);
+        }
       }
       // register new phase, and add pre/post phases!
-      [`${phaseName}^BEFORE`, phaseName, `${phaseName}^AFTER`].forEach(p => {
+      [`${phaseNameBase}^BEFORE`, phaseNameBase, `${phaseNameBase}^AFTER`].forEach((p) => {
         ctx.OPS[p] = {};
         ctx.PHASES.push(p);
       });
@@ -213,7 +228,7 @@ export class Spig {
   static run(): void {
     new TaskRunner()
       .runTask(ctx.ARGS.taskName)
-      .catch(e => log.error(e))
+      .catch((e) => log.error(e))
       .then(() => {
         SpigConfig.dev.state.isUp = true;
       });
