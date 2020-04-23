@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 import log from 'fancy-log';
-import { isEnvProduction } from './envs';
+import { isEnvProduction, isEnvTestingWithJest } from './envs';
 
 function millisToSeconds(elapsedMilliseconds: number): { sec: string; ms: string } {
   const sec = Math.floor(elapsedMilliseconds / 1000).toString();
@@ -14,9 +14,13 @@ function millisToSeconds(elapsedMilliseconds: number): { sec: string; ms: string
 }
 
 export function debug(message: string): void {
-  if (!isEnvProduction()) {
-    log(chalk.dim(message));
+  if (isEnvTestingWithJest()) {
+    return;
   }
+  if (isEnvProduction()) {
+    return;
+  }
+  log(chalk.dim(message));
 }
 
 export function error(errorOrMessage: string | Error): void {
@@ -28,16 +32,26 @@ export function error(errorOrMessage: string | Error): void {
 }
 
 export function phase(phaseName: string): void {
-  if (!isEnvProduction()) {
-    log(chalk.blueBright(`◼ ${phaseName}`));
+  if (isEnvTestingWithJest()) {
+    return;
   }
+  if (isEnvProduction()) {
+    return;
+  }
+  log(chalk.blueBright(`◼ ${phaseName}`));
 }
 
 export function info(message: string): void {
+  if (isEnvTestingWithJest()) {
+    return;
+  }
   log(chalk.magentaBright(message));
 }
 
 export function line(msg?: string): void {
+  if (isEnvTestingWithJest()) {
+    return;
+  }
   if (isEnvProduction()) {
     return;
   }
@@ -53,30 +67,49 @@ export function line(msg?: string): void {
 }
 
 export function banner(): void {
+  if (isEnvTestingWithJest()) {
+    return;
+  }
   console.log();
   console.log(chalk.bgHex('0xF74B00').black(' -=[Spignite]=- '));
   console.log();
 }
 
 export function task(name: string): void {
+  if (isEnvTestingWithJest()) {
+    return;
+  }
   log('⭐️ ' + chalk.yellowBright(name));
 }
 
 export function operation(name: string): void {
-  if (!isEnvProduction()) {
-    log(chalk.dim('● ' + name));
+  if (isEnvTestingWithJest()) {
+    return;
   }
+  if (isEnvProduction()) {
+    return;
+  }
+  log(chalk.dim('● ' + name));
 }
 
 export function pair(message: string, file: string): void {
+  if (isEnvTestingWithJest()) {
+    return;
+  }
   log(message + ' ' + chalk.magenta(file));
 }
 
 export function env(value: string): void {
+  if (isEnvTestingWithJest()) {
+    return;
+  }
   log('Environment: ' + chalk.green(value));
 }
 
 export function fromTo(left: string, leftMark: boolean, right?: string): void {
+  if (isEnvTestingWithJest()) {
+    return;
+  }
   if (isEnvProduction()) {
     return;
   }

@@ -1,6 +1,6 @@
-import slugify from 'slugify';
 import * as SpigConfig from './spig-config';
 import { SpigOperation } from './spig-operation';
+import { slugit } from './util/slugit';
 
 import { operation as attributes } from './ops/attributes';
 import { operation as excerpt } from './ops/excerpt';
@@ -99,7 +99,7 @@ export class SpigOps {
     return this.group('tag', (attrValue, files: FileRef[]) => {
       const attrName = 'tag';
 
-      const fileName = `/${slugify(attrName)}/${slugify(String(attrValue))}/index.html`;
+      const fileName = `/${slugit(attrName)}/${slugit(String(attrValue))}/index.html`;
       const attrFile = this.spig.addFile(fileName, attrValue);
 
       const result = {

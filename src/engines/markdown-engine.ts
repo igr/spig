@@ -6,7 +6,7 @@ import mila from 'markdown-it-link-attributes';
 import container from 'markdown-it-container';
 import anchor from 'markdown-it-anchor';
 import { html5Media } from 'markdown-it-html5-media';
-import slugify from 'slugify';
+import { slugit } from '../util/slugit';
 import { RenderEngine } from './render-engine';
 
 const defaults = {
@@ -25,7 +25,7 @@ const defaults = {
 function initMd(): MarkdownIt {
   const md = new MarkdownIt(defaults);
 
-  const uslugify: (input: string) => string = (s) => slugify(s);
+  const uslugify: (input: string) => string = (s) => slugit(s);
 
   ['section', 'figure', 'figcaption', 'header', 'footer'].forEach((name) => {
     md.use(container, name, {

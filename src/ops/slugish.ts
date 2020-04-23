@@ -3,9 +3,10 @@ import * as Mustache from 'mustache';
 import { SpigOperation } from '../spig-operation';
 import { FileRef } from '../file-reference';
 import { SpigFiles } from '../spig-files';
+import { slugit } from '../util/slugit';
 
 function renderSlug(slug: string, fileRef: FileRef): string {
-  return Mustache.render(slug, fileRef.context(), {}, ['{', '}']);
+  return slugit(Mustache.render(slug, fileRef.context(), {}, ['{', '}']));
 }
 
 function resolvePathToFileIncludingSubSlugs(fileRef: FileRef): string {
@@ -69,4 +70,8 @@ function processFile(fileRef: FileRef): void {
 
 export const operation: () => SpigOperation = () => {
   return SpigOperation.of('slugish', processFile);
+};
+
+export const testables = {
+  renderSlug,
 };

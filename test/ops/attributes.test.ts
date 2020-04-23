@@ -18,7 +18,7 @@ describe('attributes', () => {
   test('order', () => {
     let fileRef: FileRef = Spig.on().addFile('/dummy', 'Dummy');
 
-    Spig.on('/**/*.txt').forEachFile(fr => {
+    Spig.on('/**/*.txt').forEachFile((fr) => {
       fileRef = fr;
     });
 
