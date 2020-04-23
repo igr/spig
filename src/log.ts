@@ -1,5 +1,6 @@
 import chalk from 'chalk';
 import log from 'fancy-log';
+import { isEnvProduction } from './envs';
 
 function millisToSeconds(elapsedMilliseconds: number): { sec: string; ms: string } {
   const sec = Math.floor(elapsedMilliseconds / 1000).toString();
@@ -13,7 +14,9 @@ function millisToSeconds(elapsedMilliseconds: number): { sec: string; ms: string
 }
 
 export function debug(message: string): void {
-  log(chalk.dim(message));
+  if (!isEnvProduction()) {
+    log(chalk.dim(message));
+  }
 }
 
 export function error(errorOrMessage: string | Error): void {
@@ -25,7 +28,9 @@ export function error(errorOrMessage: string | Error): void {
 }
 
 export function phase(phaseName: string): void {
-  log(chalk.blueBright(`◼ ${phaseName}`));
+  if (!isEnvProduction()) {
+    log(chalk.blueBright(`◼ ${phaseName}`));
+  }
 }
 
 export function info(message: string): void {
@@ -33,6 +38,9 @@ export function info(message: string): void {
 }
 
 export function line(msg?: string): void {
+  if (isEnvProduction()) {
+    return;
+  }
   if (msg) {
     msg = `[${msg}]`;
   } else {
@@ -55,7 +63,9 @@ export function task(name: string): void {
 }
 
 export function operation(name: string): void {
-  log(chalk.dim('● ' + name));
+  if (!isEnvProduction()) {
+    log(chalk.dim('● ' + name));
+  }
 }
 
 export function pair(message: string, file: string): void {
@@ -67,6 +77,9 @@ export function env(value: string): void {
 }
 
 export function fromTo(left: string, leftMark: boolean, right?: string): void {
+  if (isEnvProduction()) {
+    return;
+  }
   const leftChalked: string = leftMark ? chalk.green(left) : chalk.yellow(left);
 
   if (!right) {

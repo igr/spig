@@ -6,7 +6,7 @@ import { setLog, loadJs, loadJsonOrJs } from './load';
 import { MarkdownEngine } from './engines/markdown-engine';
 import { NunjucksEngine } from './engines/nunjucks-engine';
 import { PugEngine } from './engines/pug-engine';
-
+import { isEnvProduction } from './envs';
 
 /**
  * Reads and update development configuration.
@@ -72,7 +72,7 @@ export function initProductionMode(): void {
   const site = SpigConfig.site;
   const dev = SpigConfig.dev;
 
-  if (site.build.env.SPIG_PRODUCTION) {
+  if (isEnvProduction()) {
     site.build.production = true;
   }
   if (!site.build.production) {
