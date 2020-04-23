@@ -28,6 +28,7 @@ function initFilters(nunjucksEnv: nunjucks.Environment): void {
     .addFilter('lastN', filtersCollection.lastN)
     .addFilter('firstN', filtersCollection.firstN)
     .addFilter('hasAttr', filtersCollection.hasAttr)
+    .addFilter('hasAttrVal', filtersCollection.hasAttrVal)
     .addFilter('startsWith', filtersCollection.startsWith);
 }
 

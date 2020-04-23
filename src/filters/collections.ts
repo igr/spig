@@ -127,6 +127,13 @@ export function hasAttr(list: any[], attrName: string): any[] {
 }
 
 /**
+ * Filters elements and returns only those that have attribute name of given value.
+ */
+export function hasAttrVal(list: any[], attrName: string, value: string): any[] {
+  return list.filter((e) => val(e, attrName) === value);
+}
+
+/**
  * Filters elements that starts with given prefix
  */
 export function startsWith(list: any[], attrName: string, prefix: string): any[] {
