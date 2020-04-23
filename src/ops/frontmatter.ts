@@ -17,3 +17,7 @@ function processFile(fileRef: FileRef, attributes = {}): void {
 export const operation: () => SpigOperation = () => {
   return SpigOperation.of('frontmatter', processFile);
 };
+
+export const testables = {
+  processFile,
+};

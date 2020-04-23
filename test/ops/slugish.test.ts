@@ -1,7 +1,7 @@
 import * as SpigConfig from '../../src/spig-config';
 import { FileRef } from '../../src/file-reference';
 import { Spig } from '../../src/spig';
-import { operation as slugish, testables } from '../../src/ops/slugish';
+import { testables } from '../../src/ops/slugish';
 
 describe('slugish', () => {
   const srcDir = SpigConfig.dev.srcDir;
@@ -14,10 +14,10 @@ describe('slugish', () => {
     SpigConfig.dev.srcDir = srcDir;
   });
 
-  test('slug from name', async () => {
+  test('slug from name', () => {
     const fileRef: FileRef = Spig.on().addFile('/dummy', 'Dummy');
 
-    await slugish().onFile(fileRef);
+    testables.processFile(fileRef);
 
     expect(fileRef).toBeDefined();
 

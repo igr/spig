@@ -74,4 +74,5 @@ export const operation: () => SpigOperation = () => {
 
 export const testables = {
   renderSlug,
+  processFile,
 };

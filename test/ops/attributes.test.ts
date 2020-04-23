@@ -1,4 +1,5 @@
 import { testables } from '../../src/ops/attributes';
+import { testables as frontmatterTestables } from '../../src/ops/frontmatter';
 import { FileRef } from '../../src/file-reference';
 import { Spig } from '../../src/spig';
 import * as SpigConfig from '../../src/spig-config';
@@ -26,9 +27,13 @@ describe('attributes', () => {
 
     fileRef.setAttr('xx', 77);
     fileRef.setAttr('yy', 0);
+
+    // RUN
+    frontmatterTestables.processFile(fileRef, {});
     processFile(fileRef, { yy: 44 });
 
     // attributes are top
+    expect(fileRef.attr('gg')).toBe(100);
     expect(fileRef.attr('xx')).toBe(77);
     expect(fileRef.attr('yy')).toBe(44);
 
