@@ -2,15 +2,11 @@ import fs from 'fs';
 import Path from 'path';
 import * as UUID from './uuid';
 import * as SpigConfig from './spig-config';
+// eslint-disable-next-line import/no-cycle
+import { buildRootLangSrcName } from './spig-lang';
+import { permalink } from './util/permalink';
 
 type Spig = import('./spig').Spig;
-
-function permalink(link: string): string {
-  if (link.endsWith('index.html')) {
-    return link.substr(0, link.length - 10);
-  }
-  return link;
-}
 
 /**
  * File reference.
@@ -267,6 +263,13 @@ export class FileRef {
         throw new Error('Source N/A for synthetic files.');
       }
       this._buffer = fs.readFileSync(this.src);
+      // special case - LANG
+      if (this._buffer.length === 0) {
+        const rootLangSrcName = buildRootLangSrcName(this);
+        if (rootLangSrcName) {
+          this._buffer = fs.readFileSync(rootLangSrcName);
+        }
+      }
     }
     return this._buffer;
   }

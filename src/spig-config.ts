@@ -46,6 +46,12 @@ export const dev = {
   },
 };
 
+export interface LangDef {
+  key: string;
+  name: string;
+  prefix: string;
+}
+
 /**
  * Site configuration defaults.
  * Accessible in templates.
@@ -57,6 +63,9 @@ export const site = {
 
   // data folder
   data: {},
+
+  // languages
+  lang: [] as LangDef[],
 
   // build related data
   build: {

@@ -9,11 +9,25 @@ function renderSlug(slug: string, fileRef: FileRef): string {
   return slugit(Mustache.render(slug, fileRef.context(), {}, ['{', '}']));
 }
 
+/**
+ * When a file is located in a folder, we have to resolve possible
+ * slug for any parent folder.
+ */
 function resolvePathToFileIncludingSubSlugs(fileRef: FileRef): string {
-  const dirName = Path.dirname(fileRef.out);
+  const lang = fileRef.attr('lang');
+
+  let fileRefOut = fileRef.out;
+  let key = '';
+  let out = '/';
+  if (lang) {
+    fileRefOut = fileRefOut.slice(lang.prefix.length);
+    console.log(fileRefOut);
+    key = `.${lang.key}`;
+    out = lang.prefix + '/';
+  }
+  const dirName = Path.dirname(fileRefOut);
 
   const dirs = dirName.split('/').slice(1);
-  let out = '/';
   let originalOutPath = '/';
 
   for (const dir of dirs) {
@@ -23,7 +37,7 @@ function resolvePathToFileIncludingSubSlugs(fileRef: FileRef): string {
     // if there is `index` file in current folder, it can change folder name
     // todo lookup for all input extensions, not only MD!
 
-    const indexFileRef = SpigFiles.lookupSite(originalOutPath + 'index.md');
+    const indexFileRef = SpigFiles.lookupSite(originalOutPath + 'index' + key + '.md');
 
     if (indexFileRef) {
       if (indexFileRef.hasAttr('slug')) {

@@ -3,6 +3,7 @@ import { SpigOperation } from './spig-operation';
 import { slugit } from './util/slugit';
 
 import { operation as attributes } from './ops/attributes';
+import { operation as lang } from './ops/lang';
 import { operation as excerpt } from './ops/excerpt';
 import { operation as frontmatter } from './ops/frontmatter';
 import { operation as htmlMinify } from './ops/htmlMinify';
@@ -65,6 +66,10 @@ export class SpigOps {
 
   attributes(): SpigOps {
     return this.op(attributes());
+  }
+
+  lang(): SpigOps {
+    return this.op(lang());
   }
 
   mark(attrName: string): SpigOps {
@@ -198,13 +203,13 @@ export class SpigOps {
    * Setting the links for page.
    */
   pageLinks(): SpigOps {
-    return this.permalinks().slugish().asHtml();
+    return this.lang().permalinks().slugish().asHtml();
   }
 
   /**
    * Shortcut for common asset initialization.
    */
   assetLinks(): SpigOps {
-    return this.slugish();
+    return this.lang().slugish();
   }
 }
