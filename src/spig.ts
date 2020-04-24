@@ -24,6 +24,7 @@ require('events').EventEmitter.prototype._maxListeners = 100;
 
 SpigInit.initDevConfig();
 SpigInit.initSiteConfig();
+SpigInit.initSiteLanguages();
 SpigInit.initOpsConfig();
 SpigInit.initData();
 SpigInit.initProductionMode();

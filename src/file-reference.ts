@@ -3,7 +3,7 @@ import Path from 'path';
 import * as UUID from './uuid';
 import * as SpigConfig from './spig-config';
 // eslint-disable-next-line import/no-cycle
-import { buildRootLangSrcName } from './spig-lang';
+import { buildRootLangSrcName, generateLangSrcNames } from './spig-lang';
 import { permalink } from './util/permalink';
 
 type Spig = import('./spig').Spig;
@@ -304,6 +304,7 @@ export class FileRef {
         src: this.dir + this.name,
         content: this.string,
       });
+      Object.assign(this._attr, generateLangSrcNames(this.dir, this.name));
       this._change = false;
     }
 

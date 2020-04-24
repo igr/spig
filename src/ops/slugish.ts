@@ -21,7 +21,6 @@ function resolvePathToFileIncludingSubSlugs(fileRef: FileRef): string {
   let out = '/';
   if (lang) {
     fileRefOut = fileRefOut.slice(lang.prefix.length);
-    console.log(fileRefOut);
     key = `.${lang.key}`;
     out = lang.prefix + '/';
   }

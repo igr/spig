@@ -7,6 +7,7 @@ import { MarkdownEngine } from './engines/markdown-engine';
 import { NunjucksEngine } from './engines/nunjucks-engine';
 import { PugEngine } from './engines/pug-engine';
 import { isEnvProduction } from './envs';
+import { initSiteLang } from './spig-lang';
 
 /**
  * Reads and update development configuration.
@@ -26,6 +27,14 @@ export function initSiteConfig(): void {
   const site = loadJsonOrJs(siteFile);
 
   Object.assign(SpigConfig.site, site);
+}
+
+export function initSiteLanguages(): void {
+  initSiteLang();
+  if (SpigConfig.site.lang.length !== 0) {
+    const list = SpigConfig.site.lang.map((it) => it.key);
+    log.pair('Lang:', JSON.stringify(list));
+  }
 }
 
 /**

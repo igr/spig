@@ -1,9 +1,13 @@
 import Path from 'path';
 import { SpigOperation } from '../spig-operation';
 import { FileRef } from '../file-reference';
-import { lookupLangBySuffix } from '../spig-lang';
+import { isLangEnabled, lookupLangBySuffix } from '../spig-lang';
 
 function processFile(fileRef: FileRef): void {
+  if (!isLangEnabled()) {
+    return;
+  }
+
   const path = fileRef.out;
 
   const extname = Path.extname(path);
@@ -16,6 +20,10 @@ function processFile(fileRef: FileRef): void {
     dirname = lang.prefix + dirname;
     fileRef.setAttr('lang', lang);
     fileRef.out = Path.join(dirname, basename + extname);
+  } else {
+    // there is no default language setup.
+    // user must explicitly specify that.
+    // fileRef.setAttr('lang', defaultLang());
   }
 }
 

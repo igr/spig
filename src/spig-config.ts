@@ -50,6 +50,7 @@ export interface LangDef {
   key: string;
   name: string;
   prefix: string;
+  default: boolean;
 }
 
 /**
