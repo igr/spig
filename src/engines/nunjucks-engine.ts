@@ -18,6 +18,7 @@ function initFilters(nunjucksEnv: nunjucks.Environment): void {
     .addFilter('dateUTC', filtersDatetimefmt.dateUTC)
 
     .addFilter('pagesWithin', filtersPages.pagesWithin)
+    .addFilter('pagesWithinSet', filtersPages.pagesWithinSet)
     .addFilter('pagesWithinSubdirs', filtersPages.pagesWithinSubdirs)
 
     .addFilter('keys', filtersCollection.keys)
@@ -28,6 +29,7 @@ function initFilters(nunjucksEnv: nunjucks.Environment): void {
     .addFilter('lastN', filtersCollection.lastN)
     .addFilter('firstN', filtersCollection.firstN)
     .addFilter('hasAttr', filtersCollection.hasAttr)
+    .addFilter('hasNoAttr', filtersCollection.hasNoAttr)
     .addFilter('hasAttrVal', filtersCollection.hasAttrVal)
     .addFilter('startsWith', filtersCollection.startsWith);
 }
