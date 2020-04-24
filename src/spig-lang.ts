@@ -57,13 +57,24 @@ export function generateLangSrcNames(dir: string, name: string): { [k: string]: 
     return {};
   }
   const value: { [k: string]: string } = {};
+  const ext = Path.extname(name);
+  let basename = Path.basename(name, ext);
+
+  // strip off existing lang key
   site.lang.forEach((ld) => {
     const key = ld.key;
+    if (basename.endsWith(`.${key}`)) {
+      basename = basename.slice(0, basename.length - (key.length + 1));
+    }
+  });
 
-    const ext = Path.extname(name);
-    const basename = Path.basename(name, ext);
-
+  // add lang variants
+  site.lang.forEach((ld) => {
+    const key = ld.key;
     value['src_' + key] = dir + basename + '.' + ld.key + ext;
   });
+
+  // add default variant
+  value.src_default = dir + basename + ext;
   return value;
 }
