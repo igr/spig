@@ -1,4 +1,16 @@
 {
   "name": "Spig",
-  "baseURL": "https://spignite.com/"
+  "baseURL": "https://spignite.com/",
+  "lang": [
+    {
+      "key": "en",
+      "name": "English",
+      "prefix": ""
+    },
+    {
+      "key": "rs",
+      "name": "Serbian",
+      "prefix": "/rs"
+    }
+  ]
 }

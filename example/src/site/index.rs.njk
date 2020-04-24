@@ -1,0 +1,14 @@
+---
+title: "Zdravo!"
+---
+
+<h2>Sve strane</h2>
+
+<ul>
+    {% for f in site.pages() | sortBy("url") | hasAttrVal('lang.key', 'rs') %}
+
+        <li>
+            {{ f.lang.key }} <a href="{{ f.url }}">{{ f.title }}</a> {{ '*' if f.syntethic else '' }}/{{ f.readingTime.minutes }}min
+        </li>
+    {% endfor %}
+</ul>
