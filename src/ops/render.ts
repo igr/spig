@@ -12,10 +12,12 @@ function processFile(fileRef: FileRef): void {
 
   let matchedExtension = false;
 
-  for (const ex of renderCfg.extensions) {
-    if (fileRef.ext === ex) {
-      matchedExtension = true;
-      break;
+  if (renderCfg.extensions !== null) {
+    for (const ex of renderCfg.extensions) {
+      if (fileRef.ext === ex) {
+        matchedExtension = true;
+        break;
+      }
     }
   }
 
