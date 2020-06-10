@@ -27,10 +27,11 @@ export class WatchTask extends Task {
 
   run(): Promise<Task> {
     ctx.SPIGS.forEach((spig) => {
-      if (spig.watchPatterns.length > 0) {
-        spig.watchPatterns.forEach((pattern) => {
+      if (spig.def.files.length > 0) {
+        spig.def.files.forEach((pattern) => {
+          const watchThis = SpigConfig.dev.root + SpigConfig.dev.srcDir + spig.def.srcDir + pattern;
           // watch patterns
-          bs.watch(SpigConfig.dev.root + SpigConfig.dev.srcDir + pattern, {}, (event: string) => {
+          bs.watch(watchThis, {}, (event: string) => {
             switch (event) {
               // todo ADD is working too much in the beginning
               // case 'add':

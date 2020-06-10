@@ -12,7 +12,6 @@ export function images(SpigOf: SpigDefConsumer): void {
   const devDir = SpigConfig.dev.dir;
 
   SpigOf((d) => d.on(['/**/*']).from(devDir.images).to(devDir.imagesOut))
-    .watch(devDir.images + '/**/*')
     ._('HELLO')
     .resizeImage()
     .imageMinify();
@@ -24,9 +23,7 @@ export function images(SpigOf: SpigDefConsumer): void {
 export function statics(SpigOf: SpigDefConsumer): void {
   const devDir = SpigConfig.dev.dir;
 
-  SpigOf((d) => d.on(['/**/*']).from(devDir.static).to('/'))
-    .watch(devDir.static + '/**/*')
-    ._('HELLO');
+  SpigOf((d) => d.on(['/**/*']).from(devDir.static).to('/'))._('HELLO');
 }
 
 /**
@@ -42,7 +39,6 @@ export function sass(SpigOf: SpigDefConsumer): void {
       .filter((fileRef) => !fileRef.basename.startsWith('_'))
       .to(devDir.cssOut)
   )
-    .watch(devDir.css + '/**/*')
     ._('HELLO')
     .sass();
 }
@@ -60,7 +56,6 @@ export function precss(SpigOf: SpigDefConsumer): void {
       .filter((fileRef) => !fileRef.basename.startsWith('_'))
       .to(devDir.cssOut)
   )
-    .watch(devDir.css + '/**/*')
     ._('HELLO')
     .precss();
 }
@@ -79,7 +74,6 @@ export function js(SpigOf: SpigDefConsumer): void {
       .filter((fileRef) => !_s.contains(fileRef.path, '_js/'))
       .to(devDir.jsOut)
   )
-    .watch(devDir.js + '/**/*')
     ._('HELLO')
     .js();
 }
@@ -88,7 +82,6 @@ export function jsBundles(SpigOf: SpigDefConsumer): void {
   const devDir = SpigConfig.dev.dir;
 
   SpigOf((d) => d.on(['/*_js/**/*.js']).from(devDir.js).to(devDir.jsOut))
-    .watch(devDir.js + '/**/*')
     ._('HELLO')
     .merge((fileRef) => {
       const slashNdx = fileRef.path.indexOf('/', 1);

@@ -50,8 +50,6 @@ export class Spig {
 
   private _files: SpigFiles;
 
-  private _watchPatterns: string[] = [];
-
   /**
    * Returns unique SPIG id.
    */
@@ -112,39 +110,6 @@ export class Spig {
   reset(): void {
     this._files.removeAllFiles();
     this._files = new SpigFiles(this);
-  }
-
-  /**
-   * Watches given set of files.
-   */
-  watch(patterns: string): Spig {
-    this._watchPatterns.push(patterns);
-    return this;
-  }
-
-  /**
-   * Watches files in site, including the templates, just a shortcut for above.
-   */
-  watchSite(patterns?: string): Spig {
-    const devDir = SpigConfig.dev.dir;
-
-    if (!patterns) {
-      // add default folders
-      this.watch(devDir.layouts + '/**/*');
-      this.watch(devDir.data + '/**/*');
-      this.watch(devDir.site + '/**/*');
-    } else {
-      this.watch(devDir.site + patterns);
-    }
-
-    return this;
-  }
-
-  /**
-   * Returns watch patterns if defined.
-   */
-  get watchPatterns(): string[] {
-    return this._watchPatterns;
   }
 
   _BEFORE(phaseName: string): SpigOps {
