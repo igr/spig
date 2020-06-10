@@ -5,8 +5,16 @@ describe('slugit', () => {
     expect(slugit('Foo Bar')).toBe('foo-bar');
   });
 
+  test('whitespaces', () => {
+    expect(slugit('Foo       Bar')).toBe('foo-bar');
+  });
+
+  test('french', () => {
+    expect(slugit('Un éléphant à l\'orée du bois')).toBe('un-elephant-a-loree-du-bois');
+  });
+
   test('special chars', () => {
-    expect(slugit('Foo:Bar!')).toBe('foobar');
+    expect(slugit('Foo!,;:[]{}"\'~bar')).toBe('foobar');
   });
 
   test('backslash is not replaces', () => {

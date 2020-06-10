@@ -1,8 +1,9 @@
 import slugify from 'slugify';
 
+// dont remove backslash
 const slugifyOptions = {
   lower: true,
-  remove: /[*+~.()'"!?#:@]/g,
+  remove: /[!"#$%&'()*+,-.:;<=>?@[\\\]^_`{|}~]/g,
 };
 
 slugify.extend({ '☢': 'radioactive' });
