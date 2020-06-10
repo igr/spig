@@ -25,17 +25,17 @@ describe('slugish', () => {
     expect(fileRef.hasAttr('slug')).toBe(false);
   });
 
-  // test('slug from slug attribute', async () => {
-  //   const fileRef: FileRef = Spig.on().addFile('/dummy', 'Dummy');
-  //   fileRef.setAttr('slug', '/foo');
-  //
-  //   await slugish().onFile(fileRef);
-  //
-  //   expect(fileRef).toBeDefined();
-  //
-  //   expect(fileRef.out).toBe('/foo');
-  //   expect(fileRef.hasAttr('slug')).toBe(true);
-  // });
+  test('slug from slug attribute', async () => {
+    const fileRef: FileRef = Spig.on().addFile('/dummy', 'Dummy');
+    fileRef.setAttr('slug', '/foo-bar');
+
+    testables.processFile(fileRef);
+
+    expect(fileRef).toBeDefined();
+
+    expect(fileRef.out).toBe('/foo-bar/dummy');
+    expect(fileRef.hasAttr('slug')).toBe(true);
+  });
 });
 
 describe('slugish render', () => {
