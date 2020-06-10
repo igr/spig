@@ -34,7 +34,9 @@ function processFile(spig: Spig, fileRef: FileRef): Promise<FileRef> {
       fileRef.string = result.css;
 
       if (result.map) {
-        spig.addFile(fileRef.out + '.map', result.map.toString());
+        const cssMap = JSON.parse(result.map.toString());
+        cssMap.sources = [`${fileRef.name}`];
+        spig.addFile(fileRef.out + '.map', JSON.stringify(cssMap));
       }
 
       return fileRef;

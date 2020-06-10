@@ -37,7 +37,7 @@ function processFile(spig: Spig, fileRef: FileRef): Promise<FileRef> {
       from: fileRef.name,
       map: {
         inline: false,
-        annotation: true,
+        annotation: `${fileRef.basename}.css.map`,
       },
     })
     .then((result) => {
@@ -45,7 +45,9 @@ function processFile(spig: Spig, fileRef: FileRef): Promise<FileRef> {
       fileRef.string = result.css;
 
       if (result.map) {
-        spig.addFile(fileRef.out + '.map', result.map.toString());
+        const cssMap = JSON.parse(result.map.toString());
+        cssMap.sources = [`${Path.basename(fileRef.out)}`];
+        spig.addFile(fileRef.out + '.map', JSON.stringify(cssMap));
       }
 
       return fileRef;
