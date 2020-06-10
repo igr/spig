@@ -17,7 +17,11 @@ describe('slugit', () => {
     expect(slugit('Foo!,;:[]{}"\'~bar')).toBe('foobar');
   });
 
-  test('backslash is not replaces', () => {
+  test('backslash is not replaced', () => {
     expect(slugit('foo/Bar')).toBe('foo/bar');
+  });
+
+  test('dash is not replaced', () => {
+    expect(slugit('foo-Bar')).toBe('foo-bar');
   });
 });
