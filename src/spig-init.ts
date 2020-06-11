@@ -128,7 +128,7 @@ export function initOps(): void {
 }
 
 /**
- * Ends the initalization.
+ * Ends the initialization.
  */
 export function done(): void {
   setLog(false);

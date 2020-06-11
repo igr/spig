@@ -105,9 +105,13 @@ export class Spig {
 
   /**
    * Resets all the files in this SPIG.
-   * todo check if reset clears it all.
+   * todo check if reset really clears it all.
    */
-  reset(): void {
+  reset(all: boolean): void {
+    if (all) {
+      SpigConfig.site._ = {};
+      SpigInit.initData();
+    }
     this._files.removeAllFiles();
     this._files = new SpigFiles(this);
   }
