@@ -8,5 +8,8 @@
     "dev": "node spig.js dev",
     "build": "node spig.js",
     "build:lambda": "cd netlify && build.sh"
+  },
+   "dependencies": {
+    "spignite": "^2.2.3"
   }
 }

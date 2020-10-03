@@ -1,30 +1,19 @@
 # Spig example
 
-## Local development
-
-Link `spignite` a.k.a. **Spig**.
+Run:
 
 ```sh
-cd ..
-npm link
+yarn build
+
 ```
 
-Link the Spig to this Example repo:
+to generate example site in `./out` folder.
+
+Run:
 
 ```sh
-cd example
-npm link spignite
+yarn dev
 ```
 
-## Build site
+to generate example site and see it in browser.
 
-```sh
-build.sh
-```
-
-## Unlink
-
-```sh
-cd example
-npm unlink --no-save spignite
-```
