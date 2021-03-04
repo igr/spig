@@ -15,7 +15,7 @@ function processFile(fileRef: FileRef): void {
     result.minutes = Math.round(time * 10) / 10;
   }
 
-  delete result.text;
+  result.text = '';
 
   fileRef.setAttr('readingTime', result);
 }

@@ -15,11 +15,12 @@ function processFile(spig: Spig, fileRef: FileRef): Promise<FileRef> {
   const p = postcss().use(precss()).use(postCSSPresetEnv);
 
   if (SpigConfig.site.build.production) {
-    p.use(
-      cssnano({
-        preset: ['default', SpigConfig.config.cssnano],
-      })
-    );
+    const cssProcessor = cssnano({
+      preset: ['default', SpigConfig.config.cssnano],
+    });
+
+    // @ts-ignore
+    p.use(cssProcessor);
   }
 
   return p

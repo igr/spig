@@ -21,15 +21,15 @@ function processFile(spig: Spig, fileRef: FileRef): Promise<FileRef> {
   const content: Buffer = cssResult.css;
 
   // POSTCSS
-
   const p = postcss().use(autoprefixer);
 
   if (SpigConfig.site.build.production) {
-    p.use(
-      cssnano({
-        preset: ['default', SpigConfig.config.cssnano],
-      })
-    );
+    const cssProcessor = cssnano({
+      preset: ['default', SpigConfig.config.cssnano],
+    });
+
+    // @ts-ignore
+    p.use(cssProcessor);
   }
 
   return p

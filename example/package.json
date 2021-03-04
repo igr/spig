@@ -10,6 +10,6 @@
     "build:lambda": "cd netlify && build.sh"
   },
    "dependencies": {
-    "spignite": "^2.2.3"
+    "spignite": "^2.3.0"
   }
 }
