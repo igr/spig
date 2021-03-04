@@ -71,7 +71,7 @@ export function banner(): void {
     return;
   }
   console.log();
-  console.log(chalk.bgHex('0xF74B00').black(' -=[Spignite v2.3.0]=- '));
+  console.log(chalk.bgHex('0xF74B00').black(' -=[Spignite]=- '));
   console.log();
 }
 
