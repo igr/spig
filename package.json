@@ -61,7 +61,7 @@
     "markdown-it-link-attributes": "^3.0.0",
     "micromatch": "^4.0.2",
     "mustache": "^4.1.0",
-    "node-sass": "^5.0.0",
+    "node-sass": "^6.0.1",
     "nunjucks": "^3.2.3",
     "os": "^0.1.1",
     "path": "^0.12.7",
