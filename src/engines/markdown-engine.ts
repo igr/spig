@@ -1,11 +1,11 @@
 import MarkdownIt from 'markdown-it';
 import Token from 'markdown-it/lib/token';
 import hljs from 'highlight.js';
-import attrs from 'markdown-it';
-import mila from 'markdown-it';
-import container from 'markdown-it';
-import anchor from 'markdown-it';
-import html5Media from 'markdown-it';
+import attrs from 'markdown-it-attrs';
+import mila from 'markdown-it-link-attributes';
+import container from 'markdown-it-container';
+import anchor from 'markdown-it-anchor';
+import { html5Media } from 'markdown-it-html5-media';
 import { slugit } from '../util/slugit';
 import { RenderEngine } from './render-engine';
 
