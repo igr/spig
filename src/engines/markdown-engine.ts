@@ -1,6 +1,6 @@
 import MarkdownIt from 'markdown-it';
 import Token from 'markdown-it/lib/token';
-import * as hljs from 'highlight.js';
+import hljs from 'highlight.js';
 import attrs from 'markdown-it-attrs';
 import mila from 'markdown-it-link-attributes';
 import container from 'markdown-it-container';

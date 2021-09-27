@@ -120,7 +120,7 @@ function toJSON(object: object, objectMaxDepth: number, arrayMaxLength: number, 
             try {
               subValue = toString(path + '.' + subKey, value[subKey], cumulativeIndent + indent, depth + 1);
               partial.push(quote(subKey) + ': ' + subValue);
-            } catch (e) {
+            } catch (e: any) {
               // this try/catch due to forbidden accessors on some objects
               if (e.message) subKey = e.message;
               else subKey = 'access denied';
