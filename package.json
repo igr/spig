@@ -73,7 +73,7 @@
     "reading-time": "^1.5.0",
     "remove-markdown": "^0.3.0",
     "serve-static": "^1.14.1",
-    "sharp": "^0.29.1",
+    "sharp": "^0.30.5",
     "slugify": "^1.6.0",
     "uglify-js": "^3.14.2",
     "underscore.string": "^3.3.5"
