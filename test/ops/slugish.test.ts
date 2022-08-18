@@ -2,12 +2,13 @@ import * as SpigConfig from '../../src/spig-config';
 import { FileRef } from '../../src/file-reference';
 import { Spig } from '../../src/spig';
 import { testables } from '../../src/ops/slugish';
+import { fixtures } from '../_fixture/fixtures';
 
 describe('slugish', () => {
   const srcDir = SpigConfig.dev.srcDir;
 
   beforeEach(() => {
-    SpigConfig.dev.srcDir = 'test/_fixture';
+    SpigConfig.dev.srcDir = fixtures.of_1();
   });
 
   afterEach(() => {

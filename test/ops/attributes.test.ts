@@ -3,13 +3,14 @@ import { testables as frontmatterTestables } from '../../src/ops/frontmatter';
 import { FileRef } from '../../src/file-reference';
 import { Spig } from '../../src/spig';
 import * as SpigConfig from '../../src/spig-config';
+import { fixtures } from '../_fixture/fixtures';
 
 describe('attributes', () => {
   const processFile = testables.processFile;
   const srcDir = SpigConfig.dev.srcDir;
 
   beforeEach(() => {
-    SpigConfig.dev.srcDir = 'test/_fixture';
+    SpigConfig.dev.srcDir = fixtures.of_1();
   });
 
   afterEach(() => {

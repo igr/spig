@@ -1,10 +1,11 @@
 import * as l from '../src/load';
+import { fixtures } from './_fixture/fixtures';
 
 l.setLog(false);
 
 describe('load', () => {
   test('existing module', () => {
-    const module = l.load('test/_fixture/module');
+    const module = l.load(fixtures.of_1('/module'));
     expect(module).toBe('Hello');
   });
 
@@ -18,7 +19,7 @@ describe('load', () => {
 
 describe('loadJs', () => {
   test('existing module', () => {
-    const js = l.loadJs('test/_fixture/module');
+    const js = l.loadJs(fixtures.of_1('/module'));
     expect(js).toBe('Hello');
   });
 
@@ -30,7 +31,7 @@ describe('loadJs', () => {
 
 describe('loadJsonOrJs', () => {
   test('existing JS', () => {
-    const data = l.loadJsonOrJs('test/_fixture/data');
+    const data = l.loadJsonOrJs(fixtures.of_1('/data'));
     expect(data).toStrictEqual({ foo: '123' });
   });
 
@@ -40,12 +41,12 @@ describe('loadJsonOrJs', () => {
   });
 
   test('existing JSON', () => {
-    const data = l.loadJsonOrJs('test/_fixture/data2');
+    const data = l.loadJsonOrJs(fixtures.of_1('/data2'));
     expect(data).toStrictEqual({ foo: '123' });
   });
 
   test('existing JSON with extension', () => {
-    const data = l.loadJsonOrJs('test/_fixture/data2.json');
+    const data = l.loadJsonOrJs(fixtures.of_1('/data2.json'));
     expect(data).toStrictEqual({ foo: '123' });
   });
 });
