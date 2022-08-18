@@ -95,9 +95,7 @@ export const ops = {
     regexp: /<!--+\s*more\s*--+>/i,
   },
 
-  js: {
-    useBabel: false,
-  },
+  js: {},
 
   htmlMinify: {
     collapseWhitespace: true,
