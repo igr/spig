@@ -4,6 +4,7 @@ import * as filtersOut from '../filters/out';
 import * as filtersDatetimefmt from '../filters/datetimefmt';
 import * as filtersPages from '../filters/pages';
 import * as filtersCollection from '../filters/collections';
+import * as filtersJson from '../filters/json';
 import * as SpigConfig from '../spig-config';
 import { RenderEngine } from './render-engine';
 import { slugit } from '../util/slugit';
@@ -12,6 +13,8 @@ function initFilters(nunjucksEnv: nunjucks.Environment): void {
   nunjucksEnv
     .addFilter('out', filtersOut.out)
     .addFilter('slugify', slugit)
+
+    .addFilter('json', filtersJson.json)
 
     .addFilter('dateDisplay', filtersDatetimefmt.dateDisplay)
     .addFilter('dateISO', filtersDatetimefmt.dateISO)
