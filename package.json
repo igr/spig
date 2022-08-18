@@ -32,6 +32,7 @@
   "dependencies": {
     "@babel/core": "^7.18.10",
     "@babel/preset-env": "^7.18.10",
+    "ansi-styles": "^6.1.0",
     "autoprefixer": "^10.4.8",
     "browser-sync": "^2.27.10",
     "chalk": "^5.0.1",
