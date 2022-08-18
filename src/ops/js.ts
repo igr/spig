@@ -15,7 +15,7 @@ function processFile(spig: Spig, fileRef: FileRef): Promise<FileRef> {
   });
   bundleCode = result.code;
 
-  // spurce map
+  // source map
   if (result.map) {
     result.map.sources = [fileRef.id];
     spig.addFile(fileRef.out + '.map', JSON.stringify(result.map));
