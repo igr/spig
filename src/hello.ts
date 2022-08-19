@@ -61,7 +61,7 @@ export function precss(SpigOf: SpigDefConsumer): void {
 }
 
 /**
- * JS
+ * JS.
  */
 export function js(SpigOf: SpigDefConsumer): void {
   const devDir = SpigConfig.dev.dir;

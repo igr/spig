@@ -143,7 +143,7 @@ export class SpigRunner {
   }
 
   private outname(fileRef: FileRef): string {
-    let outname = fileRef.spig.def.destDir + fileRef.out;
+    let outname = fileRef.spig.def.outDir + fileRef.out;
     if (outname.startsWith('//')) {
       outname = outname.substr(1);
     }
@@ -180,7 +180,7 @@ export class SpigRunner {
       .filter((fileRef) => fileRef.active)
       .map((fileRef) => {
         logFileOut(fileRef, this.outname(fileRef));
-        return write(fileRef.spig.def.destDir, fileRef).then(() => fileRef);
+        return write(fileRef.spig.def.outDir, fileRef).then(() => fileRef);
       });
     log.line(`${filesCount}`);
 

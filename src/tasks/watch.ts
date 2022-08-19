@@ -35,7 +35,7 @@ export class WatchTask extends Task {
     ctx.SPIGS.forEach((spig) => {
       if (spig.def.files.length > 0) {
         spig.def.files.forEach((pattern) => {
-          const watchThis = root + spig.def.srcDir + pattern;
+          const watchThis = root + spig.def.inDir + pattern;
           // console.log(watchThis);
           const watchFn = (event: string): void => {
             switch (event) {
@@ -55,7 +55,7 @@ export class WatchTask extends Task {
           bs.watch(watchThis, {}, watchFn);
 
           // special cases - watch LAYOUTS and DATA if site files are watched
-          if (spig.def.srcDir === SpigConfig.dev.dir.site) {
+          if (spig.def.inDir === SpigConfig.dev.dir.site) {
             bs.watch(root + SpigConfig.dev.dir.layouts + '/**/*', {}, watchFn);
             bs.watch(root + SpigConfig.dev.dir.data + '/**/*', {}, watchFn);
           }

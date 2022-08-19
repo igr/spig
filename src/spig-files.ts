@@ -45,7 +45,7 @@ export class SpigFiles {
   constructor(spig: Spig) {
     this.spig = spig;
     const spigDef = spig.def;
-    this.root = spigDef.srcDir;
+    this.root = spigDef.inDir;
 
     // fix input args
     const files = spigDef.files;
