@@ -136,7 +136,7 @@ export const ops = {
 /**
  * Configuration for 3rd party libraries.
  */
-export const config = {
+export const libs = {
   cssnano: {
     zindex: false,
   },

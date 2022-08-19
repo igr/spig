@@ -94,6 +94,7 @@ export function initProductionMode(): void {
 
 /**
  * Configure all engines from source folder.
+ * todo ONLY ON FIRST USAGE
  */
 export function initEngines(): void {
   const dev = SpigConfig.dev;
@@ -124,7 +125,7 @@ export function initOps(): void {
   const dev = SpigConfig.dev;
 
   const cssnano = loadJsonOrJs(dev.srcDir + dev.dir.config + '/cssnano');
-  SpigConfig.config.cssnano = { ...SpigConfig.config.cssnano, ...cssnano };
+  SpigConfig.libs.cssnano = { ...SpigConfig.libs.cssnano, ...cssnano };
 }
 
 /**

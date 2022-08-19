@@ -16,10 +16,9 @@ function processFile(spig: Spig, fileRef: FileRef): Promise<FileRef> {
 
   if (SpigConfig.site.build.production) {
     const cssProcessor = cssnano({
-      preset: ['default', SpigConfig.config.cssnano],
+      preset: ['default', SpigConfig.libs.cssnano],
     });
 
-    // @ts-ignore
     p.use(cssProcessor);
   }
 
