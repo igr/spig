@@ -13,7 +13,7 @@ function processFile(fileRef: FileRef): void {
       templateNunjucks(fileRef, layout);
       break;
     default:
-      throw new Error(`Unknown template engine for ${ext}`);
+      throw new Error(`Unknown template engine! File: '${fileRef.name}' Layout: '${layout}' Extension: '${ext}'`);
   }
 }
 
