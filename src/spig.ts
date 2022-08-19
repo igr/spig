@@ -1,15 +1,11 @@
 import * as ctx from './ctx';
 import * as SpigInit from './spig-init';
 import * as log from './log';
-import * as SpigConfig from './spig-config';
 import { SpigDef } from './spig-def';
 import { SpigFiles } from './spig-files';
 import { SpigOps } from './spig-ops';
 import { TaskRunner } from './task-runner';
 import * as hello from './hello';
-
-// noinspection JSUnusedGlobalSymbols
-export { site as SpigSite } from './spig-config';
 
 type SpigOperation = import('./spig-operation').SpigOperation;
 type FileRef = import('./file-reference').FileRef;
@@ -28,7 +24,6 @@ SpigInit.initSiteLanguages();
 SpigInit.initOpsConfig();
 SpigInit.initData();
 SpigInit.initProductionMode();
-SpigInit.initEngines();
 SpigInit.initOps();
 SpigInit.done();
 
@@ -109,7 +104,7 @@ export class Spig {
    */
   reset(all: boolean): void {
     if (all) {
-      SpigConfig.site._ = {};
+      ctx.spigConfig.site._ = {};
       SpigInit.initData();
     }
     this._files.removeAllFiles();
@@ -196,11 +191,18 @@ export class Spig {
    * Runs all SPIG tasks :)
    */
   static run(): void {
-    new TaskRunner()
-      .runTask(ctx.ARGS.taskName)
-      .catch((e) => log.error(e))
+    this.runTask(ctx.ARGS.taskName).then(() => {});
+  }
+
+  static runTask(taskName: string): Promise<void> {
+    return new TaskRunner()
+      .runTask(taskName)
+      .catch((e) => {
+        log.error(e);
+        throw e;
+      })
       .then(() => {
-        SpigConfig.dev.state.isUp = true;
+        ctx.spigConfig.dev.state.isUp = true;
       });
   }
 

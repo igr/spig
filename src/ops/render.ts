@@ -1,4 +1,4 @@
-import * as SpigConfig from '../spig-config';
+import { spigConfig } from '../ctx';
 import { SpigOperation } from '../spig-operation';
 import { FileRef } from '../file-reference';
 import { renderNunjucks } from './render-nunjucks';
@@ -6,7 +6,7 @@ import { renderMarkdown } from './render-markdown';
 import { renderPug } from './render-pug';
 
 function processFile(fileRef: FileRef): void {
-  const renderCfg = SpigConfig.ops.render;
+  const renderCfg = spigConfig.ops.render;
 
   // match extension
 

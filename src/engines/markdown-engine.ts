@@ -64,7 +64,7 @@ function initMd(): MarkdownIt {
   return md;
 }
 
-class MarkdownRenderEngine implements RenderEngine<MarkdownIt> {
+export class MarkdownRenderEngine implements RenderEngine<MarkdownIt> {
   private readonly md: MarkdownIt;
 
   constructor() {
@@ -83,5 +83,3 @@ class MarkdownRenderEngine implements RenderEngine<MarkdownIt> {
     return this.md.renderInline(input);
   }
 }
-
-export const MarkdownEngine: RenderEngine<MarkdownIt> = new MarkdownRenderEngine();

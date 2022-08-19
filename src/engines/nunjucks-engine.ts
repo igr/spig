@@ -1,13 +1,12 @@
-import nunjucks from 'nunjucks';
-
+import nunjucks, { Environment } from 'nunjucks';
 import * as filtersOut from '../filters/out';
 import * as filtersDatetimefmt from '../filters/datetimefmt';
 import * as filtersPages from '../filters/pages';
 import * as filtersCollection from '../filters/collections';
 import * as filtersJson from '../filters/json';
-import * as SpigConfig from '../spig-config';
 import { RenderEngine } from './render-engine';
 import { slugit } from '../util/slugit';
+import { SpigConfig } from '../spig-config';
 
 function initFilters(nunjucksEnv: nunjucks.Environment): void {
   nunjucksEnv
@@ -37,14 +36,14 @@ function initFilters(nunjucksEnv: nunjucks.Environment): void {
     .addFilter('startsWith', filtersCollection.startsWith);
 }
 
-function initNunjucks(): nunjucks.Environment {
-  const dev = SpigConfig.dev;
+function initNunjucks(spigConfig: SpigConfig): Environment {
+  const dev = spigConfig.dev;
 
   const nunjucksEnv = nunjucks.configure(
     [dev.root + dev.srcDir + dev.dir.layouts, dev.root + 'node_modules/spignite/lib/layouts'],
     {
       autoescape: true,
-      noCache: !SpigConfig.site.build.production,
+      noCache: !spigConfig.site.build.production,
     }
   );
 
@@ -53,11 +52,11 @@ function initNunjucks(): nunjucks.Environment {
   return nunjucksEnv;
 }
 
-class NunjucksTemplateEngine implements RenderEngine<nunjucks.Environment> {
+export class NunjucksTemplateEngine implements RenderEngine<nunjucks.Environment> {
   private readonly nenv: nunjucks.Environment;
 
-  constructor() {
-    this.nenv = initNunjucks();
+  constructor(spigConfig: SpigConfig) {
+    this.nenv = initNunjucks(spigConfig);
   }
 
   configure(engineConsumer: (engine: nunjucks.Environment) => void): void {
@@ -72,5 +71,3 @@ class NunjucksTemplateEngine implements RenderEngine<nunjucks.Environment> {
     return this.render(input, context);
   }
 }
-
-export const NunjucksEngine: RenderEngine<nunjucks.Environment> = new NunjucksTemplateEngine();

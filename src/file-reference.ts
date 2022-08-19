@@ -1,7 +1,7 @@
 import fs from 'fs';
 import Path from 'path';
 import * as UUID from './uuid';
-import * as SpigConfig from './spig-config';
+import { spigConfig } from './ctx';
 // eslint-disable-next-line import/no-cycle
 import { buildRootLangSrcName, generateLangSrcNames } from './spig-lang';
 import { permalink } from './util/permalink';
@@ -37,7 +37,7 @@ export class FileRef {
   private readonly _path: string;
 
   private readonly _attr: { [k: string]: any } = {
-    site: SpigConfig.site,
+    site: spigConfig.site,
     link: '',
     url: '',
     src: this.dir + this.name,
@@ -298,8 +298,8 @@ export class FileRef {
   context(): {} {
     if (this._change) {
       Object.assign(this._attr, {
-        site: SpigConfig.site,
-        link: SpigConfig.site.baseURL + permalink(this._out),
+        site: spigConfig.site,
+        link: spigConfig.site.baseURL + permalink(this._out),
         url: permalink(this._out),
         src: this.dir + this.name,
         content: this.string,

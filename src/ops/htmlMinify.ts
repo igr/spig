@@ -1,5 +1,5 @@
 import { minify } from 'html-minifier';
-import * as SpigConfig from '../spig-config';
+import { spigConfig } from '../ctx';
 import { SpigOperation } from '../spig-operation';
 
 import { FileRef } from '../file-reference';
@@ -8,7 +8,7 @@ import { FileRef } from '../file-reference';
  * Minifies HTML.
  */
 function processFile(fileRef: FileRef, options = {}): void {
-  const defaults = SpigConfig.ops.htmlMinify;
+  const defaults = spigConfig.ops.htmlMinify;
 
   fileRef.string = minify(fileRef.string, { ...defaults, ...options });
 }

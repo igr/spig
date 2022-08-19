@@ -4,7 +4,7 @@ import imageminOptipng from 'imagemin-optipng';
 import imageminPngquant from 'imagemin-pngquant/index';
 import imageminGifsicle from 'imagemin-gifsicle';
 import * as log from '../log';
-import * as SpigConfig from '../spig-config';
+import { spigConfig } from '../ctx';
 import { SpigOperation } from '../spig-operation';
 import { FileRef } from '../file-reference';
 
@@ -12,7 +12,7 @@ import { FileRef } from '../file-reference';
  * Minimizes images.
  */
 function process(fileRef: FileRef, options: any): Promise<Buffer> {
-  const defaults = SpigConfig.ops.imageMinify;
+  const defaults = spigConfig.ops.imageMinify;
 
   const jpegOptions = {
     ...defaults.jpeg,
@@ -46,7 +46,7 @@ function process(fileRef: FileRef, options: any): Promise<Buffer> {
 
 export const operation: (options: object) => SpigOperation = (options: object) => {
   return new SpigOperation('minify images', (fileRef) => {
-    const imageMinifyOptions = SpigConfig.ops.imageMinify;
+    const imageMinifyOptions = spigConfig.ops.imageMinify;
     const maxFileSize = (imageMinifyOptions as any).maxFileSize;
 
     if (maxFileSize > 0 && fileRef.bufferInputSize() > maxFileSize) {

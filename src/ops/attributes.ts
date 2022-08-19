@@ -1,5 +1,5 @@
 import Path from 'path';
-import * as SpigConfig from '../spig-config';
+import { spigConfig } from '../ctx';
 import { SpigOperation } from '../spig-operation';
 import { FileRef } from '../file-reference';
 import { loadJsonOrJs } from '../load';
@@ -10,7 +10,7 @@ import { loadJsonOrJs } from '../load';
 function loadAttributes(fileRef: FileRef): object {
   let attr = {};
 
-  let path = SpigConfig.dev.srcDir + fileRef.root + fileRef.dir;
+  let path = spigConfig.dev.srcDir + fileRef.root + fileRef.dir;
 
   while (true) {
     const config = loadJsonOrJs(path + '_', fileRef);
@@ -48,7 +48,7 @@ function processFile(fileRef: FileRef, attributes = {}): void {
 
   // 2) __.JSON
   {
-    const name = SpigConfig.dev.srcDir + fileRef.root + fileRef.dir + '__';
+    const name = spigConfig.dev.srcDir + fileRef.root + fileRef.dir + '__';
     const data = loadJsonOrJs(name, fileRef);
 
     attrs = { ...attrs, ...data };
@@ -56,7 +56,7 @@ function processFile(fileRef: FileRef, attributes = {}): void {
 
   // 3) FILE_.json
   if (fileRef.src !== undefined) {
-    const name = SpigConfig.dev.srcDir + fileRef.root + fileRef.dir + fileRef.basename + '_';
+    const name = spigConfig.dev.srcDir + fileRef.root + fileRef.dir + fileRef.basename + '_';
     const data = loadJsonOrJs(name, fileRef);
 
     attrs = { ...attrs, ...data };

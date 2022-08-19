@@ -1,11 +1,11 @@
 import express from 'express';
 import serveStatic from 'serve-static';
 import * as log from '../log';
-import * as SpigConfig from '../spig-config';
+import { spigConfig } from '../ctx';
 import { Task } from '../task';
 
 function serverInitFunction(): void {
-  const dev = SpigConfig.dev;
+  const dev = spigConfig.dev;
 
   log.info(`Server started at http://${dev.server.hostname}:${dev.server.port}`);
 }
@@ -16,7 +16,7 @@ export class ServeTask extends Task {
   }
 
   run(): Promise<Task> {
-    const dev = SpigConfig.dev;
+    const dev = spigConfig.dev;
 
     const app = express();
 

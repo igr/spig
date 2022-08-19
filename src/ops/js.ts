@@ -1,6 +1,6 @@
 import uglify from 'uglify-js';
 import * as babel from '@babel/core';
-import * as SpigConfig from '../spig-config';
+import { spigConfig } from '../ctx';
 import { SpigOperation } from '../spig-operation';
 import { FileRef } from '../file-reference';
 
@@ -23,7 +23,7 @@ function processFile(spig: Spig, fileRef: FileRef): Promise<FileRef> {
 
   // uglify
 
-  if (SpigConfig.site.build.production) {
+  if (spigConfig.site.build.production) {
     result = uglify.minify(bundleCode);
     if (result.error) {
       throw new Error(result.error);

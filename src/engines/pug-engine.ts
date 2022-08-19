@@ -1,7 +1,7 @@
 import pug from 'pug';
 import { RenderEngine } from './render-engine';
 
-class PugTemplateEngine implements RenderEngine<pug.Options> {
+export class PugTemplateEngine implements RenderEngine<pug.Options> {
   private readonly pugOptions: pug.Options = new (class implements pug.Options {})();
 
   configure(engineConsumer: (engine: pug.Options) => void): void {
@@ -17,5 +17,3 @@ class PugTemplateEngine implements RenderEngine<pug.Options> {
     return this.render(input, context);
   }
 }
-
-export const PugEngine: RenderEngine<pug.Options> = new PugTemplateEngine();

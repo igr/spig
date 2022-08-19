@@ -1,7 +1,7 @@
 import fs from 'fs';
 import Path from 'path';
 import * as log from './log';
-import * as SpigConfig from './spig-config';
+import { spigConfig } from './ctx';
 
 const jsonFilesCache: { [key: string]: object } = {};
 
@@ -29,7 +29,7 @@ function readFile(file: string): object {
  * Loads _existing_ Javascript module. Throws error if missing.
  */
 export function load(moduleName: string): any {
-  return require(SpigConfig.dev.root + moduleName);
+  return require(spigConfig.dev.root + moduleName);
 }
 
 /**
@@ -37,7 +37,7 @@ export function load(moduleName: string): any {
  */
 export function loadJs(moduleName: string): any | undefined {
   try {
-    return require(SpigConfig.dev.root + moduleName);
+    return require(spigConfig.dev.root + moduleName);
   } catch (err) {
     return undefined;
   }

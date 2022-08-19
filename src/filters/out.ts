@@ -1,4 +1,4 @@
-import * as SpigConfig from '../spig-config';
+import { spigConfig } from '../ctx';
 import { escape } from './json';
 
 /**
@@ -11,11 +11,11 @@ import { escape } from './json';
  * @return {string} the JSON representation
  */
 function toJSON(object: object, objectMaxDepth: number, arrayMaxLength: number, indent: string): string {
-  if (object === SpigConfig.site) {
+  if (object === spigConfig.site) {
     object = { ...object };
     delete (object as any)._;
     delete (object as any).build.env;
-  } else if (object === SpigConfig.dev) {
+  } else if (object === spigConfig.dev) {
     object = { ...object };
   }
 

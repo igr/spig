@@ -1,8 +1,13 @@
+import { SpigConfig } from './spig-config';
+import { SpigEngines } from './spig-engines';
+
 type Spig = import('./spig').Spig;
 type FileRef = import('./file-reference').FileRef;
 type SpigOperation = import('./spig-operation').SpigOperation;
 
-// Global context
+// GLOBAL context.
+// All kind of static (const) exports.
+// Should be one single sole place for the export consts
 
 /**
  * Spig phases is simply a list of phases.
@@ -47,3 +52,13 @@ export const ARGS: { taskName: string } = (() => {
     taskName,
   };
 })();
+
+/**
+ * Spig configuration.
+ */
+export const spigConfig = new SpigConfig();
+
+/**
+ * Spig Engines.
+ */
+export const spigEngines = new SpigEngines();
