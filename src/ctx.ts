@@ -1,5 +1,6 @@
 import { SpigConfig } from './spig-config';
 import { SpigEngines } from './spig-engines';
+import { SpigInit } from './spig-init';
 
 type Spig = import('./spig').Spig;
 type FileRef = import('./file-reference').FileRef;
@@ -51,23 +52,14 @@ class SpigCtx {
   public engines = new SpigEngines();
 }
 
-/**
- * CLI arguments.
- */
-export const ARGS: { taskName: string } = (() => {
-  const args = process.argv.slice(2);
-  let taskName = 'build';
-  if (args.length !== 0) {
-    taskName = args[0];
-  }
-  return {
-    taskName,
-  };
-})();
-
 export let ctx = new SpigCtx();
 
 // todo
 export function hardReset(): void {
   ctx = new SpigCtx();
+}
+
+export function softReset(): void {
+  ctx.config.site._ = {};
+  new SpigInit(ctx.config).softReset();
 }

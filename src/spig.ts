@@ -1,5 +1,6 @@
-import { ARGS, ctx, SpigOpPair } from './ctx';
-import * as SpigInit from './spig-init';
+import { ARGS } from './args';
+import { ctx, softReset, SpigOpPair } from './ctx';
+import { SpigInit } from './spig-init';
 import * as log from './log';
 import { SpigDef } from './spig-def';
 import { SpigFiles } from './spig-files';
@@ -18,14 +19,7 @@ require('events').EventEmitter.prototype._maxListeners = 100;
 
 // start
 
-SpigInit.initDevConfig();
-SpigInit.initSiteConfig();
-SpigInit.initSiteLanguages();
-SpigInit.initOpsConfig();
-SpigInit.initData();
-SpigInit.initProductionMode();
-SpigInit.initOps();
-SpigInit.done();
+new SpigInit(ctx.config).init();
 
 let spigCount = 0;
 function generateSpigId(): string {
@@ -104,8 +98,7 @@ export class Spig {
    */
   reset(all: boolean): void {
     if (all) {
-      ctx.config.site._ = {};
-      SpigInit.initData();
+      softReset();
     }
     this._files.removeAllFiles();
     this._files = new SpigFiles(this);
@@ -220,3 +213,4 @@ export class Spig {
     hello.jsBundles(Spig.of);
   }
 }
+
