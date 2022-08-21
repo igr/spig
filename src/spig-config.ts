@@ -45,6 +45,8 @@ export class SpigConfig {
     state: {
       isUp: false,
     },
+
+    dryRun: false,
   };
 
   /**
@@ -78,7 +80,6 @@ export class SpigConfig {
     _: {},
 
     // reference to above dev
-    // todo remove!!!!
     dev: this.dev,
   };
 

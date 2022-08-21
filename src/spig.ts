@@ -213,4 +213,3 @@ export class Spig {
     hello.jsBundles(Spig.of);
   }
 }
-

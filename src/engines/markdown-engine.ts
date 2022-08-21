@@ -43,6 +43,7 @@ function initMd(): MarkdownIt {
     level: 1,
     slugify: uslugify,
     permalink: false,
+    tabIndex: false,
   });
 
   md.use(container, 'div');

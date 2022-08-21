@@ -27,6 +27,12 @@ function write(outDir: string, fileRef: FileRef): Promise<void> {
   const outName = outDir + fileRef.out;
   const dest = Path.normalize(ctx.config.dev.root + ctx.config.dev.outDir + outName);
 
+  if (ctx.config.dev.dryRun) {
+    return new Promise((resolve) => {
+      resolve();
+    });
+  }
+
   ensureFilesDirectoryExists(dest);
 
   return new Promise((resolve, reject) => {
