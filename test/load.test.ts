@@ -1,9 +1,19 @@
 import * as l from '../src/load';
 import { fixtures } from './_fixture/fixtures';
+import { Spig } from '../src';
+import { SpigCtx } from '../src/ctx';
 
 l.setLog(false);
 
 describe('load', () => {
+  beforeEach(() =>
+    Spig.init((ctx: SpigCtx) => {
+      const dev = ctx.config.dev;
+      dev.srcDir = fixtures.of_1();
+      dev.dryRun = true;
+    })
+  );
+
   test('existing module', () => {
     const module = l.load(fixtures.of_1('/module'));
     expect(module).toBe('Hello');

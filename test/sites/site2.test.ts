@@ -33,11 +33,13 @@ describe('site2', () => {
     expect(indexHtml).toBe(
       `
 <html><body>
-Test2Site
-First paragraph.
+name: Test2Site
+summary: # First &quot;&gt;&#39; paragraph.
+summary-safe: # First ">' paragraph.
+summary-json: "# First \\">' paragraph."
 
 <h1>Index</h1>
-<p>First <em>paragraph</em>.</p>
+<p># First &quot;&gt;’ <em>paragraph</em>.</p>
 <!--more-->
 <p>Second paragraph.</p>
 

@@ -1,5 +1,7 @@
 <html><body>
-{{ site.name }}
-{{ summary }}
+name: {{ site.name }}
+summary: {{ summary }}
+summary-safe: {{ summary | safe }}
+summary-json: "{{ summary | json | safe }}"
 {% block main %}{% endblock %}
 </body></html>

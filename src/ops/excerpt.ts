@@ -31,6 +31,10 @@ function processFile(fileRef: FileRef): void {
     }
   }
 
+  s = s.replace('\\#', '#');
+  s = s.replace('\\-', '-');
+  s = s.replace('\\+', '+');
+
   fileRef.setAttr('summary', s);
 }
 
