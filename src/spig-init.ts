@@ -25,6 +25,7 @@ export class SpigInit {
   }
 
   softReset(): void {
+    this.#config.site._ = {};
     this.initData(this.#config);
   }
 

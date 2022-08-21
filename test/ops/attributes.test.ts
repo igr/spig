@@ -2,20 +2,13 @@ import { testables } from '../../src/ops/attributes';
 import { testables as frontmatterTestables } from '../../src/ops/frontmatter';
 import { FileRef } from '../../src/file-reference';
 import { Spig } from '../../src/spig';
-import * as SpigConfig from '../../src/spig-config';
 import { fixtures } from '../_fixture/fixtures';
+import { hardReset } from '../../src/ctx';
 
 describe('attributes', () => {
   const processFile = testables.processFile;
-  const srcDir = SpigConfig.dev.srcDir;
 
-  beforeEach(() => {
-    SpigConfig.dev.srcDir = fixtures.of_1();
-  });
-
-  afterEach(() => {
-    SpigConfig.dev.srcDir = srcDir;
-  });
+  beforeEach(() => (hardReset().config.dev.srcDir = fixtures.of_1()));
 
   test('order', () => {
     let fileRef: FileRef = Spig.on().addFile('/dummy', 'Dummy');

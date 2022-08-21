@@ -1,9 +1,3 @@
-import * as log from './log';
-
-export const spigVersion = '2';
-
-log.banner();
-
 export class SpigConfig {
   /**
    * Development-related configuration. For internal use only.
@@ -72,8 +66,6 @@ export class SpigConfig {
       date: new Date(),
       // production or development mode
       production: false,
-      // major Spig version
-      version: spigVersion,
     },
 
     // all ops (meta) data should be stored in this object

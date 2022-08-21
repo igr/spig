@@ -1,6 +1,5 @@
 import { ARGS } from './args';
-import { ctx, softReset, SpigOpPair } from './ctx';
-import { SpigInit } from './spig-init';
+import { ctx, SpigCtx, spigCtxHardReset, spigCtxSoftReset, SpigOpPair } from './ctx';
 import * as log from './log';
 import { SpigDef } from './spig-def';
 import { SpigFiles } from './spig-files';
@@ -16,10 +15,6 @@ type FileRef = import('./file-reference').FileRef;
 process.on('warning', (e) => console.warn(e.stack));
 // eslint-disable-next-line no-underscore-dangle
 require('events').EventEmitter.prototype._maxListeners = 100;
-
-// start
-
-new SpigInit(ctx.config).init();
 
 let spigCount = 0;
 function generateSpigId(): string {
@@ -98,7 +93,7 @@ export class Spig {
    */
   reset(all: boolean): void {
     if (all) {
-      softReset();
+      spigCtxSoftReset();
     }
     this._files.removeAllFiles();
     this._files = new SpigFiles(this);
@@ -212,4 +207,12 @@ export class Spig {
     hello.js(Spig.of);
     hello.jsBundles(Spig.of);
   }
+
+  static init(spigCtxConsumer: (ctx: SpigCtx) => void = () => {}): SpigCtx {
+    return spigCtxHardReset(spigCtxConsumer);
+  }
 }
+
+// start
+
+Spig.init();

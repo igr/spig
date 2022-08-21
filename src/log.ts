@@ -118,7 +118,7 @@ export function fromTo(left: string, leftMark: boolean, right?: string): void {
   if (!right) {
     console.log(leftChalked);
   } else {
-    console.log(leftChalked + ' ⮜ ' + chalk.blue(right));
+    console.log(leftChalked + ' ▶ ' + chalk.blue(right));
   }
 }
 

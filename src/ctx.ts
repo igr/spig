@@ -1,3 +1,4 @@
+import * as log from './log';
 import { SpigConfig } from './spig-config';
 import { SpigEngines } from './spig-engines';
 import { SpigInit } from './spig-init';
@@ -11,10 +12,10 @@ type SpigOperation = import('./spig-operation').SpigOperation;
  */
 export type SpigOpPair = { spig: Spig; op: SpigOperation };
 
-// GLOBAL context.
-// All kind of static (const) exports.
-// Should be one single sole place for the export consts
-class SpigCtx {
+/**
+ * GLOBAL context.
+ */
+export class SpigCtx {
   /**
    * Spig phases is simply a list of phases.
    * Phase is a synchronization point as it guarantees that all
@@ -52,14 +53,23 @@ class SpigCtx {
   public engines = new SpigEngines();
 }
 
-export let ctx = new SpigCtx();
+// ---------------------------------------------------------------- context
 
-// todo
-export function hardReset(): void {
+export let ctx: SpigCtx;
+
+export function spigCtxHardReset(spigCtxConsumer: (ctx: SpigCtx) => void): SpigCtx {
   ctx = new SpigCtx();
+
+  // give user a chance to change configuration before the initialization
+  spigCtxConsumer(ctx);
+
+  new SpigInit(ctx.config).init();
+
+  log.banner();
+
+  return ctx;
 }
 
-export function softReset(): void {
-  ctx.config.site._ = {};
+export function spigCtxSoftReset(): void {
   new SpigInit(ctx.config).softReset();
 }

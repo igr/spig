@@ -1,19 +1,11 @@
-import * as SpigConfig from '../../src/spig-config';
+import { hardReset } from '../../src/ctx';
 import { FileRef } from '../../src/file-reference';
 import { Spig } from '../../src/spig';
 import { testables } from '../../src/ops/slugish';
 import { fixtures } from '../_fixture/fixtures';
 
 describe('slugish', () => {
-  const srcDir = SpigConfig.dev.srcDir;
-
-  beforeEach(() => {
-    SpigConfig.dev.srcDir = fixtures.of_1();
-  });
-
-  afterEach(() => {
-    SpigConfig.dev.srcDir = srcDir;
-  });
+  beforeEach(() => (hardReset().config.dev.srcDir = fixtures.of_1()));
 
   test('slug from name', () => {
     const fileRef: FileRef = Spig.on().addFile('/dummy', 'Dummy');
