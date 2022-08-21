@@ -1,11 +1,11 @@
 import RemoveMarkdown from 'remove-markdown';
-import { spigConfig } from '../ctx';
+import { ctx } from '../ctx';
 
 import { SpigOperation } from '../spig-operation';
 import { FileRef } from '../file-reference';
 
 function excerptBlock(content: string): string | undefined {
-  const rExcerpt2 = spigConfig.ops.excerpt.regexp;
+  const rExcerpt2 = ctx.config.ops.excerpt.regexp;
 
   const match = rExcerpt2.exec(content);
   if (!match) {

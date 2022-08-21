@@ -3,7 +3,7 @@ import Path from 'path';
 import * as log from './log';
 import { FileRef } from './file-reference';
 import { SpigOperation } from './spig-operation';
-import { spigConfig, SpigOpPair } from './ctx';
+import { ctx, SpigOpPair } from './ctx';
 
 type Spig = import('./spig').Spig;
 
@@ -25,7 +25,7 @@ function logFileOut(fileRef: FileRef, outname: string): void {
  */
 function write(outDir: string, fileRef: FileRef): Promise<void> {
   const outName = outDir + fileRef.out;
-  const dest = Path.normalize(spigConfig.dev.root + spigConfig.dev.outDir + outName);
+  const dest = Path.normalize(ctx.config.dev.root + ctx.config.dev.outDir + outName);
 
   ensureFilesDirectoryExists(dest);
 

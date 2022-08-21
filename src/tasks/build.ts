@@ -1,4 +1,4 @@
-import * as ctx from '../ctx';
+import { ctx } from '../ctx';
 import { SpigRunner } from '../spig-runner';
 import { Task } from '../task';
 

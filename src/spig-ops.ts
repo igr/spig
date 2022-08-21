@@ -1,4 +1,4 @@
-import { spigConfig } from './ctx';
+import { ctx } from './ctx';
 import { SpigOperation } from './spig-operation';
 import { slugit } from './util/slugit';
 
@@ -121,7 +121,7 @@ export class SpigOps {
   }
 
   imageMinify(options = {}): SpigOps {
-    if (!spigConfig.site.build.production) {
+    if (!ctx.config.site.build.production) {
       return this;
     }
     return this.op(imageMinify(options));
@@ -156,7 +156,7 @@ export class SpigOps {
   }
 
   htmlMinify(): SpigOps {
-    if (!spigConfig.site.build.production) {
+    if (!ctx.config.site.build.production) {
       return this;
     }
     return this.op(htmlMinify());

@@ -4,32 +4,32 @@ import * as log from './log';
 import { setLog, loadJsonOrJs } from './load';
 import { isEnvProduction } from './envs';
 import { initSiteLang } from './spig-lang';
-import { spigConfig } from './ctx';
+import { ctx } from './ctx';
 
 /**
  * Reads and update development configuration.
  */
 export function initDevConfig(): void {
-  const devFile = spigConfig.dev.srcDir + '/dev';
+  const devFile = ctx.config.dev.srcDir + '/dev';
   const dev = loadJsonOrJs(devFile);
 
-  Object.assign(spigConfig.dev, dev);
+  Object.assign(ctx.config.dev, dev);
 }
 
 /**
  * Reads and update site configuration.
  */
 export function initSiteConfig(): void {
-  const siteFile = spigConfig.dev.srcDir + '/site';
+  const siteFile = ctx.config.dev.srcDir + '/site';
   const site = loadJsonOrJs(siteFile);
 
-  Object.assign(spigConfig.site, site);
+  Object.assign(ctx.config.site, site);
 }
 
 export function initSiteLanguages(): void {
   initSiteLang();
-  if (spigConfig.site.lang.length !== 0) {
-    const list = spigConfig.site.lang.map((it) => it.key);
+  if (ctx.config.site.lang.length !== 0) {
+    const list = ctx.config.site.lang.map((it) => it.key);
     log.pair('Lang:', JSON.stringify(list));
   }
 }
@@ -38,24 +38,24 @@ export function initSiteLanguages(): void {
  * Reads and update ops configuration.
  */
 export function initOpsConfig(): void {
-  const opsFile = spigConfig.dev.srcDir + '/ops';
+  const opsFile = ctx.config.dev.srcDir + '/ops';
   const ops = loadJsonOrJs(opsFile);
 
-  Object.assign(spigConfig.ops, ops);
+  Object.assign(ctx.config.ops, ops);
 }
 
 /**
  * Reads JSON files from Data folder.
  */
 export function initData(): void {
-  const dev = spigConfig.dev;
+  const dev = ctx.config.dev;
   const dataRoot = dev.srcDir + dev.dir.data + '/';
 
   log.pair('Reading', dev.dir.data);
   const dataFiles = glob.sync(`${dataRoot}**/*.json`);
 
   for (const f of dataFiles) {
-    let target = spigConfig.site.data as any;
+    let target = ctx.config.site.data as any;
     const file = f.substr(dataRoot.length);
     const chunks = file.split('/');
     for (const chunk of chunks) {
@@ -75,8 +75,8 @@ export function initData(): void {
 }
 
 export function initProductionMode(): void {
-  const site = spigConfig.site;
-  const dev = spigConfig.dev;
+  const site = ctx.config.site;
+  const dev = ctx.config.dev;
 
   if (isEnvProduction()) {
     site.build.production = true;
@@ -93,10 +93,10 @@ export function initProductionMode(): void {
  * Init various tools.
  */
 export function initOps(): void {
-  const dev = spigConfig.dev;
+  const dev = ctx.config.dev;
 
   const cssnano = loadJsonOrJs(dev.srcDir + dev.dir.config + '/cssnano');
-  spigConfig.libs.cssnano = { ...spigConfig.libs.cssnano, ...cssnano };
+  ctx.config.libs.cssnano = { ...ctx.config.libs.cssnano, ...cssnano };
 }
 
 /**

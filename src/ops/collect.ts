@@ -1,10 +1,9 @@
-import * as ctx from '../ctx';
-import { spigConfig } from '../ctx';
+import { ctx } from '../ctx';
 import { SpigOperation } from '../spig-operation';
 
 function returnAllPages(plural: string, singular: string) {
   return () => {
-    const site: any = spigConfig.site;
+    const site: any = ctx.config.site;
     if (!site._[plural]) {
       site._[plural] = [];
       ctx.files((fileRef) => fileRef.hasAttr(singular)).forEach((fileRef) => site._[plural].push(fileRef.context()));
@@ -15,7 +14,7 @@ function returnAllPages(plural: string, singular: string) {
 
 function returnPageForGivenUrl(plural: string) {
   return (url: string) => {
-    const site: any = spigConfig.site;
+    const site: any = ctx.config.site;
     for (const page of site[plural]()) {
       if (page.url === url) {
         return page;
@@ -27,7 +26,7 @@ function returnPageForGivenUrl(plural: string) {
 
 function returnPageForGivenSrc(plural: string) {
   return (src: string) => {
-    const site: any = spigConfig.site;
+    const site: any = ctx.config.site;
     for (const page of site[plural]()) {
       if (page.src === src) {
         return page;
@@ -38,7 +37,7 @@ function returnPageForGivenSrc(plural: string) {
 }
 
 function addMethodsToSite(singular: string, plural: string): void {
-  const site: any = spigConfig.site;
+  const site: any = ctx.config.site;
   site[plural] = returnAllPages(plural, singular);
   site[singular + 'Of'] = returnPageForGivenUrl(plural);
   site[singular + 'OfSrc'] = returnPageForGivenSrc(plural);

@@ -1,6 +1,6 @@
 import fs from 'fs';
 import Path from 'path';
-import { spigConfig } from './ctx';
+import { ctx } from './ctx';
 import { FileRef } from './file-reference';
 
 /**
@@ -40,8 +40,8 @@ function findLayout(layoutsDir: string, path: string, layout: string): string | 
  * + returns default template file name
  */
 export function resolveLayout(fileRef: FileRef): string {
-  const dev = spigConfig.dev;
-  const templateCfg = spigConfig.ops.template;
+  const dev = ctx.config.dev;
+  const templateCfg = ctx.config.ops.template;
 
   const layoutsDir = Path.normalize(dev.root + dev.srcDir + dev.dir.layouts);
 

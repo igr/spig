@@ -1,7 +1,6 @@
 import Path from 'path';
 import glob from 'glob';
-import * as ctx from './ctx';
-import { spigConfig } from './ctx';
+import { ctx } from './ctx';
 import { FileRef } from './file-reference';
 
 type Spig = import('./spig').Spig;
@@ -53,8 +52,8 @@ export class SpigFiles {
     this._files = [];
 
     files.forEach((p) => {
-      const dir = spigConfig.dev.srcDir + this.root;
-      const pattern = spigConfig.dev.srcDir + this.root + p;
+      const dir = ctx.config.dev.srcDir + this.root;
+      const pattern = ctx.config.dev.srcDir + this.root + p;
       const matchedFiles = glob.sync(pattern, { nodir: true });
 
       matchedFiles.forEach((f) => {
@@ -76,7 +75,7 @@ export class SpigFiles {
     let absolutePath;
 
     if (!content) {
-      absolutePath = Path.resolve(spigConfig.dev.srcDir + this.root + file);
+      absolutePath = Path.resolve(ctx.config.dev.srcDir + this.root + file);
     }
 
     const fileRef = fileRefOf(this.spig, this.root, file, absolutePath);
@@ -122,6 +121,6 @@ export class SpigFiles {
   }
 
   static lookupSite(path: string): FileRef | undefined {
-    return ctx.FILES[spigConfig.dev.dir.site + path];
+    return ctx.FILES[ctx.config.dev.dir.site + path];
   }
 }

@@ -1,5 +1,5 @@
 import { deleteAsync } from 'del';
-import { spigConfig } from '../ctx';
+import { ctx } from '../ctx';
 import { Task } from '../task';
 
 export class CleanTask extends Task {
@@ -8,6 +8,6 @@ export class CleanTask extends Task {
   }
 
   run(): Promise<Task> {
-    return deleteAsync([spigConfig.dev.outDir + '/**/*']).then(() => this);
+    return deleteAsync([ctx.config.dev.outDir + '/**/*']).then(() => this);
   }
 }

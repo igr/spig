@@ -1,12 +1,12 @@
 import * as log from '../log';
 import { FileRef } from '../file-reference';
-import { spigEngines } from '../ctx';
+import { ctx } from '../ctx';
 
 export function renderPug(fileRef: FileRef): void {
   let content = fileRef.string;
 
   try {
-    content = spigEngines.pugEngine.render(content, fileRef.context());
+    content = ctx.engines.pugEngine.render(content, fileRef.context());
 
     fileRef.string = content;
   } catch (err) {

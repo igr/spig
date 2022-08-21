@@ -1,6 +1,6 @@
 import _s from 'underscore.string';
 import { SpigDef } from './spig-def';
-import { spigConfig } from './ctx';
+import { ctx } from './ctx';
 
 type Spig = import('./spig').Spig;
 type SpigDefConsumer = (spigDefConsumer: (spigDef: SpigDef) => void) => Spig;
@@ -9,7 +9,7 @@ type SpigDefConsumer = (spigDefConsumer: (spigDef: SpigDef) => void) => Spig;
  * IMAGES.
  */
 export function images(SpigOf: SpigDefConsumer): void {
-  const devDir = spigConfig.dev.dir;
+  const devDir = ctx.config.dev.dir;
 
   SpigOf((d) => d.on(['/**/*']).from(devDir.images).to(devDir.imagesOut))
     ._('HELLO')
@@ -21,7 +21,7 @@ export function images(SpigOf: SpigDefConsumer): void {
  * STATIC.
  */
 export function statics(SpigOf: SpigDefConsumer): void {
-  const devDir = spigConfig.dev.dir;
+  const devDir = ctx.config.dev.dir;
 
   SpigOf((d) => d.on(['/**/*']).from(devDir.static).to('/'))._('HELLO');
 }
@@ -30,7 +30,7 @@ export function statics(SpigOf: SpigDefConsumer): void {
  * SASS.
  */
 export function sass(SpigOf: SpigDefConsumer): void {
-  const devDir = spigConfig.dev.dir;
+  const devDir = ctx.config.dev.dir;
 
   SpigOf((d) =>
     d
@@ -47,7 +47,7 @@ export function sass(SpigOf: SpigDefConsumer): void {
  * PRECSS.
  */
 export function precss(SpigOf: SpigDefConsumer): void {
-  const devDir = spigConfig.dev.dir;
+  const devDir = ctx.config.dev.dir;
 
   SpigOf((d) =>
     d
@@ -64,7 +64,7 @@ export function precss(SpigOf: SpigDefConsumer): void {
  * JS.
  */
 export function js(SpigOf: SpigDefConsumer): void {
-  const devDir = spigConfig.dev.dir;
+  const devDir = ctx.config.dev.dir;
 
   SpigOf((d) =>
     d
@@ -79,7 +79,7 @@ export function js(SpigOf: SpigDefConsumer): void {
 }
 
 export function jsBundles(SpigOf: SpigDefConsumer): void {
-  const devDir = spigConfig.dev.dir;
+  const devDir = ctx.config.dev.dir;
 
   SpigOf((d) => d.on(['/*_js/**/*.js']).from(devDir.js).to(devDir.jsOut))
     ._('HELLO')

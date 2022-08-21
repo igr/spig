@@ -1,4 +1,4 @@
-import * as ctx from './ctx';
+import { ARGS, ctx, SpigOpPair } from './ctx';
 import * as SpigInit from './spig-init';
 import * as log from './log';
 import { SpigDef } from './spig-def';
@@ -104,7 +104,7 @@ export class Spig {
    */
   reset(all: boolean): void {
     if (all) {
-      ctx.spigConfig.site._ = {};
+      ctx.config.site._ = {};
       SpigInit.initData();
     }
     this._files.removeAllFiles();
@@ -142,7 +142,7 @@ export class Spig {
       });
     }
 
-    const opsPerPhase: { [spigId: string]: ctx.SpigOpPair[] } = ctx.OPS[phaseName];
+    const opsPerPhase: { [spigId: string]: SpigOpPair[] } = ctx.OPS[phaseName];
 
     if (!opsPerPhase[this.id]) {
       // register new Spig per phase
@@ -191,7 +191,7 @@ export class Spig {
    * Runs all SPIG tasks :)
    */
   static run(): void {
-    this.runTask(ctx.ARGS.taskName).then(() => {});
+    this.runTask(ARGS.taskName).then(() => {});
   }
 
   static runTask(taskName: string): Promise<void> {
@@ -202,7 +202,7 @@ export class Spig {
         throw e;
       })
       .then(() => {
-        ctx.spigConfig.dev.state.isUp = true;
+        ctx.config.dev.state.isUp = true;
       });
   }
 

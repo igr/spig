@@ -2,7 +2,7 @@ import cssnano from 'cssnano';
 import postcss from 'postcss';
 import precss from 'precss';
 import postCSSPresetEnv from 'postcss-preset-env';
-import { spigConfig } from '../ctx';
+import { ctx } from '../ctx';
 import { FileRef } from '../file-reference';
 import { SpigOperation } from '../spig-operation';
 
@@ -14,9 +14,9 @@ function processFile(spig: Spig, fileRef: FileRef): Promise<FileRef> {
   // POSTCSS
   const p = postcss().use(precss()).use(postCSSPresetEnv);
 
-  if (spigConfig.site.build.production) {
+  if (ctx.config.site.build.production) {
     const cssProcessor = cssnano({
-      preset: ['default', spigConfig.libs.cssnano],
+      preset: ['default', ctx.config.libs.cssnano],
     });
 
     p.use(cssProcessor);

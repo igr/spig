@@ -1,7 +1,6 @@
 import { create } from 'browser-sync';
 import * as log from '../log';
-import * as ctx from '../ctx';
-import { spigConfig } from '../ctx';
+import { ctx } from '../ctx';
 import { SpigRunner } from '../spig-runner';
 import { Task } from '../task';
 
@@ -11,7 +10,7 @@ const bs = create();
 
 function onChange(spig: Spig, changedPath: string) {
   return () => {
-    const root = spigConfig.dev.root + spigConfig.dev.srcDir;
+    const root = ctx.config.dev.root + ctx.config.dev.srcDir;
     if (changedPath.startsWith(root)) {
       changedPath = changedPath.substr(root.length + 1);
     }
@@ -31,7 +30,7 @@ export class WatchTask extends Task {
   }
 
   run(): Promise<Task> {
-    const root = spigConfig.dev.root + spigConfig.dev.srcDir;
+    const root = ctx.config.dev.root + ctx.config.dev.srcDir;
     ctx.SPIGS.forEach((spig) => {
       if (spig.def.files.length > 0) {
         spig.def.files.forEach((pattern) => {
@@ -43,7 +42,7 @@ export class WatchTask extends Task {
               // case 'add':
               case 'change':
               case 'unlink':
-                if (spigConfig.dev.state.isUp) {
+                if (ctx.config.dev.state.isUp) {
                   onChange(spig, watchThis)();
                 }
                 break;
@@ -55,9 +54,9 @@ export class WatchTask extends Task {
           bs.watch(watchThis, {}, watchFn);
 
           // special cases - watch LAYOUTS and DATA if site files are watched
-          if (spig.def.inDir === spigConfig.dev.dir.site) {
-            bs.watch(root + spigConfig.dev.dir.layouts + '/**/*', {}, watchFn);
-            bs.watch(root + spigConfig.dev.dir.data + '/**/*', {}, watchFn);
+          if (spig.def.inDir === ctx.config.dev.dir.site) {
+            bs.watch(root + ctx.config.dev.dir.layouts + '/**/*', {}, watchFn);
+            bs.watch(root + ctx.config.dev.dir.data + '/**/*', {}, watchFn);
           }
         });
       } else {
@@ -72,7 +71,7 @@ export class WatchTask extends Task {
     });
 
     bs.init({
-      server: spigConfig.dev.outDir,
+      server: ctx.config.dev.outDir,
       open: false,
       watchOptions: {
         ignoreInitial: true,

@@ -1,23 +1,23 @@
 import * as Path from 'path';
 import { LangDef } from './spig-config';
-import { spigConfig } from './ctx';
+import { ctx } from './ctx';
 // eslint-disable-next-line import/no-cycle
 import { FileRef } from './file-reference';
 
 let defaultLangDef: LangDef | undefined;
 
 export function initSiteLang(): void {
-  if (spigConfig.site.lang.length === 0) {
+  if (ctx.config.site.lang.length === 0) {
     defaultLangDef = undefined;
     return;
   }
-  defaultLangDef = spigConfig.site.lang[0];
+  defaultLangDef = ctx.config.site.lang[0];
 
   // set 'default' flag
-  spigConfig.site.lang.forEach((ld) => {
+  ctx.config.site.lang.forEach((ld) => {
     ld.default = false;
   });
-  spigConfig.site.lang[0].default = true;
+  ctx.config.site.lang[0].default = true;
 }
 
 /**
@@ -37,7 +37,7 @@ export function defaultLang(): LangDef {
  * default language (or no language set at all).
  */
 export function lookupLangBySuffix(baseName: string): LangDef | undefined {
-  for (const [, l] of Object.entries(spigConfig.site.lang)) {
+  for (const [, l] of Object.entries(ctx.config.site.lang)) {
     if (baseName.endsWith('.' + l.key)) {
       return l;
     }
@@ -62,7 +62,7 @@ export function generateLangSrcNames(dir: string, name: string): { [k: string]: 
   let basename = Path.basename(name, ext);
 
   // strip off existing lang key
-  spigConfig.site.lang.forEach((ld) => {
+  ctx.config.site.lang.forEach((ld) => {
     const key = ld.key;
     if (basename.endsWith(`.${key}`)) {
       basename = basename.slice(0, basename.length - (key.length + 1));
@@ -70,7 +70,7 @@ export function generateLangSrcNames(dir: string, name: string): { [k: string]: 
   });
 
   // add lang variants
-  spigConfig.site.lang.forEach((ld) => {
+  ctx.config.site.lang.forEach((ld) => {
     const key = ld.key;
     value['src_' + key] = dir + basename + '.' + ld.key + ext;
   });

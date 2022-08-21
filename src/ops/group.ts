@@ -1,12 +1,12 @@
 import { FileRef } from '../file-reference';
 import { SpigOperation } from '../spig-operation';
-import { spigConfig } from '../ctx';
+import { ctx } from '../ctx';
 
 export type AttrMap = { [attrValue: string]: FileRef[] };
 
 function returnAllGroups(attrMap: AttrMap, plural: string) {
   return () => {
-    const site: any = spigConfig.site;
+    const site: any = ctx.config.site;
     if (!site._[plural]) {
       site._[plural] = [];
       Object.keys(attrMap).forEach((attrValue) => {
@@ -50,7 +50,7 @@ export const operation: (
     }
 
     private addMethodsToSite(): void {
-      const site: any = spigConfig.site;
+      const site: any = ctx.config.site;
       const singular = attrName;
       const plural = `${attrName}s`;
 
