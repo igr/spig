@@ -1,11 +1,17 @@
 import { loadJs } from './load.js';
-import { ctx } from './ctx.js';
 import { MarkdownRenderEngine } from './engines/markdown-engine.js';
 import { NunjucksTemplateEngine } from './engines/nunjucks-engine.js';
 import { PugTemplateEngine } from './engines/pug-engine.js';
 import * as log from './log.js';
+import { SpigConfig } from './spig-config.js';
 
 export class SpigEngines {
+  readonly #config: SpigConfig;
+
+  constructor(config: SpigConfig) {
+    this.#config = config;
+  }
+
   #markdownEngine: MarkdownRenderEngine | undefined;
 
   public get markdownEngine(): MarkdownRenderEngine {
@@ -14,7 +20,7 @@ export class SpigEngines {
 
   #initMarkdownEngine(): MarkdownRenderEngine {
     const engine = new MarkdownRenderEngine();
-    const md = loadJs(ctx.config.dev.srcDir + ctx.config.dev.dir.config + '/markdown');
+    const md = loadJs(this.#config.dev.srcDir + this.#config.dev.dir.config + '/markdown');
     if (md) {
       log.pair('Reading', 'markdown.js');
       engine.configure(md);
@@ -31,8 +37,8 @@ export class SpigEngines {
   }
 
   #initNunjucksEngine(): NunjucksTemplateEngine {
-    const engine = new NunjucksTemplateEngine(ctx.config);
-    const nunjucks = loadJs(ctx.config.dev.srcDir + ctx.config.dev.dir.config + '/nunjucks');
+    const engine = new NunjucksTemplateEngine(this.#config);
+    const nunjucks = loadJs(this.#config.dev.srcDir + this.#config.dev.dir.config + '/nunjucks');
     if (nunjucks) {
       log.pair('Reading', 'nunjucks.js');
       engine.configure(nunjucks);
@@ -50,7 +56,7 @@ export class SpigEngines {
 
   #initPugEngine(): PugTemplateEngine {
     const engine = new PugTemplateEngine();
-    const pug = loadJs(ctx.config.dev.srcDir + ctx.config.dev.dir.config + '/pug');
+    const pug = loadJs(this.#config.dev.srcDir + this.#config.dev.dir.config + '/pug');
     if (pug) {
       log.pair('Reading', 'pug.js');
       engine.configure(pug);

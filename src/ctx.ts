@@ -50,13 +50,13 @@ export class SpigCtx {
   /**
    * Spig Engines.
    */
-  public engines = new SpigEngines();
+  public engines = new SpigEngines(this.config);
 }
 
 // ---------------------------------------------------------------- context
 
 export let ctx: SpigCtx;
-export let cfg: any;
+export let cfg: SpigConfig;
 
 export function spigCtxHardReset(spigCtxConsumer: (ctx: SpigCtx) => void): SpigCtx {
   log.banner();
