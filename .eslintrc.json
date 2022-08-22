@@ -55,6 +55,7 @@
       "LabeledStatement",
       "WithStatement"
     ],
+    "no-return-assign": "off",
     "no-plusplus": [
       "error",
       {
