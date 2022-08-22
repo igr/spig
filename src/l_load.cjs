@@ -1,19 +1,22 @@
-import { ctx } from './ctx';
-
 /**
  * Loads _existing_ Javascript module. Throws error if missing.
  */
-export function l_load(moduleName) {
-  return require(ctx.config.dev.root + moduleName);
+function l_load(moduleName) {
+  return require(moduleName);
 }
 
 /**
  * Loads Javascript module or returns undefined if not found.
  */
-export function l_loadJs(moduleName) {
+function l_loadJs(moduleName) {
   try {
-    return require(ctx.config.dev.root + moduleName);
+    return require(moduleName);
   } catch (err) {
     return undefined;
   }
+}
+
+module.exports = {
+  l_load,
+  l_loadJs
 }

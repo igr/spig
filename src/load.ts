@@ -1,7 +1,13 @@
 import fs from 'fs';
 import Path from 'path';
 import * as log from './log.js';
-import { l_load, l_loadJs } from './l_load.cjs';
+import pkg from './l_load.cjs';
+import { ctx } from "./ctx.js";
+
+// eslint-disable-next-line @typescript-eslint/naming-convention
+const l_load = pkg.l_load;
+// eslint-disable-next-line @typescript-eslint/naming-convention
+const l_loadJs = pkg.l_loadJs;
 
 const jsonFilesCache: { [key: string]: object } = {};
 
@@ -29,18 +35,14 @@ function readFile(file: string): object {
  * Loads _existing_ Javascript module. Throws error if missing.
  */
 export function load(moduleName: string): any {
-  return l_load(moduleName).default;
+  return l_load(ctx.config.dev.root + moduleName).default;
 }
 
 /**
  * Loads Javascript module or returns undefined if not found.
  */
 export function loadJs(moduleName: string): any | undefined {
-  try {
-    return l_loadJs(moduleName).default;
-  } catch (err) {
-    return undefined;
-  }
+  return l_loadJs(ctx.config.dev.root + moduleName)?.default;
 }
 
 /**

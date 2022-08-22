@@ -1,6 +1,6 @@
-import { Spig, cfg } from 'spignite';
+import { Spig, SpigConfig } from 'spignite';
 
-Spig.hello()
+Spig.hello();
 
 // PAGES
 
@@ -27,8 +27,8 @@ Spig
 Spig
   .on()
   .with((s) => {
-    for (const k in cfg.site.data.authors) {
-      const file = s.addFile('/a/' + k, JSON.stringify(cfg.site.data.authors[k]));
+    for (const k in SpigConfig.site.data.authors) {
+      const file = s.addFile('/a/' + k, JSON.stringify(SpigConfig.site.data.authors[k]));
       file.setAttr('title', k);
       file.setAttr('page', true);
     }
