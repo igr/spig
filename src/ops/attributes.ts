@@ -1,5 +1,4 @@
 import Path from 'path';
-import { ctx } from '../ctx.js';
 import { SpigOperation } from '../spig-operation.js';
 import { FileRef } from '../file-reference.js';
 import { loadJsonOrJs } from '../load.js';
@@ -10,7 +9,7 @@ import { loadJsonOrJs } from '../load.js';
 function loadAttributes(fileRef: FileRef): object {
   let attr = {};
 
-  let path = ctx.config.dev.srcDir + fileRef.root + fileRef.dir;
+  let path = fileRef.cfg.dev.srcDir + fileRef.root + fileRef.dir;
 
   while (true) {
     const config = loadJsonOrJs(path + '_', fileRef);

@@ -1,10 +1,11 @@
 import { Task } from '../task.js';
+import { SpigCtx } from '../ctx.js';
 
 export class SerialTasks extends Task {
   private tasks: Task[];
 
-  constructor(name: string, tasks: Task[]) {
-    super(name);
+  constructor(name: string, ctx: SpigCtx, tasks: Task[]) {
+    super(name, ctx);
     this.tasks = tasks;
   }
 
@@ -20,8 +21,8 @@ export class SerialTasks extends Task {
 export class ParallelTasks extends Task {
   private tasks: Task[];
 
-  constructor(name: string, tasks: Task[], logTasks = true) {
-    super(name, logTasks);
+  constructor(name: string, ctx: SpigCtx, tasks: Task[], logTasks = true) {
+    super(name, ctx, logTasks);
     this.tasks = tasks;
   }
 

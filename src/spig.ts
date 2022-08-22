@@ -183,7 +183,7 @@ export class Spig {
   }
 
   static runTask(taskName: string): Promise<void> {
-    return new TaskRunner()
+    return new TaskRunner(ctx)
       .runTask(taskName)
       .catch((e) => {
         log.error(e);

@@ -1,6 +1,6 @@
 import { create } from 'browser-sync';
 import * as log from '../log.js';
-import { ctx } from '../ctx.js';
+import { SpigCtx } from '../ctx.js';
 import { SpigRunner } from '../spig-runner.js';
 import { Task } from '../task.js';
 
@@ -8,7 +8,7 @@ type Spig = import('../spig.js').Spig;
 
 const bs = create();
 
-function onChange(spig: Spig, changedPath: string) {
+function onChange(spig: Spig, ctx: SpigCtx, changedPath: string) {
   return () => {
     const root = ctx.config.dev.root + ctx.config.dev.srcDir;
     if (changedPath.startsWith(root)) {
@@ -25,13 +25,13 @@ function onChange(spig: Spig, changedPath: string) {
 }
 
 export class WatchTask extends Task {
-  constructor() {
-    super('watch', false);
+  constructor(ctx: SpigCtx) {
+    super('watch', ctx, false);
   }
 
   run(): Promise<Task> {
-    const root = ctx.config.dev.root + ctx.config.dev.srcDir;
-    ctx.SPIGS.forEach((spig) => {
+    const root = this.ctx.config.dev.root + this.ctx.config.dev.srcDir;
+    this.ctx.SPIGS.forEach((spig) => {
       if (spig.def.files.length > 0) {
         spig.def.files.forEach((pattern) => {
           const watchThis = root + spig.def.inDir + pattern;
@@ -42,8 +42,8 @@ export class WatchTask extends Task {
               // case 'add':
               case 'change':
               case 'unlink':
-                if (ctx.config.dev.state.isUp) {
-                  onChange(spig, watchThis)();
+                if (this.ctx.config.dev.state.isUp) {
+                  onChange(spig, this.ctx, watchThis)();
                 }
                 break;
               default:
@@ -54,9 +54,9 @@ export class WatchTask extends Task {
           bs.watch(watchThis, {}, watchFn);
 
           // special cases - watch LAYOUTS and DATA if site files are watched
-          if (spig.def.inDir === ctx.config.dev.dir.site) {
-            bs.watch(root + ctx.config.dev.dir.layouts + '/**/*', {}, watchFn);
-            bs.watch(root + ctx.config.dev.dir.data + '/**/*', {}, watchFn);
+          if (spig.def.inDir === this.ctx.config.dev.dir.site) {
+            bs.watch(root + this.ctx.config.dev.dir.layouts + '/**/*', {}, watchFn);
+            bs.watch(root + this.ctx.config.dev.dir.data + '/**/*', {}, watchFn);
           }
         });
       } else {
@@ -64,14 +64,14 @@ export class WatchTask extends Task {
         // todo do we still need this?
         spig.forEachFile((fr) => {
           if (!fr.synthetic && fr.src) {
-            bs.watch(fr.src).on('change', onChange(spig, fr.src));
+            bs.watch(fr.src).on('change', onChange(spig, this.ctx, fr.src));
           }
         });
       }
     });
 
     bs.init({
-      server: ctx.config.dev.outDir,
+      server: this.ctx.config.dev.outDir,
       open: false,
       watchOptions: {
         ignoreInitial: true,

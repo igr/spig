@@ -1,10 +1,15 @@
 import { performance } from 'perf_hooks';
 import * as log from './log.js';
+import { SpigCtx } from './ctx.js';
 
 export abstract class Task {
   private startTime = 0;
 
-  protected constructor(readonly name: string, readonly logTask: boolean = true) {}
+  protected readonly ctx: SpigCtx;
+
+  protected constructor(readonly name: string, readonly context: SpigCtx, readonly logTask: boolean = true) {
+    this.ctx = context;
+  }
 
   start(): void {
     if (this.logTask) {

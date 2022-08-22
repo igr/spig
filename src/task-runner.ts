@@ -4,14 +4,15 @@ import { ServeTask } from './tasks/serve.js';
 import { BuildTask } from './tasks/build.js';
 import { WatchTask } from './tasks/watch.js';
 import { ParallelTasks, SerialTasks } from './tasks/tasks.js';
+import { SpigCtx } from './ctx.js';
 
-function createTasks(): { [taskName: string]: Task } {
-  const clean = new CleanTask();
-  const build = new BuildTask();
-  const serve = new ServeTask();
-  const watch = new WatchTask();
-  const serveWatch = new ParallelTasks('serve+watch', [serve, watch], false);
-  const dev = new SerialTasks('dev', [build, serveWatch]);
+function createTasks(ctx: SpigCtx): { [p: string]: Task } {
+  const clean = new CleanTask(ctx);
+  const build = new BuildTask(ctx);
+  const serve = new ServeTask(ctx);
+  const watch = new WatchTask(ctx);
+  const serveWatch = new ParallelTasks('serve+watch', ctx, [serve, watch], false);
+  const dev = new SerialTasks('dev', ctx, [build, serveWatch]);
 
   return {
     clean,
@@ -26,8 +27,8 @@ function createTasks(): { [taskName: string]: Task } {
 export class TaskRunner {
   private readonly tasks: { [taskName: string]: Task };
 
-  constructor() {
-    this.tasks = createTasks();
+  constructor(context: SpigCtx) {
+    this.tasks = createTasks(context);
   }
 
   runTask(taskName: string): Promise<Task> {
