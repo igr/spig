@@ -1,5 +1,6 @@
 import MarkdownIt from 'markdown-it';
 import hljs from 'highlight.js';
+// eslint-disable-next-line import/extensions
 import Token from 'markdown-it/lib/token.js';
 import attrs from 'markdown-it-attrs';
 import mila from 'markdown-it-link-attributes';
@@ -51,7 +52,9 @@ function initMd(): MarkdownIt {
   md.use(attrs);
 
   md.use(mila, {
-    pattern: /^https?:\/\//,
+    matcher(href: string) {
+      return href.match(/^https?:\/\//);
+    },
     attrs: {
       target: '_blank',
     },

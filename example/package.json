@@ -3,11 +3,11 @@
   "version": "0.0.1",
   "description": "Spig example",
   "license": "BSD-2-Clause",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
-    "clean": "node spig.js clean",
-    "dev": "node spig.js dev",
-    "build": "node spig.js",
+    "clean": "node spig.mjs clean",
+    "dev": "node spig.mjs dev",
+    "build": "node spig.mjs",
     "build:lambda": "cd netlify && build.sh"
   }
 }

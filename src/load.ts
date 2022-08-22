@@ -2,7 +2,7 @@ import fs from 'fs';
 import Path from 'path';
 import * as log from './log.js';
 import pkg from './l_load.cjs';
-import { ctx } from "./ctx.js";
+import { ctx } from './ctx.js';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 const l_load = pkg.l_load;
@@ -35,14 +35,22 @@ function readFile(file: string): object {
  * Loads _existing_ Javascript module. Throws error if missing.
  */
 export function load(moduleName: string): any {
-  return l_load(ctx.config.dev.root + moduleName).default;
+  const loaded = l_load(ctx.config.dev.root + moduleName);
+  if (loaded && loaded.default) {
+    return loaded.default;
+  }
+  return loaded;
 }
 
 /**
  * Loads Javascript module or returns undefined if not found.
  */
 export function loadJs(moduleName: string): any | undefined {
-  return l_loadJs(ctx.config.dev.root + moduleName)?.default;
+  const loaded = l_loadJs(ctx.config.dev.root + moduleName);
+  if (loaded && loaded.default) {
+    return loaded.default;
+  }
+  return loaded;
 }
 
 /**
