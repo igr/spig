@@ -1,8 +1,8 @@
 import _s from 'underscore.string';
-import { SpigDef } from './spig-def';
-import { ctx } from './ctx';
+import { SpigDef } from './spig-def.js';
+import { ctx } from './ctx.js';
 
-type Spig = import('./spig').Spig;
+type Spig = import('./spig.js').Spig;
 type SpigDefConsumer = (spigDefConsumer: (spigDef: SpigDef) => void) => Spig;
 
 /**
@@ -41,23 +41,6 @@ export function sass(SpigOf: SpigDefConsumer): void {
   )
     ._('HELLO')
     .sass();
-}
-
-/**
- * PRECSS.
- */
-export function precss(SpigOf: SpigDefConsumer): void {
-  const devDir = ctx.config.dev.dir;
-
-  SpigOf((d) =>
-    d
-      .on(['/**/*.css'])
-      .from(devDir.css)
-      .filter((fileRef) => !fileRef.basename.startsWith('_'))
-      .to(devDir.cssOut)
-  )
-    ._('HELLO')
-    .precss();
 }
 
 /**

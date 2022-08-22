@@ -1,13 +1,13 @@
 import MarkdownIt from 'markdown-it';
-import Token from 'markdown-it/lib/token';
 import hljs from 'highlight.js';
+import Token from 'markdown-it/lib/token.js';
 import attrs from 'markdown-it-attrs';
 import mila from 'markdown-it-link-attributes';
 import container from 'markdown-it-container';
 import anchor from 'markdown-it-anchor';
 import { html5Media } from 'markdown-it-html5-media';
-import { slugit } from '../util/slugit';
-import { RenderEngine } from './render-engine';
+import { slugit } from '../util/slugit.js';
+import { RenderEngine } from './render-engine.js';
 
 const defaults = {
   html: true,

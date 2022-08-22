@@ -1,8 +1,8 @@
 import Path from 'path';
-import { SpigOperation } from '../spig-operation';
-import { FileRef } from '../file-reference';
-import { templateNunjucks } from './template-nunjucks';
-import { resolveLayout } from '../layout-resolver';
+import { SpigOperation } from '../spig-operation.js';
+import { FileRef } from '../file-reference.js';
+import { templateNunjucks } from './template-nunjucks.js';
+import { resolveLayout } from '../layout-resolver.js';
 
 function processFile(fileRef: FileRef): void {
   const layout = resolveLayout(fileRef);

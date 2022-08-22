@@ -1,6 +1,6 @@
 import Path from 'path';
-import { SpigOperation } from '../spig-operation';
-import { FileRef } from '../file-reference';
+import { SpigOperation } from '../spig-operation.js';
+import { FileRef } from '../file-reference.js';
 
 export interface PathElements {
   dirname: string;

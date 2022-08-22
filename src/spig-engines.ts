@@ -1,9 +1,9 @@
-import { loadJs } from './load';
-import { ctx } from './ctx';
-import { MarkdownRenderEngine } from './engines/markdown-engine';
-import { NunjucksTemplateEngine } from './engines/nunjucks-engine';
-import { PugTemplateEngine } from './engines/pug-engine';
-import * as log from './log';
+import { loadJs } from './load.js';
+import { ctx } from './ctx.js';
+import { MarkdownRenderEngine } from './engines/markdown-engine.js';
+import { NunjucksTemplateEngine } from './engines/nunjucks-engine.js';
+import { PugTemplateEngine } from './engines/pug-engine.js';
+import * as log from './log.js';
 
 export class SpigEngines {
   #markdownEngine: MarkdownRenderEngine | undefined;

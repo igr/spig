@@ -1,12 +1,11 @@
-import { fixtures } from '../_fixture/fixtures';
-import { Spig } from '../../src';
-import { SpigCtx } from '../../src/ctx';
+import { Spig } from '../../src/spig.js';
+import { SpigCtx } from '../../src/ctx.js';
 
 describe('site2', () => {
   beforeEach(() =>
     Spig.init((ctx: SpigCtx) => {
       const dev = ctx.config.dev;
-      dev.srcDir = fixtures.of_2();
+      dev.srcDir = '/test/_fixture/2';
       dev.dryRun = true;
     })
   );

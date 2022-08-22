@@ -1,4 +1,4 @@
-import { FileRef } from './file-reference';
+import { FileRef } from './file-reference.js';
 
 export class SpigOperation {
   protected readonly _name: string;

@@ -1,4 +1,4 @@
-import { Task } from '../task';
+import { Task } from '../task.js';
 
 export class SerialTasks extends Task {
   private tasks: Task[];

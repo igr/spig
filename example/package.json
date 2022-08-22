@@ -3,13 +3,11 @@
   "version": "0.0.1",
   "description": "Spig example",
   "license": "BSD-2-Clause",
+  "type": "module",
   "scripts": {
     "clean": "node spig.js clean",
     "dev": "node spig.js dev",
     "build": "node spig.js",
     "build:lambda": "cd netlify && build.sh"
-  },
-   "dependencies": {
-    "spignite": "^2.3.0"
   }
 }

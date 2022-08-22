@@ -1,10 +1,10 @@
 import uglify from 'uglify-js';
 import * as babel from '@babel/core';
-import { ctx } from '../ctx';
-import { SpigOperation } from '../spig-operation';
-import { FileRef } from '../file-reference';
+import { ctx } from '../ctx.js';
+import { SpigOperation } from '../spig-operation.js';
+import { FileRef } from '../file-reference.js';
 
-type Spig = import('../spig').Spig;
+type Spig = import('../spig.js').Spig;
 
 function processFile(spig: Spig, fileRef: FileRef): Promise<FileRef> {
   let bundleCode = fileRef.string;

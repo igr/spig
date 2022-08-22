@@ -1,20 +1,21 @@
-import { ARGS } from './args';
-import { ctx, SpigCtx, spigCtxHardReset, spigCtxSoftReset, SpigOpPair } from './ctx';
-import * as log from './log';
-import { SpigDef } from './spig-def';
-import { SpigFiles } from './spig-files';
-import { SpigOps } from './spig-ops';
-import { TaskRunner } from './task-runner';
-import * as hello from './hello';
+import { ARGS } from './args.js';
+import { ctx, SpigCtx, spigCtxHardReset, spigCtxSoftReset, SpigOpPair } from './ctx.js';
+import * as log from './log.js';
+import { SpigDef } from './spig-def.js';
+import { SpigFiles } from './spig-files.js';
+import { SpigOps } from './spig-ops.js';
+import { TaskRunner } from './task-runner.js';
+import * as hello from './hello.js';
 
-type SpigOperation = import('./spig-operation').SpigOperation;
-type FileRef = import('./file-reference').FileRef;
+type SpigOperation = import('./spig-operation.js').SpigOperation;
+type FileRef = import('./file-reference.js').FileRef;
 
 // system debug errors
 
 process.on('warning', (e) => console.warn(e.stack));
-// eslint-disable-next-line no-underscore-dangle
-require('events').EventEmitter.prototype._maxListeners = 100;
+
+import events from 'events';
+events.EventEmitter.prototype.setMaxListeners(100);
 
 let spigCount = 0;
 function generateSpigId(): string {
@@ -202,7 +203,6 @@ export class Spig {
 
     hello.statics(Spig.of);
     hello.sass(Spig.of);
-    hello.precss(Spig.of);
     hello.images(Spig.of);
     hello.js(Spig.of);
     hello.jsBundles(Spig.of);

@@ -1,8 +1,8 @@
 import RemoveMarkdown from 'remove-markdown';
-import { ctx } from '../ctx';
+import { ctx } from '../ctx.js';
 
-import { SpigOperation } from '../spig-operation';
-import { FileRef } from '../file-reference';
+import { SpigOperation } from '../spig-operation.js';
+import { FileRef } from '../file-reference.js';
 
 function excerptBlock(content: string): string | undefined {
   const rExcerpt2 = ctx.config.ops.excerpt.regexp;

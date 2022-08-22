@@ -1,10 +1,10 @@
 import fs from 'fs';
 import glob from 'glob';
-import * as log from './log';
-import { setLog, loadJsonOrJs } from './load';
-import { isEnvProduction } from './envs';
-import { initSiteLang } from './spig-lang';
-import { SpigConfig } from './spig-config';
+import * as log from './log.js';
+import { setLog, loadJsonOrJs } from './load.js';
+import { isEnvProduction } from './envs.js';
+import { initSiteLang } from './spig-lang.js';
+import { SpigConfig } from './spig-config.js';
 
 export class SpigInit {
   readonly #config: SpigConfig;

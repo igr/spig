@@ -1,9 +1,9 @@
-import { ctx } from '../ctx';
-import { SpigOperation } from '../spig-operation';
-import { FileRef } from '../file-reference';
-import { renderNunjucks } from './render-nunjucks';
-import { renderMarkdown } from './render-markdown';
-import { renderPug } from './render-pug';
+import { ctx } from '../ctx.js';
+import { SpigOperation } from '../spig-operation.js';
+import { FileRef } from '../file-reference.js';
+import { renderNunjucks } from './render-nunjucks.js';
+import { renderMarkdown } from './render-markdown.js';
+import { renderPug } from './render-pug.js';
 
 function processFile(fileRef: FileRef): void {
   const renderCfg = ctx.config.ops.render;

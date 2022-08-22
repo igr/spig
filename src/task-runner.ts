@@ -1,9 +1,9 @@
-import { Task } from './task';
-import { CleanTask } from './tasks/clean';
-import { ServeTask } from './tasks/serve';
-import { BuildTask } from './tasks/build';
-import { WatchTask } from './tasks/watch';
-import { ParallelTasks, SerialTasks } from './tasks/tasks';
+import { Task } from './task.js';
+import { CleanTask } from './tasks/clean.js';
+import { ServeTask } from './tasks/serve.js';
+import { BuildTask } from './tasks/build.js';
+import { WatchTask } from './tasks/watch.js';
+import { ParallelTasks, SerialTasks } from './tasks/tasks.js';
 
 function createTasks(): { [taskName: string]: Task } {
   const clean = new CleanTask();

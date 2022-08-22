@@ -1,6 +1,6 @@
-import * as log from '../log';
-import { FileRef } from '../file-reference';
-import { ctx } from '../ctx';
+import * as log from '../log.js';
+import { FileRef } from '../file-reference.js';
+import { ctx } from '../ctx.js';
 
 export function renderNunjucks(fileRef: FileRef): void {
   let content = fileRef.string;

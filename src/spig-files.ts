@@ -1,9 +1,9 @@
 import Path from 'path';
 import glob from 'glob';
-import { ctx } from './ctx';
-import { FileRef } from './file-reference';
+import { ctx } from './ctx.js';
+import { FileRef } from './file-reference.js';
 
-type Spig = import('./spig').Spig;
+type Spig = import('./spig.js').Spig;
 
 /**
  * Fetches file reference or create new one if one does not exists.

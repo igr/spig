@@ -1,12 +1,12 @@
 import fs from 'fs';
 import Path from 'path';
-import * as UUID from './uuid';
-import { ctx } from './ctx';
-// eslint-disable-next-line import/no-cycle
-import { buildRootLangSrcName, generateLangSrcNames } from './spig-lang';
-import { permalink } from './util/permalink';
+import * as UUID from './uuid.js';
+import { ctx } from './ctx.js';
 
-type Spig = import('./spig').Spig;
+import { buildRootLangSrcName, generateLangSrcNames } from './spig-lang.js';
+import { permalink } from './util/permalink.js';
+
+type Spig = import('./spig.js').Spig;
 
 /**
  * File reference.

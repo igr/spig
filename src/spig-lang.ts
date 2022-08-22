@@ -1,8 +1,8 @@
 import * as Path from 'path';
-import { LangDef } from './spig-config';
-import { ctx } from './ctx';
+import { LangDef } from './spig-config.js';
+import { ctx } from './ctx.js';
 // eslint-disable-next-line import/no-cycle
-import { FileRef } from './file-reference';
+import { FileRef } from './file-reference.js';
 
 let defaultLangDef: LangDef | undefined;
 

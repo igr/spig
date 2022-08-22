@@ -1,4 +1,4 @@
-import * as jsonFilter from '../../src/filters/json';
+import * as jsonFilter from '../../src/filters/json.js';
 
 describe('json', () => {
   const json = jsonFilter.json;

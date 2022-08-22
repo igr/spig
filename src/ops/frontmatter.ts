@@ -1,6 +1,6 @@
 import matter from 'gray-matter';
-import { SpigOperation } from '../spig-operation';
-import { FileRef } from '../file-reference';
+import { SpigOperation } from '../spig-operation.js';
+import { FileRef } from '../file-reference.js';
 
 /**
  * Exports front matter to attributes.

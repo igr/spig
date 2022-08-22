@@ -50,27 +50,24 @@ const esModules = [
 ].join('|');
 
 module.exports = {
-  //preset: 'ts-jest',
-  preset: 'ts-jest/presets/js-with-ts',
   verbose: true,
-  transform: {
-    '^.+\\.(ts|tsx)?$': 'ts-jest',
-    '^.+\\.(js|jsx)$': ['babel-jest', { configFile: './babel-jest.config.js' }],
+  preset: 'ts-jest',///presets/js-with-ts',
+  resolver: "ts-jest-resolver",
+  "transform": {
+    ".ts": "ts-jest",
+   '.js': ['babel-jest', { configFile: './babel-jest.config.cjs' }],
   },
+  testEnvironment: 'node',
   transformIgnorePatterns: [
     `node_modules/(?!${esModules})`
   ],
-  testEnvironment: 'node',
-  testRegex: '/test/.*\\.(test|spec)?\\.(ts|tsx|js)$',
+  moduleNameMapper: {
+    "#(.*)": "<rootDir>/node_modules/$1"
+  },
   globals: {
     "ts-jest": {
       "useESM": true,
       "tsconfig": "<rootDir>/tsconfig.test.json"
     }
   },
-  moduleNameMapper: {
-    "#(.*)": "<rootDir>/node_modules/$1"
-  },
-  moduleDirectories: ["node_modules", "src", "test"],
-  automock: false,
 };

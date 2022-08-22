@@ -1,4 +1,4 @@
-class Fixtures {
+export class Fixtures {
   private readonly base: string = 'test/_fixture';
 
   of_1(path = ''): string {
@@ -10,7 +10,7 @@ class Fixtures {
   }
 
   private of(num: number, path: string): string {
-    if (path !== '' && path.startsWith('/') == false) {
+    if (path !== '' && !path.startsWith('/')) {
       throw Error(`Path must start with slash: ${path}`);
     }
     return `${this.base}/${num}${path}`;

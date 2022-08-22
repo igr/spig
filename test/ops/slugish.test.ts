@@ -1,14 +1,13 @@
-import { SpigCtx } from '../../src/ctx';
-import { FileRef } from '../../src/file-reference';
-import { Spig } from '../../src/spig';
-import { testables } from '../../src/ops/slugish';
-import { fixtures } from '../_fixture/fixtures';
+import { SpigCtx } from '../../src/ctx.js';
+import { FileRef } from '../../src/file-reference.js';
+import { Spig } from '../../src/spig.js';
+import { testables } from '../../src/ops/slugish.js';
 
 describe('slugish', () => {
   beforeEach(() =>
     Spig.init((ctx: SpigCtx) => {
       const dev = ctx.config.dev;
-      dev.srcDir = fixtures.of_1();
+      dev.srcDir = '/test/_fixture/1';
       dev.dryRun = true;
     })
   );

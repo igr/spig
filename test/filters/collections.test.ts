@@ -1,4 +1,4 @@
-import * as collections from '../../src/filters/collections';
+import * as collections from '../../src/filters/collections.js';
 
 describe('val', () => {
   const val = collections.testables.val;

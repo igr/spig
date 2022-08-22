@@ -1,5 +1,5 @@
-import { FileRef } from '../src/file-reference';
-import { Spig } from '../src/spig';
+import { FileRef } from '../src/file-reference.js';
+import { Spig } from '../src/spig.js';
 
 describe('paths', () => {
   test('basename', () => {

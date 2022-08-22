@@ -1,11 +1,11 @@
-import * as log from './log';
-import { SpigConfig } from './spig-config';
-import { SpigEngines } from './spig-engines';
-import { SpigInit } from './spig-init';
+import * as log from './log.js';
+import { SpigConfig } from './spig-config.js';
+import { SpigEngines } from './spig-engines.js';
+import { SpigInit } from './spig-init.js';
 
-type Spig = import('./spig').Spig;
-type FileRef = import('./file-reference').FileRef;
-type SpigOperation = import('./spig-operation').SpigOperation;
+type Spig = import('./spig.js').Spig;
+type FileRef = import('./file-reference.js').FileRef;
+type SpigOperation = import('./spig-operation.js').SpigOperation;
 
 /**
  * Operations per phases. Each phase defines an array of operations per SPIG!.
@@ -56,16 +56,18 @@ export class SpigCtx {
 // ---------------------------------------------------------------- context
 
 export let ctx: SpigCtx;
+export let cfg: any;
 
 export function spigCtxHardReset(spigCtxConsumer: (ctx: SpigCtx) => void): SpigCtx {
+  log.banner();
+
   ctx = new SpigCtx();
+  cfg = ctx.config;
 
   // give user a chance to change configuration before the initialization
   spigCtxConsumer(ctx);
 
-  new SpigInit(ctx.config).init();
-
-  log.banner();
+  new SpigInit(cfg).init();
 
   return ctx;
 }

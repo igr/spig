@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 import log from 'fancy-log';
-import { isEnvProduction, isEnvTestingWithJest } from './envs';
+import { isEnvProduction, isEnvTestingWithJest } from './envs.js';
 
 function millisToSeconds(elapsedMilliseconds: number): { sec: string; ms: string } {
   const sec = Math.floor(elapsedMilliseconds / 1000).toString();
@@ -71,7 +71,7 @@ export function banner(): void {
     return;
   }
   console.log();
-  console.log(chalk.bgHex('0xF74B00').black(' -=[Spignite]=- '));
+  console.log(chalk.bgHex('0xF74B00').whiteBright('  -=[Spignite🐷]=-  '));
   console.log();
 }
 
@@ -118,7 +118,7 @@ export function fromTo(left: string, leftMark: boolean, right?: string): void {
   if (!right) {
     console.log(leftChalked);
   } else {
-    console.log(leftChalked + ' ▶ ' + chalk.blue(right));
+    console.log(leftChalked + ' ◀ ' + chalk.blue(right));
   }
 }
 

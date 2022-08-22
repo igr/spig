@@ -1,6 +1,6 @@
-import { FileRef } from '../file-reference';
-import { SpigOperation } from '../spig-operation';
-import { ctx } from '../ctx';
+import { FileRef } from '../file-reference.js';
+import { SpigOperation } from '../spig-operation.js';
+import { ctx } from '../ctx.js';
 
 export type AttrMap = { [attrValue: string]: FileRef[] };
 

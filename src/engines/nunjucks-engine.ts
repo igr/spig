@@ -1,12 +1,12 @@
 import nunjucks, { Environment } from 'nunjucks';
-import * as filtersOut from '../filters/out';
-import * as filtersDatetimefmt from '../filters/datetimefmt';
-import * as filtersPages from '../filters/pages';
-import * as filtersCollection from '../filters/collections';
-import * as filtersJson from '../filters/json';
-import { RenderEngine } from './render-engine';
-import { slugit } from '../util/slugit';
-import { SpigConfig } from '../spig-config';
+import * as filtersOut from '../filters/out.js';
+import * as filtersDatetimefmt from '../filters/datetimefmt.js';
+import * as filtersPages from '../filters/pages.js';
+import * as filtersCollection from '../filters/collections.js';
+import * as filtersJson from '../filters/json.js';
+import { RenderEngine } from './render-engine.js';
+import { slugit } from '../util/slugit.js';
+import { SpigConfig } from '../spig-config.js';
 
 function initFilters(nunjucksEnv: nunjucks.Environment): void {
   nunjucksEnv

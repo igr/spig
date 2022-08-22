@@ -1,5 +1,5 @@
-import { ctx } from '../ctx';
-import { escape } from './json';
+import { ctx } from '../ctx.js';
+import { escape } from './json.js';
 
 /**
  * Returns the JSON representation of an object.

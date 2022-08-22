@@ -1,12 +1,12 @@
 import imagemin from 'imagemin';
 import imageminMozjpeg from 'imagemin-mozjpeg';
 import imageminOptipng from 'imagemin-optipng';
-import imageminPngquant from 'imagemin-pngquant/index';
+import imageminPngquant from 'imagemin-pngquant';
 import imageminGifsicle from 'imagemin-gifsicle';
-import * as log from '../log';
-import { ctx } from '../ctx';
-import { SpigOperation } from '../spig-operation';
-import { FileRef } from '../file-reference';
+import * as log from '../log.js';
+import { ctx } from '../ctx.js';
+import { SpigOperation } from '../spig-operation.js';
+import { FileRef } from '../file-reference.js';
 
 /**
  * Minimizes images.
@@ -34,10 +34,10 @@ function process(fileRef: FileRef, options: any): Promise<Buffer> {
     ...options.gif,
   };
 
-  return imagemin.buffer(fileRef.buffer, {
+  return imagemin.default.buffer(fileRef.buffer, {
     plugins: [
       imageminMozjpeg(jpegOptions),
-      imageminPngquant(pngOptions),
+      imageminPngquant.default(pngOptions),
       imageminOptipng(optipngOptions),
       imageminGifsicle(gifOptions),
     ],

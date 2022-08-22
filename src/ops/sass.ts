@@ -3,11 +3,11 @@ import sass from 'node-sass';
 import cssnano from 'cssnano';
 import postcss from 'postcss';
 import autoprefixer from 'autoprefixer';
-import { ctx } from '../ctx';
-import { FileRef } from '../file-reference';
-import { SpigOperation } from '../spig-operation';
+import { ctx } from '../ctx.js';
+import { FileRef } from '../file-reference.js';
+import { SpigOperation } from '../spig-operation.js';
 
-type Spig = import('../spig').Spig;
+type Spig = import('../spig.js').Spig;
 
 function processFile(spig: Spig, fileRef: FileRef): Promise<FileRef> {
   // SASS -> CSS
@@ -21,7 +21,7 @@ function processFile(spig: Spig, fileRef: FileRef): Promise<FileRef> {
   const content: Buffer = cssResult.css;
 
   // POSTCSS
-  const p = postcss().use(autoprefixer);
+  const p = postcss.default().use(autoprefixer);
 
   if (ctx.config.site.build.production) {
     const cssProcessor = cssnano({

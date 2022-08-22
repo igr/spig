@@ -1,6 +1,6 @@
-import { ctx } from './ctx';
+import { ctx } from './ctx.js';
 
-type FileRef = import('./file-reference').FileRef;
+type FileRef = import('./file-reference.js').FileRef;
 
 /**
  * SPIG folders.

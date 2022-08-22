@@ -1,30 +1,29 @@
-import { ctx } from './ctx';
-import { SpigOperation } from './spig-operation';
-import { slugit } from './util/slugit';
+import { ctx } from './ctx.js';
+import { SpigOperation } from './spig-operation.js';
+import { slugit } from './util/slugit.js';
 
-import { operation as attributes } from './ops/attributes';
-import { operation as lang } from './ops/lang';
-import { operation as excerpt } from './ops/excerpt';
-import { operation as frontmatter } from './ops/frontmatter';
-import { operation as htmlMinify } from './ops/htmlMinify';
-import { operation as imageMinify } from './ops/imageMinify';
-import { operation as collect } from './ops/collect';
-import { operation as group } from './ops/group';
-import { operation as js } from './ops/js';
-import { operation as merge } from './ops/merge';
-import { operation as permalinks } from './ops/permalinks';
-import { operation as precss } from './ops/precss';
-import { operation as readingtime } from './ops/readingtime';
-import { operation as rename } from './ops/rename';
-import { operation as render } from './ops/render';
-import { operation as resizeImage } from './ops/resizeImage';
-import { operation as sass } from './ops/sass';
-import { operation as slugish } from './ops/slugish';
-import { operation as template } from './ops/template';
+import { operation as attributes } from './ops/attributes.js';
+import { operation as lang } from './ops/lang.js';
+import { operation as excerpt } from './ops/excerpt.js';
+import { operation as frontmatter } from './ops/frontmatter.js';
+import { operation as htmlMinify } from './ops/htmlMinify.js';
+import { operation as imageMinify } from './ops/imageMinify.js';
+import { operation as collect } from './ops/collect.js';
+import { operation as group } from './ops/group.js';
+import { operation as js } from './ops/js.js';
+import { operation as merge } from './ops/merge.js';
+import { operation as permalinks } from './ops/permalinks.js';
+import { operation as readingtime } from './ops/readingtime.js';
+import { operation as rename } from './ops/rename.js';
+import { operation as render } from './ops/render.js';
+import { operation as resizeImage } from './ops/resizeImage.js';
+import { operation as sass } from './ops/sass.js';
+import { operation as slugish } from './ops/slugish.js';
+import { operation as template } from './ops/template.js';
 
-type Spig = import('./spig').Spig;
-type FileRef = import('./file-reference').FileRef;
-type PathElements = import('./ops/rename').PathElements;
+type Spig = import('./spig.js').Spig;
+type FileRef = import('./file-reference.js').FileRef;
+type PathElements = import('./ops/rename.js').PathElements;
 
 export class SpigOps {
   private readonly registerPhaseOp: (op: SpigOperation) => void;
@@ -176,10 +175,6 @@ export class SpigOps {
 
   sass(): SpigOps {
     return this.op(sass(this.spig));
-  }
-
-  precss(): SpigOps {
-    return this.op(precss(this.spig));
   }
 
   merge(bundleAggregatorFn: (fileRef: FileRef) => string | undefined): SpigOps {

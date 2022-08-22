@@ -1,5 +1,5 @@
-import { ctx } from '../ctx';
-import { SpigOperation } from '../spig-operation';
+import { ctx } from '../ctx.js';
+import { SpigOperation } from '../spig-operation.js';
 
 function returnAllPages(plural: string, singular: string) {
   return () => {

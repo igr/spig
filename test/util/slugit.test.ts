@@ -1,4 +1,4 @@
-import { slugit } from '../../src/util/slugit';
+import { slugit } from '../../src/util/slugit.js';
 
 describe('slugit', () => {
   test('simple lowecase', () => {
@@ -10,7 +10,7 @@ describe('slugit', () => {
   });
 
   test('french', () => {
-    expect(slugit('Un éléphant à l\'orée du bois')).toBe('un-elephant-a-loree-du-bois');
+    expect(slugit('Un elephant à l\'orée du bois')).toBe('un-elephant-a-loree-du-bois');
   });
 
   test('special chars', () => {

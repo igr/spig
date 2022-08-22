@@ -1,8 +1,8 @@
 import sharp from 'sharp';
-import { SpigOperation } from '../spig-operation';
-import { FileRef } from '../file-reference';
+import { SpigOperation } from '../spig-operation.js';
+import { FileRef } from '../file-reference.js';
 
-type Spig = import('../spig').Spig;
+type Spig = import('../spig.js').Spig;
 
 interface Modification {
   resizeFn: (buffer: Buffer) => sharp.Sharp;

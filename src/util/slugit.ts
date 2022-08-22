@@ -6,8 +6,8 @@ const slugifyOptions = {
   remove: /[!"#$%&'()*+,.:;<=>?@[\\\]^_`{|}~]/g,
 };
 
-slugify.extend({ '☢': 'radioactive' });
+slugify.default.extend({ '☢': 'radioactive' });
 
 export function slugit(value: string): string {
-  return slugify(value, slugifyOptions);
+  return slugify.default(value, slugifyOptions);
 }

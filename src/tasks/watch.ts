@@ -1,10 +1,10 @@
 import { create } from 'browser-sync';
-import * as log from '../log';
-import { ctx } from '../ctx';
-import { SpigRunner } from '../spig-runner';
-import { Task } from '../task';
+import * as log from '../log.js';
+import { ctx } from '../ctx.js';
+import { SpigRunner } from '../spig-runner.js';
+import { Task } from '../task.js';
 
-type Spig = import('../spig').Spig;
+type Spig = import('../spig.js').Spig;
 
 const bs = create();
 

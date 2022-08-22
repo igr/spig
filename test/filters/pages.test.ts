@@ -1,4 +1,4 @@
-import * as pages from '../../src/filters/pages';
+import * as pages from '../../src/filters/pages.js';
 
 describe('pagesWithin', () => {
   const pagesWithin = pages.pagesWithin;

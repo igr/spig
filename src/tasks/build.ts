@@ -1,6 +1,6 @@
-import { ctx } from '../ctx';
-import { SpigRunner } from '../spig-runner';
-import { Task } from '../task';
+import { ctx } from '../ctx.js';
+import { SpigRunner } from '../spig-runner.js';
+import { Task } from '../task.js';
 
 export class BuildTask extends Task {
   constructor() {

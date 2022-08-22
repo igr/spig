@@ -1,7 +1,7 @@
 import fs from 'fs';
 import Path from 'path';
-import { ctx } from './ctx';
-import { FileRef } from './file-reference';
+import { ctx } from './ctx.js';
+import { FileRef } from './file-reference.js';
 
 /**
  * Finds layout by checking for layout file on path and all upper paths.

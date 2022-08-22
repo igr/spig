@@ -1,12 +1,12 @@
 import Path from 'path';
 import * as Mustache from 'mustache';
-import { SpigOperation } from '../spig-operation';
-import { FileRef } from '../file-reference';
-import { SpigFiles } from '../spig-files';
-import { slugit } from '../util/slugit';
+import { SpigOperation } from '../spig-operation.js';
+import { FileRef } from '../file-reference.js';
+import { SpigFiles } from '../spig-files.js';
+import { slugit } from '../util/slugit.js';
 
 function renderSlug(slug: string, fileRef: FileRef): string {
-  return slugit(Mustache.render(slug, fileRef.context(), {}, ['{', '}']));
+  return slugit(Mustache.default.render(slug, fileRef.context(), {}, ['{', '}']));
 }
 
 /**

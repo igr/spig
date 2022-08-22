@@ -1,8 +1,8 @@
 import Path from 'path';
-import { ctx } from '../ctx';
-import { SpigOperation } from '../spig-operation';
-import { FileRef } from '../file-reference';
-import { loadJsonOrJs } from '../load';
+import { ctx } from '../ctx.js';
+import { SpigOperation } from '../spig-operation.js';
+import { FileRef } from '../file-reference.js';
+import { loadJsonOrJs } from '../load.js';
 
 /**
  * Reads attributes on path.

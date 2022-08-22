@@ -1,18 +1,15 @@
 # Local development
 
-Link `spignite` a.k.a. **Spig**.
+## Link
 
 ```sh
-cd ..
-npm link
+link.sh
 ```
 
-Link the Spig to this Example repo:
+Does the following:
 
-```sh
-cd example
-npm link spignite
-```
++ Link `spignite` a.k.a. **Spig**: `cd .. && npm link`
++ Link the Spig to this example repo: `cd example && npm link spignite`
 
 ## Build site
 
@@ -23,6 +20,5 @@ build.sh
 ## Unlink
 
 ```sh
-cd example
-npm unlink --no-save spignite
+unlink.sh
 ```

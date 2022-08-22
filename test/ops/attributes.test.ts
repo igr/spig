@@ -1,9 +1,8 @@
-import { testables } from '../../src/ops/attributes';
-import { testables as frontmatterTestables } from '../../src/ops/frontmatter';
-import { FileRef } from '../../src/file-reference';
-import { Spig } from '../../src/spig';
-import { fixtures } from '../_fixture/fixtures';
-import { SpigCtx } from '../../src/ctx';
+import { testables } from '../../src/ops/attributes.js';
+import { testables as frontmatterTestables } from '../../src/ops/frontmatter.js';
+import { FileRef } from '../../src/file-reference.js';
+import { Spig } from '../../src/spig.js';
+import { SpigCtx } from '../../src/ctx.js';
 
 describe('attributes', () => {
   const processFile = testables.processFile;
@@ -11,7 +10,7 @@ describe('attributes', () => {
   beforeEach(() =>
     Spig.init((ctx: SpigCtx) => {
       const dev = ctx.config.dev;
-      dev.srcDir = fixtures.of_1();
+      dev.srcDir = dev.srcDir = '/test/_fixture/2';
       dev.dryRun = true;
     })
   );

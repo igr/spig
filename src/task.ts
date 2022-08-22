@@ -1,5 +1,5 @@
 import { performance } from 'perf_hooks';
-import * as log from './log';
+import * as log from './log.js';
 
 export abstract class Task {
   private startTime = 0;

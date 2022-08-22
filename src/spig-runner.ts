@@ -1,11 +1,11 @@
 import fs from 'fs';
 import Path from 'path';
-import * as log from './log';
-import { FileRef } from './file-reference';
-import { SpigOperation } from './spig-operation';
-import { ctx, SpigOpPair } from './ctx';
+import * as log from './log.js';
+import { FileRef } from './file-reference.js';
+import { SpigOperation } from './spig-operation.js';
+import { ctx, SpigOpPair } from './ctx.js';
 
-type Spig = import('./spig').Spig;
+type Spig = import('./spig.js').Spig;
 
 function ensureFilesDirectoryExists(filePath: string): boolean {
   const dirname = Path.dirname(filePath);

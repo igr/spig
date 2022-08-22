@@ -1,8 +1,8 @@
 import { minify } from 'html-minifier';
-import { ctx } from '../ctx';
-import { SpigOperation } from '../spig-operation';
+import { ctx } from '../ctx.js';
+import { SpigOperation } from '../spig-operation.js';
 
-import { FileRef } from '../file-reference';
+import { FileRef } from '../file-reference.js';
 
 /**
  * Minifies HTML.
