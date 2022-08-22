@@ -5,7 +5,6 @@ import postcssExtendRule from 'postcss-extend-rule';
 import postCSSPresetEnv from 'postcss-preset-env';
 import postcssPropertyLookup from 'postcss-property-lookup';
 import postcssNested from 'postcss-nested';
-import { ctx } from '../ctx.js';
 import { FileRef } from '../file-reference.js';
 import { SpigOperation } from '../spig-operation.js';
 
@@ -23,9 +22,9 @@ function processFile(spig: Spig, fileRef: FileRef): Promise<FileRef> {
     .use(postcssPropertyLookup())
     .use(postcssNested);
 
-  if (ctx.config.site.build.production) {
+  if (fileRef.cfg.site.build.production) {
     const cssProcessor = cssnano({
-      preset: ['default', ctx.config.libs.cssnano],
+      preset: ['default', fileRef.cfg.libs.cssnano],
     });
 
     p.use(cssProcessor);

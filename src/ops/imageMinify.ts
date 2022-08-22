@@ -4,7 +4,6 @@ import imageminOptipng from 'imagemin-optipng';
 import imageminPngquant from 'imagemin-pngquant';
 import imageminGifsicle from 'imagemin-gifsicle';
 import * as log from '../log.js';
-import { ctx } from '../ctx.js';
 import { SpigOperation } from '../spig-operation.js';
 import { FileRef } from '../file-reference.js';
 
@@ -12,7 +11,7 @@ import { FileRef } from '../file-reference.js';
  * Minimizes images.
  */
 function process(fileRef: FileRef, options: any): Promise<Buffer> {
-  const defaults = ctx.config.ops.imageMinify;
+  const defaults = fileRef.cfg.ops.imageMinify;
 
   const jpegOptions = {
     ...defaults.jpeg,
@@ -46,7 +45,7 @@ function process(fileRef: FileRef, options: any): Promise<Buffer> {
 
 export const operation: (options: object) => SpigOperation = (options: object) => {
   return new SpigOperation('minify images', (fileRef) => {
-    const imageMinifyOptions = ctx.config.ops.imageMinify;
+    const imageMinifyOptions = fileRef.cfg.ops.imageMinify;
     const maxFileSize = (imageMinifyOptions as any).maxFileSize;
 
     if (maxFileSize > 0 && fileRef.bufferInputSize() > maxFileSize) {

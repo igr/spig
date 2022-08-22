@@ -1,12 +1,9 @@
 import RemoveMarkdown from 'remove-markdown';
-import { ctx } from '../ctx.js';
 
 import { SpigOperation } from '../spig-operation.js';
 import { FileRef } from '../file-reference.js';
 
-function excerptBlock(content: string): string | undefined {
-  const rExcerpt2 = ctx.config.ops.excerpt.regexp;
-
+function excerptBlock(rExcerpt2: any, content: string): string | undefined {
   const match = rExcerpt2.exec(content);
   if (!match) {
     return undefined;
@@ -20,7 +17,7 @@ function processFile(fileRef: FileRef): void {
   }
 
   let s = fileRef.string;
-  const data = excerptBlock(s);
+  const data = excerptBlock(fileRef.cfg.ops.excerpt.regexp, s);
 
   if (data) {
     s = RemoveMarkdown(data);

@@ -48,7 +48,7 @@ function processFile(fileRef: FileRef, attributes = {}): void {
 
   // 2) __.JSON
   {
-    const name = ctx.config.dev.srcDir + fileRef.root + fileRef.dir + '__';
+    const name = fileRef.cfg.dev.srcDir + fileRef.root + fileRef.dir + '__';
     const data = loadJsonOrJs(name, fileRef);
 
     attrs = { ...attrs, ...data };
@@ -56,7 +56,7 @@ function processFile(fileRef: FileRef, attributes = {}): void {
 
   // 3) FILE_.json
   if (fileRef.src !== undefined) {
-    const name = ctx.config.dev.srcDir + fileRef.root + fileRef.dir + fileRef.basename + '_';
+    const name = fileRef.cfg.dev.srcDir + fileRef.root + fileRef.dir + fileRef.basename + '_';
     const data = loadJsonOrJs(name, fileRef);
 
     attrs = { ...attrs, ...data };

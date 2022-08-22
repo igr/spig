@@ -1,10 +1,10 @@
 import fs from 'fs';
 import Path from 'path';
 import * as UUID from './uuid.js';
-import { ctx } from './ctx.js';
 
 import { buildRootLangSrcName, generateLangSrcNames } from './spig-lang.js';
 import { permalink } from './util/permalink.js';
+import { SpigConfig } from './spig-config.js';
 
 type Spig = import('./spig.js').Spig;
 
@@ -12,6 +12,8 @@ type Spig = import('./spig.js').Spig;
  * File reference.
  */
 export class FileRef {
+  private readonly _cfg: SpigConfig;
+
   private _change = false;
 
   private _active: boolean;
@@ -36,12 +38,7 @@ export class FileRef {
 
   private readonly _path: string;
 
-  private readonly _attr: { [k: string]: any } = {
-    site: ctx.config.site,
-    link: '',
-    url: '',
-    src: this.dir + this.name,
-  };
+  private readonly _attr: { [k: string]: any };
 
   private _buffer?: Buffer;
 
@@ -81,6 +78,10 @@ export class FileRef {
 
   get spig(): Spig {
     return this._spig;
+  }
+
+  get cfg(): SpigConfig {
+    return this._cfg;
   }
 
   get out(): string {
@@ -128,12 +129,22 @@ export class FileRef {
 
   /**
    * @param spig Spig instance that created this object
+   * @param cfg spig configuration
    * @param srcDir source directory.
    * @param path: relative dir + file name from the source root.
    * @param absolutePath absolute path to the file, optional. If not set, file will be synthetic.
    */
-  constructor(spig: Spig, srcDir: string, path: string, absolutePath?: string) {
+  constructor(spig: Spig, cfg: SpigConfig, srcDir: string, path: string, absolutePath?: string) {
     this._uuid = UUID.generate();
+    this._cfg = cfg;
+
+    // define attributes
+    this._attr = {
+      site: this._cfg.site,
+      link: '',
+      url: '',
+      src: this.dir + this.name,
+    };
 
     if (!path.startsWith('/')) {
       path = '/' + path;
@@ -298,8 +309,8 @@ export class FileRef {
   context(): {} {
     if (this._change) {
       Object.assign(this._attr, {
-        site: ctx.config.site,
-        link: ctx.config.site.baseURL + permalink(this._out),
+        site: this._cfg.site,
+        link: this._cfg.site.baseURL + permalink(this._out),
         url: permalink(this._out),
         src: this.dir + this.name,
         content: this.string,

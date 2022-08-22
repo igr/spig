@@ -17,7 +17,7 @@ function fileRefOf(spig: Spig, dir: string, path: string, absolutePath?: string)
     return existingFileRef;
   }
 
-  const fileRef = new FileRef(spig, dir, path, absolutePath);
+  const fileRef = new FileRef(spig, ctx.config, dir, path, absolutePath);
 
   ctx.FILES[fileRef.id] = fileRef;
 
