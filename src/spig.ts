@@ -1,3 +1,4 @@
+import events from 'events';
 import { ARGS } from './args.js';
 import { ctx, SpigCtx, spigCtxHardReset, spigCtxSoftReset, SpigOpPair } from './ctx.js';
 import * as log from './log.js';
@@ -13,8 +14,6 @@ type FileRef = import('./file-reference.js').FileRef;
 // system debug errors
 
 process.on('warning', (e) => console.warn(e.stack));
-
-import events from 'events';
 events.EventEmitter.prototype.setMaxListeners(100);
 
 let spigCount = 0;
@@ -201,12 +200,12 @@ export class Spig {
   static hello(): void {
     log.hello();
 
-    hello.statics(Spig.of);
-    hello.sass(Spig.of);
-    hello.precss(Spig.of);
-    hello.images(Spig.of);
-    hello.js(Spig.of);
-    hello.jsBundles(Spig.of);
+    hello.statics(ctx.config, Spig.of);
+    hello.sass(ctx.config, Spig.of);
+    hello.precss(ctx.config, Spig.of);
+    hello.images(ctx.config, Spig.of);
+    hello.js(ctx.config, Spig.of);
+    hello.jsBundles(ctx.config, Spig.of);
   }
 
   static init(spigCtxConsumer: (ctx: SpigCtx) => void = () => {}): SpigCtx {

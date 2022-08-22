@@ -1,6 +1,6 @@
 import _s from 'underscore.string';
 import { SpigDef } from './spig-def.js';
-import { ctx } from './ctx.js';
+import { SpigConfig } from './spig-config.js';
 
 type Spig = import('./spig.js').Spig;
 type SpigDefConsumer = (spigDefConsumer: (spigDef: SpigDef) => void) => Spig;
@@ -8,8 +8,8 @@ type SpigDefConsumer = (spigDefConsumer: (spigDef: SpigDef) => void) => Spig;
 /**
  * IMAGES.
  */
-export function images(SpigOf: SpigDefConsumer): void {
-  const devDir = ctx.config.dev.dir;
+export function images(cfg: SpigConfig, SpigOf: SpigDefConsumer): void {
+  const devDir = cfg.dev.dir;
 
   SpigOf((d) => d.on(['/**/*']).from(devDir.images).to(devDir.imagesOut))
     ._('HELLO')
@@ -20,8 +20,8 @@ export function images(SpigOf: SpigDefConsumer): void {
 /**
  * STATIC.
  */
-export function statics(SpigOf: SpigDefConsumer): void {
-  const devDir = ctx.config.dev.dir;
+export function statics(cfg: SpigConfig, SpigOf: SpigDefConsumer): void {
+  const devDir = cfg.dev.dir;
 
   SpigOf((d) => d.on(['/**/*']).from(devDir.static).to('/'))._('HELLO');
 }
@@ -29,8 +29,8 @@ export function statics(SpigOf: SpigDefConsumer): void {
 /**
  * SASS.
  */
-export function sass(SpigOf: SpigDefConsumer): void {
-  const devDir = ctx.config.dev.dir;
+export function sass(cfg: SpigConfig, SpigOf: SpigDefConsumer): void {
+  const devDir = cfg.dev.dir;
 
   SpigOf((d) =>
     d
@@ -46,8 +46,8 @@ export function sass(SpigOf: SpigDefConsumer): void {
 /**
  * PRECSS.
  */
-export function precss(SpigOf: SpigDefConsumer): void {
-  const devDir = ctx.config.dev.dir;
+export function precss(cfg: SpigConfig, SpigOf: SpigDefConsumer): void {
+  const devDir = cfg.dev.dir;
 
   SpigOf((d) =>
     d
@@ -63,8 +63,8 @@ export function precss(SpigOf: SpigDefConsumer): void {
 /**
  * JS.
  */
-export function js(SpigOf: SpigDefConsumer): void {
-  const devDir = ctx.config.dev.dir;
+export function js(cfg: SpigConfig, SpigOf: SpigDefConsumer): void {
+  const devDir = cfg.dev.dir;
 
   SpigOf((d) =>
     d
@@ -78,8 +78,8 @@ export function js(SpigOf: SpigDefConsumer): void {
     .js();
 }
 
-export function jsBundles(SpigOf: SpigDefConsumer): void {
-  const devDir = ctx.config.dev.dir;
+export function jsBundles(cfg: SpigConfig, SpigOf: SpigDefConsumer): void {
+  const devDir = cfg.dev.dir;
 
   SpigOf((d) => d.on(['/*_js/**/*.js']).from(devDir.js).to(devDir.jsOut))
     ._('HELLO')
