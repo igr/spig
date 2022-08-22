@@ -1,7 +1,7 @@
 import fs from 'fs';
 import Path from 'path';
 import * as log from './log.js';
-import { ctx } from './ctx.js';
+import { l_load, l_loadJs } from './l_load.cjs';
 
 const jsonFilesCache: { [key: string]: object } = {};
 
@@ -29,9 +29,7 @@ function readFile(file: string): object {
  * Loads _existing_ Javascript module. Throws error if missing.
  */
 export function load(moduleName: string): any {
-  return async () => {
-    await import(ctx.config.dev.root + moduleName + '.js');
-  };
+  return l_load(moduleName).default;
 }
 
 /**
@@ -39,9 +37,7 @@ export function load(moduleName: string): any {
  */
 export function loadJs(moduleName: string): any | undefined {
   try {
-    return async () => {
-      await import(ctx.config.dev.root + moduleName);
-    };
+    return l_loadJs(moduleName).default;
   } catch (err) {
     return undefined;
   }

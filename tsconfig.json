@@ -6,7 +6,7 @@
     "outDir": "./lib",                        /* Redirect output structure to the directory. */
     // "outFile": "./",                       /* Concatenate and emit output to single file. */
     "target": "ES2020",                       /* Specify ECMAScript target version: 'ES3', 'ES5', 'ES2015'-'ES2020' or 'ESNEXT'. */
-    "module": "Node16",                       /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', or 'ESNext'. */
+    "module": "ES2020",                       /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', or 'ESNext'. */
     "lib": ["ES2020"],                        /* Specify library files to be included in the compilation. */
     "allowJs": true,                          /* Allow javascript files to be compiled. */
     // "checkJs": true,                       /* Report errors in .js files. */

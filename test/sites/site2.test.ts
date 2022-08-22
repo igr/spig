@@ -5,7 +5,7 @@ describe('site2', () => {
   beforeEach(() =>
     Spig.init((ctx: SpigCtx) => {
       const dev = ctx.config.dev;
-      dev.srcDir = '/test/_fixture/2';
+      dev.srcDir = 'test/_fixture/2';
       dev.dryRun = true;
     })
   );
