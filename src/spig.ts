@@ -203,6 +203,7 @@ export class Spig {
 
     hello.statics(Spig.of);
     hello.sass(Spig.of);
+    hello.precss(Spig.of);
     hello.images(Spig.of);
     hello.js(Spig.of);
     hello.jsBundles(Spig.of);

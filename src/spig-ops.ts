@@ -13,6 +13,7 @@ import { operation as group } from './ops/group.js';
 import { operation as js } from './ops/js.js';
 import { operation as merge } from './ops/merge.js';
 import { operation as permalinks } from './ops/permalinks.js';
+import { operation as precss } from './ops/precss.js';
 import { operation as readingtime } from './ops/readingtime.js';
 import { operation as rename } from './ops/rename.js';
 import { operation as render } from './ops/render.js';
@@ -175,6 +176,10 @@ export class SpigOps {
 
   sass(): SpigOps {
     return this.op(sass(this.spig));
+  }
+
+  precss(): SpigOps {
+    return this.op(precss(this.spig));
   }
 
   merge(bundleAggregatorFn: (fileRef: FileRef) => string | undefined): SpigOps {

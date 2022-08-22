@@ -44,6 +44,23 @@ export function sass(SpigOf: SpigDefConsumer): void {
 }
 
 /**
+ * PRECSS.
+ */
+export function precss(SpigOf: SpigDefConsumer): void {
+  const devDir = ctx.config.dev.dir;
+
+  SpigOf((d) =>
+    d
+      .on(['/**/*.css'])
+      .from(devDir.css)
+      .filter((fileRef) => !fileRef.basename.startsWith('_'))
+      .to(devDir.cssOut)
+  )
+    ._('HELLO')
+    .precss();
+}
+
+/**
  * JS.
  */
 export function js(SpigOf: SpigDefConsumer): void {
