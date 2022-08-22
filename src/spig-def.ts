@@ -1,4 +1,4 @@
-import { SpigConfig } from "./spig-config.js";
+import { SpigConfig } from './spig-config.js';
 
 type FileRef = import('./file-reference.js').FileRef;
 
