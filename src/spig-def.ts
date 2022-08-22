@@ -1,4 +1,4 @@
-import { ctx } from './ctx.js';
+import { SpigConfig } from "./spig-config.js";
 
 type FileRef = import('./file-reference.js').FileRef;
 
@@ -30,9 +30,9 @@ export class SpigDef {
     return this._outDir;
   }
 
-  constructor() {
+  constructor(config: SpigConfig) {
     this._files = ['/**/*'];
-    this._inDir = ctx.config.dev.dir.site;
+    this._inDir = config.dev.dir.site;
     this._outDir = '/';
     this._filesFilter = () => true;
   }

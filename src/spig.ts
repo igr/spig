@@ -45,7 +45,7 @@ export class Spig {
    * Creates new Spig with given SPIG definition.
    */
   static of(spigDefConsumer: (spigDef: SpigDef) => void): Spig {
-    const spigDef = new SpigDef();
+    const spigDef = new SpigDef(ctx.config);
     spigDefConsumer(spigDef);
     return new Spig(spigDef);
   }
@@ -60,7 +60,7 @@ export class Spig {
     if (!Array.isArray(files)) {
       files = [files];
     }
-    return new Spig(new SpigDef().on(files));
+    return new Spig(new SpigDef(ctx.config).on(files));
   }
 
   /**
