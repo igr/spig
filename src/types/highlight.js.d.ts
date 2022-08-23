@@ -206,25 +206,25 @@ declare module 'highlight.js' {
     export type CompiledScope = Record<number, string> & {_emit?: Record<number, boolean>, _multi?: boolean, _wrap?: string};
 
     export type CompiledMode = Omit<Mode, 'contains'> &
-        {
-            begin?: RegExp | string
-            end?: RegExp | string
-            scope?: string
-            contains: CompiledMode[]
-            keywords: KeywordDict
-            data: Record<string, any>
-            terminatorEnd: string
-            keywordPatternRe: RegExp
-            beginRe: RegExp
-            endRe: RegExp
-            illegalRe: RegExp
-            matcher: any
-            isCompiled: true
-            starts?: CompiledMode
-            parent?: CompiledMode
-            beginScope?: CompiledScope
-            endScope?: CompiledScope
-        }
+      {
+          begin?: RegExp | string
+          end?: RegExp | string
+          scope?: string
+          contains: CompiledMode[]
+          keywords: KeywordDict
+          data: Record<string, any>
+          terminatorEnd: string
+          keywordPatternRe: RegExp
+          beginRe: RegExp
+          endRe: RegExp
+          illegalRe: RegExp
+          matcher: any
+          isCompiled: true
+          starts?: CompiledMode
+          parent?: CompiledMode
+          beginScope?: CompiledScope
+          endScope?: CompiledScope
+      }
 
     interface ModeDetails {
         begin?: RegExp | string | (RegExp | string)[]
@@ -270,5 +270,4 @@ declare module 'highlight.js/lib/languages/*' {
     const defineLanguage: LanguageFn;
     export default defineLanguage;
 }
-
 
