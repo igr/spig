@@ -7,6 +7,14 @@ npm run build
 npm run test
 ```
 
+## Release?
+
+```shell
+npm run clean
+npm run build
+np
+```
+
 ## Check outdated packages?
 
 ```shell
