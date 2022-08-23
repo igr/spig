@@ -1,6 +1,6 @@
 {
   "name": "spignite",
-  "version": "3.0.0-0",
+  "version": "3.0.0-1",
   "description": "Spig - static web generator framework",
   "exports": "./lib/index.js",
   "types": "./lib/index.d.ts",
