@@ -4,7 +4,6 @@ Run:
 
 ```sh
 yarn build
-
 ```
 
 to generate example site in `./out` folder.
@@ -16,4 +15,3 @@ yarn dev
 ```
 
 to generate example site and see it in browser.
-

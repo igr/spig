@@ -1,0 +1,1 @@
+{"version":3,"sources":["a.css"],"names":[],"mappings":"AAGA;IACI,8BAAwB;IAAxB,sBAAwB;AAC5B;;AAEA;IACI,mBAAiB;IACjB,YAAc;AAClB","file":"a.css","sourcesContent":["$blue: #056ef0;\n$column: 200px;\n\n.menu {\n    width: calc(4 * $column);\n}\n\n.menu_link {\n    background: $blue;\n    width: $column;\n}\n"]}

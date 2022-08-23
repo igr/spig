@@ -12,3 +12,7 @@ npm run test
 ```shell
 npm outdated
 ```
+
+## Use examples?
+
+Every example has `link.sh` and `unlink.sh` that links the current build locally.

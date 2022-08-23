@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>http://localhost:3000/tag/tag2/</loc>
+        
+        
+    </url><url>
+        <loc>http://localhost:3000/tag/tag1/</loc>
+        
+        
+    </url><url>
+        <loc>http://localhost:3000/a/john/</loc>
+        
+        
+    </url><url>
+        <loc>http://localhost:3000/tags/</loc>
+        
+        
+    </url><url>
+        <loc>http://localhost:3000/rs/posts/p3/tri/</loc>
+        
+        
+    </url><url>
+        <loc>http://localhost:3000/posts/p3/three/</loc>
+        
+        
+    </url><url>
+        <loc>http://localhost:3000/posts/p3/sub1/</loc>
+        
+        
+    </url><url>
+        <loc>http://localhost:3000/rs/posts/p3/</loc>
+        
+        
+    </url><url>
+        <loc>http://localhost:3000/posts/p3/</loc>
+        
+        
+    </url><url>
+        <loc>http://localhost:3000/rs/posts/post2/</loc>
+        
+        
+    </url><url>
+        <loc>http://localhost:3000/posts/post2/</loc>
+        
+        
+    </url><url>
+        <loc>http://localhost:3000/rs/posts/zdravo/</loc>
+        
+        
+    </url><url>
+        <loc>http://localhost:3000/posts/hello/</loc>
+        
+        
+    </url><url>
+        <loc>http://localhost:3000/rs/</loc>
+        
+        
+    </url><url>
+        <loc>http://localhost:3000/</loc>
+        
+        
+    </url><url>
+        <loc>http://localhost:3000/dog/</loc>
+        
+        
+    </url>
+</urlset>

@@ -1,0 +1,1 @@
+{"version":3,"names":["console","log"],"sources":["/js/two.js"],"sourcesContent":["console.log(\"Separate file\");\n"],"mappings":";;AAAAA,OAAO,CAACC,GAAR,CAAY,eAAZ"}

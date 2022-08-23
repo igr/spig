@@ -1,0 +1,12 @@
+{
+  "name": "spig-hello-world",
+  "version": "0.0.1",
+  "description": "Spig Hello World",
+  "license": "BSD-2-Clause",
+  "type": "commonjs",
+  "scripts": {
+    "dev": "node spig.mjs dev",
+    "build": "node spig.mjs",
+    "build-alt": "node spig-alt.mjs"
+  }
+}

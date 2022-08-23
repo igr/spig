@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Spig</title>
+    <link>http://localhost:3000</link>
+    <description>DESCRIPTION</description>
+    <language>sr-RS</language>
+    <lastBuildDate> site.buildTime | dateUTC </lastBuildDate>
+    <atom:link href="http://localhost:3000/index.xml" rel="self" type="application/rss+xml"/>
+
+    <item>
+        <title>tag: tag2</title>
+        <link>http://localhost:3000/tag/tag2/</link>
+        <pubDate> p.date | dateUTC </pubDate>
+        <guid>http://localhost:3000/tag/tag2/</guid>
+        <description>tag2</description>
+      </item><item>
+        <title>tag: tag1</title>
+        <link>http://localhost:3000/tag/tag1/</link>
+        <pubDate> p.date | dateUTC </pubDate>
+        <guid>http://localhost:3000/tag/tag1/</guid>
+        <description>tag1</description>
+      </item><item>
+        <title>john</title>
+        <link>http://localhost:3000/a/john/</link>
+        <pubDate> p.date | dateUTC </pubDate>
+        <guid>http://localhost:3000/a/john/</guid>
+        <description>{&quot;year&quot;:1975}</description>
+      </item><item>
+        <title>All Tags</title>
+        <link>http://localhost:3000/tags/</link>
+        <pubDate> p.date | dateUTC </pubDate>
+        <guid>http://localhost:3000/tags/</guid>
+        <description>
+  {% for tag in site.tags() %}
+
+        {{ tag.name }}
+
+        {% for tagPage in tag.group %}
+          {{ tagPage.title }}
+        {% end…</description>
+      </item><item>
+        <title>Page3/acc</title>
+        <link>http://localhost:3000/rs/posts/p3/tri/</link>
+        <pubDate> p.date | dateUTC </pubDate>
+        <guid>http://localhost:3000/rs/posts/p3/tri/</guid>
+        <description>OK</description>
+      </item><item>
+        <title>Page3/acc</title>
+        <link>http://localhost:3000/posts/p3/three/</link>
+        <pubDate> p.date | dateUTC </pubDate>
+        <guid>http://localhost:3000/posts/p3/three/</guid>
+        <description>OK</description>
+      </item><item>
+        <title>Page3/sub1</title>
+        <link>http://localhost:3000/posts/p3/sub1/</link>
+        <pubDate> p.date | dateUTC </pubDate>
+        <guid>http://localhost:3000/posts/p3/sub1/</guid>
+        <description>OK</description>
+      </item><item>
+        <title>Post 3 with slug</title>
+        <link>http://localhost:3000/rs/posts/p3/</link>
+        <pubDate> p.date | dateUTC </pubDate>
+        <guid>http://localhost:3000/rs/posts/p3/</guid>
+        <description>Next page
+
+</description>
+      </item><item>
+        <title>Post 3 with slug</title>
+        <link>http://localhost:3000/posts/p3/</link>
+        <pubDate> p.date | dateUTC </pubDate>
+        <guid>http://localhost:3000/posts/p3/</guid>
+        <description>Sub page
+Next page
+
+</description>
+      </item><item>
+        <title>Post 2</title>
+        <link>http://localhost:3000/rs/posts/post2/</link>
+        <pubDate> p.date | dateUTC </pubDate>
+        <guid>http://localhost:3000/rs/posts/post2/</guid>
+        <description></description>
+      </item><item>
+        <title>Post 2</title>
+        <link>http://localhost:3000/posts/post2/</link>
+        <pubDate> p.date | dateUTC </pubDate>
+        <guid>http://localhost:3000/posts/post2/</guid>
+        <description></description>
+      </item><item>
+        <title>Post 1</title>
+        <link>http://localhost:3000/rs/posts/zdravo/</link>
+        <pubDate> p.date | dateUTC </pubDate>
+        <guid>http://localhost:3000/rs/posts/zdravo/</guid>
+        <description>Zdravo markdown world.
+{.green}
+
+External link</description>
+      </item><item>
+        <title>Post 1</title>
+        <link>http://localhost:3000/posts/hello/</link>
+        <pubDate> p.date | dateUTC </pubDate>
+        <guid>http://localhost:3000/posts/hello/</guid>
+        <description>Hello markdown world.
+{.green}
+
+External link</description>
+      </item><item>
+        <title>Zdravo!</title>
+        <link>http://localhost:3000/rs/</link>
+        <pubDate> p.date | dateUTC </pubDate>
+        <guid>http://localhost:3000/rs/</guid>
+        <description>Sve strane
+
+
+    {% for f in site.pages() | sortBy(&quot;url&quot;) | hasAttrVal(&#39;lang.key&#39;, &#39;rs&#39;) %}
+
+            {{ f.lang.key }} {{ f.title }} {{ &#39;…</description>
+      </item><item>
+        <title>Welcome!</title>
+        <link>http://localhost:3000/</link>
+        <pubDate> p.date | dateUTC </pubDate>
+        <guid>http://localhost:3000/</guid>
+        <description>All pages
+
+
+  {% for f in site.pages() | sortBy(&quot;url&quot;) %}
+
+      {{ f.title }} {{ &#39;*&#39; if f.syntethic else &#39;&#39; }}/{{ f.readingTime.minutes }}m…</description>
+      </item><item>
+        <title>Dog!</title>
+        <link>http://localhost:3000/dog/</link>
+        <pubDate> p.date | dateUTC </pubDate>
+        <guid>http://localhost:3000/dog/</guid>
+        <description>h2 #{title}
+
+p Hello I am a Pug.</description>
+      </item>
+  </channel>
+</rss>

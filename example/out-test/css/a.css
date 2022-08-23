@@ -1,0 +1,11 @@
+.menu {
+    width: -webkit-calc(4 * 200px);
+    width: calc(4 * 200px);
+}
+
+.menu_link {
+    background: #056ef0;
+    width: 200px;
+}
+
+/*# sourceMappingURL=a.css.map */
