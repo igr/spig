@@ -4,7 +4,7 @@
 
 "spignite@file:..":
   "resolved" "file:.."
-  "version" "2.4.1"
+  "version" "3.0.0-0"
   dependencies:
     "@babel/core" "^7.18.13"
     "@babel/preset-env" "^7.18.10"
@@ -17,6 +17,7 @@
     "cssnano" "^5.1.13"
     "del" "^7.0.0"
     "encoding" "^0.1.13"
+    "escape-html" "^1.0.3"
     "express" "^4.18.1"
     "fancy-log" "^2.0.0"
     "fs" "^0.0.1-security"
@@ -38,7 +39,6 @@
     "markdown-it-link-attributes" "^4.0.1"
     "micromatch" "^4.0.5"
     "mustache" "^4.2.0"
-    "node-sass" "^7.0.1"
     "nunjucks" "^3.2.3"
     "os" "^0.1.2"
     "path" "^0.12.7"
@@ -52,6 +52,7 @@
     "queue-microtask" "^1.2.3"
     "reading-time" "^1.5.0"
     "remove-markdown" "^0.5.0"
+    "sass" "^1.54.5"
     "serve-static" "^1.15.0"
     "sharp" "^0.30.7"
     "slugify" "^1.6.5"

@@ -20,7 +20,9 @@ function processFile(spig: Spig, fileRef: FileRef): Promise<FileRef> {
   const content: Buffer = cssResult.css;
 
   // POSTCSS
-  const p = postcss.default().use(autoprefixer);
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore DEFAULT ISSUE
+  const p: postcss.Processor = postcss().use(autoprefixer);
 
   if (fileRef.cfg.site.build.production) {
     const cssProcessor = cssnano({

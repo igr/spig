@@ -6,8 +6,14 @@ const slugifyOptions = {
   remove: /[!"#$%&'()*+,.:;<=>?@[\\\]^_`{|}~]/g,
 };
 
-slugify.default.extend({ '☢': 'radioactive' });
+// extend default symbols
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore DEFAULT ISSUE
+slugify.extend({ '☢': 'radioactive' });
 
 export function slugit(value: string): string {
-  return slugify.default(value, slugifyOptions);
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore DEFAULT ISSUE
+  return slugify(value, slugifyOptions);
 }

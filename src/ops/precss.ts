@@ -14,8 +14,9 @@ function processFile(spig: Spig, fileRef: FileRef): Promise<FileRef> {
   const content: string = fileRef.string;
 
   // POSTCSS
-  const p = postcss
-    .default()
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore DEFAULT ISSUE
+  const p: postcss.Processor = postcss()
     .use(postcssExtendRule)
     .use(postcssAdvancedVariables)
     .use(postCSSPresetEnv)

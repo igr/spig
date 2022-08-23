@@ -17,29 +17,33 @@ function process(fileRef: FileRef, options: any): Promise<Buffer> {
     ...defaults.jpeg,
     ...options.jpeg,
   };
+  const jpegPlugin = imageminMozjpeg(jpegOptions);
 
   const pngOptions = {
     ...defaults.png,
     ...options.png,
   };
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore DEFAULT-ISSUE
+  const pngPlugin = imageminPngquant(pngOptions);
+  console.log(pngPlugin);
 
   const optipngOptions = {
     ...defaults.optipng,
     ...options.optipng,
   };
+  const optiPlugin = imageminOptipng(optipngOptions);
 
   const gifOptions = {
     ...defaults.gif,
     ...options.gif,
   };
+  const gifPlugin = imageminGifsicle(gifOptions);
 
-  return imagemin.default.buffer(fileRef.buffer, {
-    plugins: [
-      imageminMozjpeg(jpegOptions),
-      imageminPngquant.default(pngOptions),
-      imageminOptipng(optipngOptions),
-      imageminGifsicle(gifOptions),
-    ],
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore DEFAULT-ISSUE
+  return imagemin.buffer(fileRef.buffer, {
+    plugins: [jpegPlugin, pngPlugin, optiPlugin, gifPlugin],
   });
 }
 
