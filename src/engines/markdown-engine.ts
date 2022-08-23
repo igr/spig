@@ -17,7 +17,7 @@ const defaults = {
   breaks: true,
   highlight(code: string, lang: string) {
     if (lang && hljs.getLanguage(lang)) {
-      return `<pre><code class="hljs lang-${lang}">${hljs.highlight(lang, code).value}</code></pre>`;
+      return `<pre><code class="hljs lang-${lang}">${hljs.highlight(code, { language: lang }).value}</code></pre>`;
     }
     return '';
   },
