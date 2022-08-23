@@ -144,6 +144,15 @@ export class Spig {
   }
 
   /**
+   * Alternative to "_" method.
+   */
+  static phase(phaseName: string, block: (spigFn: (spig: Spig) => SpigOps) => SpigOps): void {
+    block((s: Spig) => {
+      return s._(phaseName);
+    });
+  }
+
+  /**
    * Adds a real or virtual file to this Spig.
    * @param fileName relative file name from the root
    * @param content optional file content. If provided, file reference will be syntactics.
