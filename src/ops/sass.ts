@@ -1,5 +1,5 @@
 import Path from 'path';
-import sass from 'node-sass';
+import sass from 'sass';
 import cssnano from 'cssnano';
 import postcss from 'postcss';
 import autoprefixer from 'autoprefixer';
