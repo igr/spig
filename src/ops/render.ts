@@ -38,7 +38,7 @@ function processFile(fileRef: FileRef): void {
       renderPug(fileRef);
       break;
     default:
-      throw new Error(`No render engine for ${ext}.`);
+      throw new Error(`No render engine for '${ext}'.`);
   }
 }
 

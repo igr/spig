@@ -36,14 +36,19 @@ function resolvePathToFileIncludingSubSlugs(fileRef: FileRef): string {
     originalOutPath = originalOutPath + dir + '/';
 
     // if there is `index` file in current folder, it can change folder name
-    // todo lookup for all input extensions, not only MD!
+    // iterate ALL input extensions
 
-    const indexFileRef = SpigFiles.lookupSite(originalOutPath + 'index' + key + '.md');
+    const extensions = fileRef.cfg.ops.render.extensions;
 
-    if (indexFileRef) {
-      if (indexFileRef.hasAttr('slug')) {
-        slug = indexFileRef.attr('slug');
-        slug = renderSlug(slug, indexFileRef);
+    for (const ext of extensions) {
+      const indexFileRef = SpigFiles.lookupSite(originalOutPath + 'index' + key + ext);
+
+      if (indexFileRef) {
+        if (indexFileRef.hasAttr('slug')) {
+          slug = indexFileRef.attr('slug');
+          slug = renderSlug(slug, indexFileRef);
+        }
+        break;
       }
     }
 

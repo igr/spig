@@ -4,7 +4,7 @@
 
 "spignite@file:..":
   "resolved" "file:.."
-  "version" "3.0.0-0"
+  "version" "3.0.0-1"
   dependencies:
     "@babel/core" "^7.18.13"
     "@babel/preset-env" "^7.18.10"
