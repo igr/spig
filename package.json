@@ -46,7 +46,7 @@
     "@babel/preset-env": "^7.18.10",
     "ansi-styles": "^6.1.0",
     "autoprefixer": "^10.4.8",
-    "browser-sync": "^2.27.10",
+    "browser-sync": "^3.0.0",
     "chalk": "^5.0.1",
     "clean-css": "^5.3.1",
     "cpx": "^1.5.0",
