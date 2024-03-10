@@ -79,7 +79,7 @@
     "os": "^0.1.2",
     "path": "^0.12.7",
     "postcss": "^8.4.16",
-    "postcss-advanced-variables": "^3.0.1",
+    "postcss-advanced-variables": "^4.0.0",
     "postcss-extend-rule": "^4.0.0",
     "postcss-nested": "^5.0.6",
     "postcss-preset-env": "^7.8.0",
